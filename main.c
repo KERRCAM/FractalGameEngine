@@ -4,7 +4,8 @@
 
 //-----------------------------------------------------------------------------------------------//
 
-const double FRAME_RATE = 1.0 / 60.0;
+const double FPS = 60.0;
+const double FRAME_RATE = 1000.0 / FPS; // In MS
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
 
@@ -70,6 +71,7 @@ void processInput(){
 void update(){
 
     //TODO
+    // GENERAL LOGIC AND CALLS?
 
 }
 
@@ -78,6 +80,7 @@ void update(){
 void render(){
 
     //TODO
+    // DRAWING OF THE FRAME?
 
 }
 
