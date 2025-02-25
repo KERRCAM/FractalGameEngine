@@ -5,13 +5,22 @@
 //-----------------------------------------------------------------------------------------------//
 
 const double FPS = 60.0;
-const double FRAME_RATE = 1000.0 / FPS; // In MS
+const double FRAME_TIME = 1000.0 / FPS; // In MS
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 int gameRunning = 0;
+
+int lastFrame = 0;
+
+struct square {
+    float x;
+    float y;
+    float width;
+    float height;
+} square;
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -68,10 +77,32 @@ void processInput(){
 
 //-----------------------------------------------------------------------------------------------//
 
+void setup(){
+
+    square.x = 20;
+    square.y = 20;
+    square.width = 15;
+    square.height = 15;
+
+}
+
+//-----------------------------------------------------------------------------------------------//
+
 void update(){
 
-    //TODO
-    // GENERAL LOGIC AND CALLS?
+    /* ONLY NEEDED FOR A CAPPED FRAME RATE
+    int waitTime = FRAME_TIME - (SDL_GetTicks() / lastFrame);
+    if (waitTime > 0 && waitTime < FRAME_TIME){
+        SDL_Delay(waitTime);
+    }
+    */
+
+    float deltaTime = (SDL_GetTicks() - lastFrame) / 1000.0f;
+
+    lastFrame = SDL_GetTicks();
+
+    square.x += 50 * deltaTime;
+    square.y += 50 * deltaTime;
 
 }
 
@@ -79,8 +110,22 @@ void update(){
 
 void render(){
 
-    //TODO
-    // DRAWING OF THE FRAME?
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer);
+
+    // Where we draw all game objects in a loop
+
+    SDL_Rect squareRect = {
+        (int)square.x,
+        (int)square.y,
+        (int)square.width,
+        (int)square.height
+    };
+
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderFillRect(renderer, &squareRect);
+
+    SDL_RenderPresent(renderer);
 
 }
 
@@ -91,14 +136,6 @@ void destroyWindow(){
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
-
-}
-
-//-----------------------------------------------------------------------------------------------//
-
-void setup(){
-
-    //TODO
 
 }
 
