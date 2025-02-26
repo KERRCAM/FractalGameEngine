@@ -6,6 +6,8 @@
 // LOCAL IMPORTS
 #include "player.h"
 
+//-----------------------------------------------------------------------------------------------//
+
 void player_init(){
     SDL_Rect playerCharacter = {
         (int)player.x,
@@ -17,7 +19,9 @@ void player_init(){
 
 }
 
-vector2D playerMovement(player *player){
+//-----------------------------------------------------------------------------------------------//
+
+struct vector2D playerMovement(struct player *player){
     SDL_Event event;
     SDL_PollEvent(&event);
 
@@ -40,3 +44,5 @@ vector2D playerMovement(player *player){
         break;
     }
 }
+
+//-----------------------------------------------------------------------------------------------//

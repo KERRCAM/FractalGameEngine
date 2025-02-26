@@ -10,3 +10,7 @@ struct player {
     float width;
     float height;
 } player;
+
+void player_init();
+
+struct vector2D playerMovement(struct player *player);
