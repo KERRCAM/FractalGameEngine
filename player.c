@@ -4,18 +4,16 @@
 //#include <SDL2_image/SDL_image.h>
 
 // LOCAL IMPORTS
-#include "player.h"
+#include "include/player.h"
 
 //-----------------------------------------------------------------------------------------------//
 
 void player_init(){
-    SDL_Rect playerCharacter = {
-        (int)player.x,
-        (int)player.y,
-        (int)player.width,
-        (int)player.height
-    };
 
+    player.x = 50;
+    player.y = 50;
+    player.width = 100;
+    player.height = 100;
 
 }
 

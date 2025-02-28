@@ -83,6 +83,8 @@ void processInput(){
 
 void setup(){
 
+    player.player_init(x, y, width, height);
+
     square.x = 20;
     square.y = 20;
     square.width = 15;
