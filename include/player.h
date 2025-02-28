@@ -1,3 +1,16 @@
+// LIBRARY IMPORTS
+#include <stdbool.h>
+
+// LOCAL IMPORTS
+
+
+//-----------------------------------------------------------------------------------------------//
+//CONSTANTS
+
+
+
+//-----------------------------------------------------------------------------------------------//
+//STRUCTS
 
 struct vector2D {
     int x;
@@ -11,6 +24,15 @@ struct player {
     float height;
 } player;
 
-struct player player_init();
+//-----------------------------------------------------------------------------------------------//
+//FUNCTIONS
 
-struct vector2D playerMovement(struct player *player);
+void playerSetup();
+
+void playerInput(SDL_Event event);
+
+void playerUpdate(float deltaTime);
+
+void playerRender(SDL_Renderer* renderer);
+
+//-----------------------------------------------------------------------------------------------//

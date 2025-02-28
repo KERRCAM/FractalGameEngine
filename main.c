@@ -1,6 +1,5 @@
 // LIBRARY IMPORTS
 #include <stdio.h>
-#include <stdbool.h>
 #include <SDL2/SDL.h>
 //#include <SDL2_image/SDL_image.h>
 
@@ -16,16 +15,9 @@ const int WINDOW_HEIGHT = 600;
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
+
 int gameRunning = 0;
-
 int lastFrame = 0;
-
-bool wDown = false;
-bool aDown = false;
-bool sDown = false;
-bool dDown = false;
-int playerX = 0;
-int playerY = 0;
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -78,35 +70,7 @@ void processInput(){
             break;
     }
 
-    if (event.type == SDL_KEYDOWN){
-        switch (event.key.keysym.sym){
-            case SDLK_w:
-                wDown = true;
-                break;
-            case SDLK_s:
-                sDown = true;
-                break;
-            case SDLK_a:
-                aDown = true;
-                break;
-            case SDLK_d:
-                dDown = true;
-                break;
-        }
-    }
-
-    if (event.type == SDL_KEYUP){
-        switch (event.key.keysym.sym){
-            case SDLK_w:
-                wDown = false;
-            case SDLK_s:
-                sDown = false;
-            case SDLK_a:
-                aDown = false;
-            case SDLK_d:
-                dDown = false;
-        }
-    }
+    playerInput(event);
 
 }
 
@@ -114,7 +78,7 @@ void processInput(){
 
 void setup(){
 
-    player = player_init();
+    playerSetup();
 
 }
 
@@ -131,28 +95,8 @@ void update(){
 
     lastFrame = SDL_GetTicks();
 
-    //player update
-    //struct vector2D  playerDirection = playerMovement(&player);
-    if (wDown){
-        playerY = -50;
-    } else if (sDown){
-        playerY = 50;
-    } else{
-        playerY = 0;
-    }
+    playerUpdate(deltaTime);
 
-    if (aDown){
-        playerX = -50;
-    } else if (dDown){
-        playerX = 50;
-    } else{
-        playerX = 0;
-    }
-
-    printf("%d\n", aDown);
-
-    player.x += playerX * deltaTime;
-    player.y += playerY * deltaTime;
 }
 
 //-----------------------------------------------------------------------------------------------//
@@ -162,16 +106,8 @@ void render(){
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    // Where we draw all game objects in a loop
-    SDL_Rect playerRect = {
-        (int)player.x,
-        (int)player.y,
-        (int)player.width,
-        (int)player.height
-    };
-
-    SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
-    SDL_RenderFillRect(renderer, &playerRect);
+    // Calls to draw objects to the screen
+    playerRender(renderer);
 
     SDL_RenderPresent(renderer);
 
@@ -204,6 +140,7 @@ int main(){
     destroyWindow();
 
     return 0;
+
 }
 
 //-----------------------------------------------------------------------------------------------//
