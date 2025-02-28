@@ -82,12 +82,16 @@ void processInput(){
         switch (event.key.keysym.sym){
             case SDLK_w:
                 wDown = true;
+                break;
             case SDLK_s:
                 sDown = true;
+                break;
             case SDLK_a:
                 aDown = true;
+                break;
             case SDLK_d:
                 dDown = true;
+                break;
         }
     }
 
@@ -136,6 +140,7 @@ void update(){
     } else{
         playerY = 0;
     }
+
     if (aDown){
         playerX = -50;
     } else if (dDown){
@@ -143,6 +148,9 @@ void update(){
     } else{
         playerX = 0;
     }
+
+    printf("%d\n", aDown);
+
     player.x += playerX * deltaTime;
     player.y += playerY * deltaTime;
 }
