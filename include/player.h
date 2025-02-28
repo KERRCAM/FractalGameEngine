@@ -2,7 +2,7 @@
 struct vector2D {
     int x;
     int y;
-} vector2D;
+};
 
 struct player {
     float x;
@@ -11,6 +11,6 @@ struct player {
     float height;
 } player;
 
-void player_init();
+struct player player_init();
 
 struct vector2D playerMovement(struct player *player);

@@ -1,10 +1,11 @@
 // LIBRARY IMPORTS
 #include <stdio.h>
+#include <stdbool.h>
 #include <SDL2/SDL.h>
 //#include <SDL2_image/SDL_image.h>
 
 // LOCAL IMPORTS
-#include "player.h"
+#include "include/player.h"
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -25,6 +26,13 @@ struct square {
     float width;
     float height;
 } square;
+
+bool wDown = false;
+bool aDown = false;
+bool sDown = false;
+bool dDown = false;
+int playerX = 0;
+int playerY = 0;
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -77,13 +85,39 @@ void processInput(){
             break;
     }
 
+    if (event.type == SDL_KEYDOWN){
+        switch (event.key.keysym.sym){
+            case SDLK_w:
+                wDown = true;
+            case SDLK_s:
+                sDown = true;
+            case SDLK_a:
+                aDown = true;
+            case SDLK_d:
+                dDown = true;
+        }
+    }
+
+    if (event.type == SDL_KEYUP){
+        switch (event.key.keysym.sym){
+            case SDLK_w:
+                wDown = false;
+            case SDLK_s:
+                sDown = false;
+            case SDLK_a:
+                aDown = false;
+            case SDLK_d:
+                dDown = false;
+        }
+    }
+
 }
 
 //-----------------------------------------------------------------------------------------------//
 
 void setup(){
 
-    player.player_init(x, y, width, height);
+    player = player_init();
 
     square.x = 20;
     square.y = 20;
@@ -108,6 +142,24 @@ void update(){
     square.x += 50 * deltaTime;
     square.y += 50 * deltaTime;
 
+    //player update
+    //struct vector2D  playerDirection = playerMovement(&player);
+    if (wDown){
+        playerY = -50;
+    } else if (sDown){
+        playerY = 50;
+    } else{
+        playerY = 0;
+    }
+    if (aDown){
+        playerX = -50;
+    } else if (dDown){
+        playerX = 50;
+    } else{
+        playerX = 0;
+    }
+    player.x += playerX * deltaTime;
+    player.y += playerY * deltaTime;
 }
 
 //-----------------------------------------------------------------------------------------------//
@@ -128,6 +180,16 @@ void render(){
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(renderer, &squareRect);
+
+    SDL_Rect playerRect = {
+        (int)player.x,
+        (int)player.y,
+        (int)player.width,
+        (int)player.height
+    };
+
+    SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
+    SDL_RenderFillRect(renderer, &playerRect);
 
     SDL_RenderPresent(renderer);
 
