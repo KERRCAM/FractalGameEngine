@@ -17,8 +17,8 @@ struct player player_init(){
 
     player.x = 50;
     player.y = 50;
-    player.width = 100;
-    player.height = 100;
+    player.width = 50;
+    player.height = 50;
 
     return player;
 

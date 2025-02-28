@@ -20,13 +20,6 @@ int gameRunning = 0;
 
 int lastFrame = 0;
 
-struct square {
-    float x;
-    float y;
-    float width;
-    float height;
-} square;
-
 bool wDown = false;
 bool aDown = false;
 bool sDown = false;
@@ -119,11 +112,6 @@ void setup(){
 
     player = player_init();
 
-    square.x = 20;
-    square.y = 20;
-    square.width = 15;
-    square.height = 15;
-
 }
 
 //-----------------------------------------------------------------------------------------------//
@@ -138,9 +126,6 @@ void update(){
     float deltaTime = (SDL_GetTicks() - lastFrame) / 1000.0f;
 
     lastFrame = SDL_GetTicks();
-
-    square.x += 50 * deltaTime;
-    square.y += 50 * deltaTime;
 
     //player update
     //struct vector2D  playerDirection = playerMovement(&player);
@@ -170,17 +155,6 @@ void render(){
     SDL_RenderClear(renderer);
 
     // Where we draw all game objects in a loop
-
-    SDL_Rect squareRect = {
-        (int)square.x,
-        (int)square.y,
-        (int)square.width,
-        (int)square.height
-    };
-
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderFillRect(renderer, &squareRect);
-
     SDL_Rect playerRect = {
         (int)player.x,
         (int)player.y,
