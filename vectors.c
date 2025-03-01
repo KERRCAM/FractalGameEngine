@@ -4,7 +4,7 @@
 //#include <SDL2_image/SDL_image.h>
 
 // LOCAL IMPORTS
-#include "include/vectorOperations.h"
+#include "include/vectors.h"
 
 //-----------------------------------------------------------------------------------------------//
 
