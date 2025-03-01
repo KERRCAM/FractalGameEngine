@@ -8,11 +8,6 @@
 
 //-----------------------------------------------------------------------------------------------//
 
-struct vector2D playerDirection = {
-    (int) 0,
-    (int) 0
-};
-
 bool wDown = false;
 bool aDown = false;
 bool sDown = false;
