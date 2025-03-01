@@ -23,6 +23,7 @@ int playerY = 0;
 //-----------------------------------------------------------------------------------------------//
 
 void playerSetup(){
+    // may want to paramaterise
 
     player.x = 50;
     player.y = 50;
@@ -70,6 +71,7 @@ void playerInput(SDL_Event event){
 //-----------------------------------------------------------------------------------------------//
 
 void playerUpdate(float deltaTime){
+    // may want to paramaterise speed values for x and y (or one overall for linear movement)
 
     if (wDown){
         playerY = -50;
@@ -95,6 +97,7 @@ void playerUpdate(float deltaTime){
 //-----------------------------------------------------------------------------------------------//
 
 void playerRender(SDL_Renderer* renderer){
+    // could paramaterise colour but liekly to change to sprite or something later anyway
 
     SDL_Rect playerRect = {
         (int)player.x,
