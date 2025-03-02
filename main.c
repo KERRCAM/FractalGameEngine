@@ -9,8 +9,9 @@
 
 const double FPS = 60.0;
 const double FRAME_TIME = 1000.0 / FPS; // In MS
-const int WINDOW_WIDTH = 800;
-const int WINDOW_HEIGHT = 600;
+const int WINDOW_WIDTH = 1200;
+const int WINDOW_HEIGHT = 900;
+const double PI = 3.14159265358979323846;
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
@@ -106,7 +107,26 @@ void render(){
     SDL_RenderClear(renderer);
 
     // Calls to draw objects to the screen
-    playerRender(renderer);
+    // playerRender(renderer);
+
+    SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
+    float grid[WINDOW_HEIGHT][WINDOW_WIDTH];
+    float angle;
+    int size = 4;
+
+    for (int i = 0; i < WINDOW_HEIGHT; i += 5){
+        for (int j = 0; j < WINDOW_WIDTH; j += 5){
+            angle = ((float)j / ((float)WINDOW_WIDTH / 10)) * PI;
+            grid[i][j] = angle;
+
+            SDL_RenderDrawPoint(renderer, i, j);
+
+            int targetX = round(i + (sin(angle)) * size);
+            int targetY = round(j + (cos(angle)) * size);
+
+            SDL_RenderDrawLine(renderer, i, j, targetX, targetY);
+        }
+    }
 
     SDL_RenderPresent(renderer);
 
