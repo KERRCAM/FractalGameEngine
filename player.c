@@ -87,27 +87,29 @@ void playerUpdate(float deltaTime){
     // may want to paramaterise speed values for x and y (or one overall for linear movement)
 
     if (aDown && !mDown){
-        player.angleH -= 40 * deltaTime;
+        player.angleH -= 4;
         if (player.angleH < 0){player.angleH += 360;};
     }
     if (dDown && !mDown){
-        player.angleH += 40 * deltaTime;
-        if (player.angleH < 0){player.angleH -= 360;};
+        player.angleH += 4;
+        if (player.angleH > 359){player.angleH -= 360;};
     }
 
-    int dx = M.sin[player.angleH] * 10.0  * deltaTime;
-    int dy = M.cos[player.angleH] * 10.0  * deltaTime;
+    int dx = M.sin[player.angleH] * 10.0;
+    int dy = M.cos[player.angleH] * 10.0;
 
-    if (wDown && !mDown){ player.x += dx; player.y += dy;}
+    if (wDown && !mDown){ player.x += dy; player.y += dy;}
     if (sDown && !mDown){ player.x -= dx; player.y -= dy;}
 
-    if (zDown){ player.x += dy; player.y += dx;}
-    if (xDown){ player.x -= dx; player.y -= dy;}
+    if (zDown){ player.x += dy; player.y -= dx;}
+    if (xDown){ player.x -= dy; player.y += dx;}
 
-    if (aDown && mDown){ player.angleV -= 10 * deltaTime;}
-    if (dDown && mDown){ player.angleV += 10 * deltaTime;}
-    if (wDown && mDown){ player.z -= 40 * deltaTime;}
-    if (sDown && mDown){ player.z += 40 * deltaTime;}
+    if (aDown && mDown){ player.angleV -= 1;}
+    if (dDown && mDown){ player.angleV += 1;}
+    if (wDown && mDown){ player.z -= 4;}
+    if (sDown && mDown){ player.z += 4;}
+
+
 
 }
 
