@@ -13,10 +13,9 @@
 //STRUCTS
 
 struct player {
-    float x;
-    float y;
-    float width;
-    float height;
+    int x, y, z;
+    int angleH;
+    int angleV;
 } player;
 
 //-----------------------------------------------------------------------------------------------//
