@@ -7,6 +7,9 @@
 #include "include/main.h"
 #include "include/player.h"
 
+#define numSect 4
+#define numWall 16
+
 //-----------------------------------------------------------------------------------------------//
 
 const double FPS = 30.0;
@@ -20,6 +23,50 @@ SDL_Renderer* renderer = NULL;
 
 int gameRunning = 0;
 int lastFrame = 0;
+
+typedef struct {
+    int x1, y1;
+    int x2, y2;
+    int c; // colour
+}walls; walls W[30];
+
+typedef struct {
+    int ws, we;
+    int z1, z2;
+    int d;
+}sectors; sectors S[30];
+
+//-----------------------------------------------------------------------------------------------//
+
+int loadSectors[] = {
+    0,   4, 0, 40,
+    4,   8, 0, 40,
+    8,  12, 0, 40,
+    12, 16, 0, 40,
+};
+
+int loadWalls[]=
+{//x1,y1, x2,y2, color
+    0,   0, 32,  0, 0,
+    32,  0, 32, 32, 1,
+    32, 32,  0, 32, 0,
+    0,  32,  0,  0, 1,
+
+    64,  0, 96,  0, 2,
+    96,  0, 96, 32, 3,
+    96, 32, 64, 32, 2,
+    64, 32, 64,  0, 3,
+
+    64, 64, 96, 64, 4,
+    96, 64, 96, 96, 5,
+    96, 96, 64, 96, 4,
+    64, 96, 64, 64, 5,
+
+    0,  64, 32, 64, 6,
+    32, 64, 32, 96, 7,
+    32, 96,  0, 96, 6,
+    0,  96,  0, 64, 7,
+};
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -87,6 +134,25 @@ void setup(){
 
     playerSetup();
 
+    int s, w, v1 = 0, v2 = 0;
+    for (s = 0; s < numSect; s++){
+        S[s].ws = loadSectors[v1 + 0];
+        S[s].we = loadSectors[v1 + 1];
+        S[s].z1 = loadSectors[v1 + 2];
+        S[s].z2 = loadSectors[v1 + 3] - loadSectors[v1 + 2];
+        v1 += 4;
+
+        for (w = S[s].ws; w < S[s].we; w++){
+            W[w].x1 = loadWalls[v2 + 0];
+            W[w].y1 = loadWalls[v2 + 1];
+            W[w].x2 = loadWalls[v2 + 2];
+            W[w].y2 = loadWalls[v2 + 3];
+            W[w].c = loadWalls[v2 + 4];
+            v2 += 5;
+        }
+
+    }
+
 }
 
 //-----------------------------------------------------------------------------------------------//
@@ -103,6 +169,31 @@ void update(){
     lastFrame = SDL_GetTicks();
 
     playerUpdate(deltaTime);
+
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+int dist(int x1, int y1, int x2, int y2){
+
+    int distance = sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2));
+
+    return distance;
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+void clip(int *x1, int *y1, int *z1, int x2, int y2, int z2){
+
+    float da =*y1;
+    float db = y2;
+    float d = da - db;
+    if (d == 0){ d = 1;}
+    float s = da / (da - db);
+    *x1 = *x1 + s*(x2 - (*x1));
+    *y1 = *y1 + s*(y2 - (*y1));
+    if (*y1 == 0){ *y1 = 1;}
+    *z1 = *z1 + s*(z2 - (*z1));
 
 }
 
@@ -150,45 +241,59 @@ void render(){
 
     int wx[4], wy[4], wz[4]; float CS = M.cos[player.angleH], SN = M.sin[player.angleH];
 
-    int x1 = 40 - player.x; int y1 = 10 - player.y;
-    int x2 = 40 - player.x; int y2 = 290 - player.y;
+    for(int s = 0; s < numSect; s++){
+        S[s].d = 0;
+        for(int w = S[s].ws; w < S[s].we; w++){
 
-    wx[0] = x1 * CS - y1 * SN;
-    wx[1] = x2 * CS - y2 * SN;
-    wx[2] = wx[0];
-    wx[3] = wx[1];
+            int x1 = W[w].x1 - player.x; int y1 = W[w].y1 - player.y;
+            int x2 = W[w].x2 - player.x; int y2 = W[w].y2 - player.y;
 
-    wy[0] = y1 * CS + x1 * SN;
-    wy[1] = y2 * CS + x2 * SN;
-    wy[2] = wy[0];
-    wy[3] = wy[1];
+            wx[0] = x1 * CS - y1 * SN;
+            wx[1] = x2 * CS - y2 * SN;
+            wx[2] = wx[0];
+            wx[3] = wx[1];
 
-    wz[0] = 0 - player.z + (player.angleV * wy[0]) / 32.0;
-    wz[1] = 0 - player.z + (player.angleV * wy[1]) / 32.0;
-    wz[2] = wz[0] + 40;
-    wz[3] = wz[1] + 40;
+            wy[0] = y1 * CS + x1 * SN;
+            wy[1] = y2 * CS + x2 * SN;
+            wy[2] = wy[0];
+            wy[3] = wy[1];
+            S[s].d += dist(0, 0, (wx[0] + wx[1]) / 2, (wy[0] + wy[1]) / 2);
 
-    wx[0] = wx[0] * 200 / wy[0] + (WINDOW_WIDTH / 2);
-    wy[0] = wz[0] * 200 / wy[0] + (WINDOW_HEIGHT / 2);
-    wx[1] = wx[1] * 200 / wy[1] + (WINDOW_WIDTH / 2);
-    wy[1] = wz[1] * 200 / wy[1] + (WINDOW_HEIGHT / 2);
-    wx[2] = wx[2] * 200 / wy[2] + (WINDOW_WIDTH / 2);
-    wy[2] = wz[2] * 200 / wy[2] + (WINDOW_HEIGHT / 2);
-    wx[3] = wx[3] * 200 / wy[3] + (WINDOW_WIDTH / 2);
-    wy[3] = wz[3] * 200 / wy[3] + (WINDOW_HEIGHT / 2);
+            wz[0] = S[s].z1 - player.z + (player.angleV * wy[0]) / 32.0;
+            wz[1] = S[s].z1 - player.z + (player.angleV * wy[1]) / 32.0;
+            wz[2] = wz[0] + S[s].z2;
+            wz[3] = wz[1] + S[s].z2;
 
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+            if (wy[0] < 1 && wy[1] < 1){ continue;}
 
-    /*
-    if (wx[0] > 0 && wx[0] < WINDOW_WIDTH && wy[0] > 0 && wy[0] < WINDOW_HEIGHT){
-        SDL_RenderDrawPoint(renderer, wx[0], wy[0]);
+            if (wy[0] < 1){
+                clip(&wx[0], &wy[0], &wz[0], wx[1], wy[1], wz[1]);
+                clip(&wx[2], &wy[2], &wz[2], wx[3], wy[3], wz[3]);
+            }
+
+            if (wy[1] < 1){
+                clip(&wx[1], &wy[1], &wz[1], wx[0], wy[0], wz[0]);
+                clip(&wx[3], &wy[3], &wz[3], wx[2], wy[2], wz[2]);
+            }
+
+            wx[0] = wx[0] * 200 / wy[0] + (WINDOW_WIDTH / 2);
+            wy[0] = wz[0] * 200 / wy[0] + (WINDOW_HEIGHT / 2);
+            wx[1] = wx[1] * 200 / wy[1] + (WINDOW_WIDTH / 2);
+            wy[1] = wz[1] * 200 / wy[1] + (WINDOW_HEIGHT / 2);
+            wx[2] = wx[2] * 200 / wy[2] + (WINDOW_WIDTH / 2);
+            wy[2] = wz[2] * 200 / wy[2] + (WINDOW_HEIGHT / 2);
+            wx[3] = wx[3] * 200 / wy[3] + (WINDOW_WIDTH / 2);
+            wy[3] = wz[3] * 200 / wy[3] + (WINDOW_HEIGHT / 2);
+
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
+            drawWall(wx[0], wx[1], wy[0], wy[1], wy[2], wy[3]);
+
+        }
+    S[s].d /= (S[s].we - S[s].ws);
     }
-    if (wx[1] > 0 && wx[1] < WINDOW_WIDTH && wy[1] > 0 && wy[1] < WINDOW_HEIGHT){
-        SDL_RenderDrawPoint(renderer, wx[1], wy[1]);
-    }
-    */
 
-    drawWall(wx[0], wx[1], wy[0], wy[1], wy[2], wy[3]);
+
 
     SDL_RenderPresent(renderer);
 

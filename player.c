@@ -98,11 +98,11 @@ void playerUpdate(float deltaTime){
     int dx = M.sin[player.angleH] * 10.0;
     int dy = M.cos[player.angleH] * 10.0;
 
-    if (wDown && !mDown){ player.x += dy; player.y += dy;}
+    if (wDown && !mDown){ player.x += dx; player.y += dy;}
     if (sDown && !mDown){ player.x -= dx; player.y -= dy;}
 
-    if (zDown){ player.x += dy; player.y -= dx;}
-    if (xDown){ player.x -= dy; player.y += dx;}
+    if (xDown){ player.x += dy; player.y -= dx;}
+    if (zDown){ player.x -= dy; player.y += dx;}
 
     if (aDown && mDown){ player.angleV -= 1;}
     if (dDown && mDown){ player.angleV += 1;}
