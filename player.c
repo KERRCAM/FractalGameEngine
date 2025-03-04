@@ -5,7 +5,7 @@
 
 // LOCAL IMPORTS
 #include "include/player.h"
-#include "include/main.h"
+#include "include/constants.h"
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -115,11 +115,3 @@ void playerUpdate(float deltaTime){
 
 //-----------------------------------------------------------------------------------------------//
 
-void playerRender(SDL_Renderer* renderer){
-    // could paramaterise colour but liekly to change to sprite or something later anyway
-
-
-
-}
-
-//-----------------------------------------------------------------------------------------------//

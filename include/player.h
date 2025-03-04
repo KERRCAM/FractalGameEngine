@@ -27,6 +27,4 @@ void playerInput(SDL_Event event);
 
 void playerUpdate(float deltaTime);
 
-void playerRender(SDL_Renderer* renderer);
-
 //-----------------------------------------------------------------------------------------------//
