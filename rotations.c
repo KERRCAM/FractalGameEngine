@@ -8,3 +8,15 @@
 #include "include/rotations.h"
 
 //-----------------------------------------------------------------------------------------------//
+
+struct rotation2D newRotation2D(int h, int v){
+
+    struct rotation2D r;
+
+    r.h = h;
+    r.v = v;
+
+    return r;
+
+}
+

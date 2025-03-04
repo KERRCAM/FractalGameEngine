@@ -70,15 +70,6 @@ void sectorSetup(){
 
 //-----------------------------------------------------------------------------------------------//
 
-int dist(int x1, int y1, int x2, int y2){ // REPLACE WITH VECTOR FUNC ONCE VECTOR CONVERSION DONE
-
-    int distance = sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2));
-
-    return distance;
-}
-
-//-----------------------------------------------------------------------------------------------//
-
 void clip(int *x1, int *y1, int *z1, int x2, int y2, int z2){
 
     float da =*y1;
@@ -122,8 +113,6 @@ void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, i
 
         if (S[s].surface == 1){ S[s].surf[x] = y1; continue;}
         if (S[s].surface == 2){ S[s].surf[x] = y2; continue;}
-        //if (S[s].surface == -1){ for(y = S[s].surf[x]; y < y1; y++){ SDL_RenderDrawPoint(renderer, x, y);};}
-        //if (S[s].surface == -2){ for(y = y2; y < S[s].surf[x]; y++){ SDL_RenderDrawPoint(renderer, x, y);};}
         if (S[s].surface == -1){ SDL_RenderDrawLine(renderer, x, S[s].surf[x], x, y1);}
         if (S[s].surface == -2){ SDL_RenderDrawLine(renderer, x, y2, x, S[s].surf[x]);}
 
@@ -136,7 +125,8 @@ void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, i
 
 void sectorRender(SDL_Renderer* renderer){
 
-    int wx[4], wy[4], wz[4]; float CS = M.cos[player.angleH], SN = M.sin[player.angleH];
+    int wx[4], wy[4], wz[4];
+    float CS = M.cos[pRot.h], SN = M.sin[pRot.h];
 
     // crappy bubble sort, replace later with somehting better
     for(int s = 0; s < numSect; s++){
@@ -150,16 +140,16 @@ void sectorRender(SDL_Renderer* renderer){
 
     for(int s = 0; s < numSect; s++){
         S[s].d = 0;
-        if (player.z < S[s].z1) { S[s].surface = 1;}
-        else if (player.z > S[s].z2) { S[s].surface = 2;}
+        if (pPos.z < S[s].z1) { S[s].surface = 1;}
+        else if (pPos.z > S[s].z2) { S[s].surface = 2;}
         else { S[s].surface = 0;}
 
         for (int loop = 0; loop < 2; loop++){
 
             for(int w = S[s].ws; w < S[s].we; w++){
 
-                int x1 = W[w].x1 - player.x; int y1 = W[w].y1 - player.y;
-                int x2 = W[w].x2 - player.x; int y2 = W[w].y2 - player.y;
+                int x1 = W[w].x1 - pPos.x; int y1 = W[w].y1 - pPos.y;
+                int x2 = W[w].x2 - pPos.x; int y2 = W[w].y2 - pPos.y;
 
                 if (loop == 0){ int swp = x1; x1 = x2; x2 = swp; swp = y1; y1 = y2; y2 = swp;}
 
@@ -172,10 +162,12 @@ void sectorRender(SDL_Renderer* renderer){
                 wy[1] = y2 * CS + x2 * SN;
                 wy[2] = wy[0];
                 wy[3] = wy[1];
-                S[s].d += dist(0, 0, (wx[0] + wx[1]) / 2, (wy[0] + wy[1]) / 2);
 
-                wz[0] = S[s].z1 - player.z + (player.angleV * wy[0]) / 32.0;
-                wz[1] = S[s].z1 - player.z + (player.angleV * wy[1]) / 32.0;
+                S[s].d += euclidianDistance2D(newVector2D(0, 0),
+                    newVector2D((wx[0] + wx[1]) / 2, (wy[0] + wy[1]) / 2));
+
+                wz[0] = S[s].z1 - pPos.z + (pRot.v * wy[0]) / 32.0;
+                wz[1] = S[s].z1 - pPos.z + (pRot.v * wy[1]) / 32.0;
                 wz[2] = wz[0] + S[s].z2;
                 wz[3] = wz[1] + S[s].z2;
 
@@ -210,13 +202,5 @@ void sectorRender(SDL_Renderer* renderer){
     }
 
 }
-
-//-----------------------------------------------------------------------------------------------//
-
-
-
-//-----------------------------------------------------------------------------------------------//
-
-
 
 //-----------------------------------------------------------------------------------------------//

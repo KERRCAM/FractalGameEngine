@@ -68,7 +68,7 @@ int manhattanDistance3D(struct vector3D v1, struct vector3D v2){
 
 float euclidianLength2D(struct vector2D v){
 
-    return pow(v.x, 2) + pow(v.y, 2);
+    return sqrt(pow(v.x, 2) + pow(v.y, 2));
 
 }
 
@@ -76,7 +76,7 @@ float euclidianLength2D(struct vector2D v){
 
 float euclidianLength3D(struct vector3D v){
 
-    return pow(v.x, 2) + pow(v.y, 2) + pow(v.z, 2);
+    return sqrt(pow(v.x, 2) + pow(v.y, 2) + pow(v.z, 2));
 
 }
 
@@ -84,7 +84,7 @@ float euclidianLength3D(struct vector3D v){
 
 float euclidianDistance2D(struct vector2D v1, struct vector2D v2){
 
-    return pow(v2.x - v1.x, 2) + pow(v2.y - v1.y, 2);
+    return sqrt(pow(v2.x - v1.x, 2) + pow(v2.y - v1.y, 2));
 
 }
 
@@ -92,7 +92,7 @@ float euclidianDistance2D(struct vector2D v1, struct vector2D v2){
 
 float euclidianDistance3D(struct vector3D v1, struct vector3D v2){
 
-    return pow(v2.x - v2.x, 2) + pow(v2.y - v1.y, 2) + pow(v2.z - v1.z, 2);
+    return sqrt(pow(v2.x - v2.x, 2) + pow(v2.y - v1.y, 2) + pow(v2.z - v1.z, 2));
 
 }
 

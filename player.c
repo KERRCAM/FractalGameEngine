@@ -20,13 +20,13 @@ bool xDown = false;
 //-----------------------------------------------------------------------------------------------//
 
 void playerSetup(){
-    // may want to paramaterise
 
-    player.x = 70;
-    player.y = -110;
-    player.z = 20;
-    player.angleH = 0;
-    player.angleV = 0;
+    pPos.x = 70;
+    pPos.y = -110;
+    pPos.z = 20;
+
+    pRot.h = 0;
+    pRot.v = 0;
 
 }
 
@@ -87,29 +87,28 @@ void playerUpdate(float deltaTime){
     // may want to paramaterise speed values for x and y (or one overall for linear movement)
 
     if (aDown && !mDown){
-        player.angleH -= 4;
-        if (player.angleH < 0){player.angleH += 360;};
+        pRot.h -= 4;
+        if (pRot.h < 0){pRot.h += 360;};
     }
     if (dDown && !mDown){
-        player.angleH += 4;
-        if (player.angleH > 359){player.angleH -= 360;};
+        pRot.h += 4;
+        if (pRot.h > 359){pRot.h -= 360;};
     }
 
-    int dx = M.sin[player.angleH] * 10.0;
-    int dy = M.cos[player.angleH] * 10.0;
+    int dx = M.sin[pRot.h] * 10.0;
+    int dy = M.cos[pRot.h] * 10.0;
 
-    if (wDown && !mDown){ player.x += dx; player.y += dy;}
-    if (sDown && !mDown){ player.x -= dx; player.y -= dy;}
+    if (wDown && !mDown){ pPos.x += dx; pPos.y += dy;}
+    if (sDown && !mDown){ pPos.x -= dx; pPos.y -= dy;}
 
-    if (xDown){ player.x += dy; player.y -= dx;}
-    if (zDown){ player.x -= dy; player.y += dx;}
+    if (xDown){ pPos.x += dy; pPos.y -= dx;}
+    if (zDown){ pPos.x -= dy; pPos.y += dx;}
 
-    if (aDown && mDown){ player.angleV -= 1;}
-    if (dDown && mDown){ player.angleV += 1;}
-    if (wDown && mDown){ player.z -= 4;}
-    if (sDown && mDown){ player.z += 4;}
+    if (aDown && mDown){ pRot.v -= 1;}
+    if (dDown && mDown){ pRot.v += 1;}
+    if (wDown && mDown){ pPos.z -= 4;}
+    if (sDown && mDown){ pPos.z += 4;}
 
 }
 
 //-----------------------------------------------------------------------------------------------//
-
