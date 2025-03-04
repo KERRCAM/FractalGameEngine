@@ -241,6 +241,16 @@ void render(){
 
     int wx[4], wy[4], wz[4]; float CS = M.cos[player.angleH], SN = M.sin[player.angleH];
 
+    // crappy bubble sort, replace later with somehting better
+    for(int s = 0; s < numSect; s++){
+        for(int w = 0; w < numSect - s - 1; w++){
+            if (S[w].d < S[w + 1].d){
+                sectors st = S[w]; S[w] = S[w + 1]; S[w + 1] = st;
+            }
+        }
+    }
+
+
     for(int s = 0; s < numSect; s++){
         S[s].d = 0;
         for(int w = S[s].ws; w < S[s].we; w++){
@@ -285,7 +295,7 @@ void render(){
             wx[3] = wx[3] * 200 / wy[3] + (WINDOW_WIDTH / 2);
             wy[3] = wz[3] * 200 / wy[3] + (WINDOW_HEIGHT / 2);
 
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+            SDL_SetRenderDrawColor(renderer, (wx[0] * 5 % 255), (wy[1] * 15 % 255), (wy[0] * 20 % 255), (wx[1] * 8 % 255));
 
             drawWall(wx[0], wx[1], wy[0], wy[1], wy[2], wy[3]);
 
