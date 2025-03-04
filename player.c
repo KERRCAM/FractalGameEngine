@@ -109,8 +109,6 @@ void playerUpdate(float deltaTime){
     if (wDown && mDown){ player.z -= 4;}
     if (sDown && mDown){ player.z += 4;}
 
-
-
 }
 
 //-----------------------------------------------------------------------------------------------//
