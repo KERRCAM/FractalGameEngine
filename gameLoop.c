@@ -4,40 +4,19 @@
 #include <math.h>
 
 // LOCAL IMPORTS
-#include "include/main.h"
+#include "include/gameLoop.h"
 #include "include/player.h"
+#include "include/vectors.h"
 
-#define numSect 4
-#define numWall 16
 
 //-----------------------------------------------------------------------------------------------//
-
-const double FPS = 30.0;
-const double FRAME_TIME = 1000.0 / FPS; // In MS
-const int WINDOW_WIDTH = 1200;
-const int WINDOW_HEIGHT = 900;
-const double PI = 3.14159265358979323846;
+// INITIALISATIONS
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 
 int gameRunning = 0;
 int lastFrame = 0;
-
-typedef struct {
-    int x1, y1;
-    int x2, y2;
-    int c; // colour
-}walls; walls W[30];
-
-typedef struct {
-    int ws, we;
-    int z1, z2;
-    int d;
-    int c1, c2;
-    int surf[WINDOW_WIDTH];
-    int surface;
-}sectors; sectors S[30];
 
 //-----------------------------------------------------------------------------------------------//
 
