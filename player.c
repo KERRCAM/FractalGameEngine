@@ -87,7 +87,7 @@ void playerUpdate(float deltaTime){
     // may want to paramaterise speed values for x and y (or one overall for linear movement)
 
     if (aDown && !mDown){
-        pRot.h -= 4;
+        pRot.h -= 4 ;
         if (pRot.h < 0){pRot.h += 360;};
     }
     if (dDown && !mDown){

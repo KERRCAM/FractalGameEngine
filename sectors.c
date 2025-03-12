@@ -88,7 +88,7 @@ void clip(int *x1, int *y1, int *z1, int x2, int y2, int z2){
 
 void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, int t2, int s){
 
-    int x, y;
+    int x; // ,y; -> never used so far
 
     int dyb = b2 - b1;
     int dyt = t2 - t1;
