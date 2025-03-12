@@ -9,7 +9,7 @@
 
 //-----------------------------------------------------------------------------------------------//
 
-struct rotation2D newRotation2D(int h, int v){
+struct rotation2D newRotation2D(float h, float v){
 
     struct rotation2D r;
 

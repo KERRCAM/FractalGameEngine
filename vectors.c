@@ -7,7 +7,7 @@
 
 //-----------------------------------------------------------------------------------------------//
 
-struct vector2D newVector2D(int x, int y){
+struct vector2D newVector2D(float x, float y){
 
     struct vector2D v;
 
@@ -20,7 +20,7 @@ struct vector2D newVector2D(int x, int y){
 
 //-----------------------------------------------------------------------------------------------//
 
-struct vector3D newVector3D(int x, int y, int z){
+struct vector3D newVector3D(float x, float y, float z){
 
     struct vector3D v;
 
@@ -34,7 +34,7 @@ struct vector3D newVector3D(int x, int y, int z){
 
 //-----------------------------------------------------------------------------------------------//
 
-int manhattanLength2D(struct vector2D v){
+float manhattanLength2D(struct vector2D v){
 
     return v.x + v.y;
 
@@ -42,7 +42,7 @@ int manhattanLength2D(struct vector2D v){
 
 //-----------------------------------------------------------------------------------------------//
 
-int manhattanLength3D(struct vector3D v){
+float manhattanLength3D(struct vector3D v){
 
     return v.x + v.y + v.z;
 
@@ -50,7 +50,7 @@ int manhattanLength3D(struct vector3D v){
 
 //-----------------------------------------------------------------------------------------------//
 
-int manhattanDistance2D(struct vector2D v1, struct vector2D v2){
+float manhattanDistance2D(struct vector2D v1, struct vector2D v2){
 
     return (v2.x - v1.x) + (v2.y - v1.y);
 
@@ -58,7 +58,7 @@ int manhattanDistance2D(struct vector2D v1, struct vector2D v2){
 
 //-----------------------------------------------------------------------------------------------//
 
-int manhattanDistance3D(struct vector3D v1, struct vector3D v2){
+float manhattanDistance3D(struct vector3D v1, struct vector3D v2){
 
     return (v2.x - v1.x) + (v2.y - v1.y) + (v2.z - v1.z);
 

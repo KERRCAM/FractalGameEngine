@@ -87,16 +87,16 @@ void playerUpdate(float deltaTime){
     // may want to paramaterise speed values for x and y (or one overall for linear movement)
 
     if (aDown && !mDown){
-        pRot.h -= 4 ;
+        pRot.h -= 60 * deltaTime;
         if (pRot.h < 0){pRot.h += 360;};
     }
     if (dDown && !mDown){
-        pRot.h += 4;
+        pRot.h += 60 * deltaTime;
         if (pRot.h > 359){pRot.h -= 360;};
     }
 
-    int dx = M.sin[pRot.h] * 10.0;
-    int dy = M.cos[pRot.h] * 10.0;
+    float dx = M.sin[(int)pRot.h] * 100.0 * deltaTime;
+    float dy = M.cos[(int)pRot.h] * 100.0 * deltaTime;
 
     if (wDown && !mDown){ pPos.x += dx; pPos.y += dy;}
     if (sDown && !mDown){ pPos.x -= dx; pPos.y -= dy;}
@@ -104,10 +104,10 @@ void playerUpdate(float deltaTime){
     if (xDown){ pPos.x += dy; pPos.y -= dx;}
     if (zDown){ pPos.x -= dy; pPos.y += dx;}
 
-    if (aDown && mDown){ pRot.v -= 1;}
-    if (dDown && mDown){ pRot.v += 1;}
-    if (wDown && mDown){ pPos.z -= 4;}
-    if (sDown && mDown){ pPos.z += 4;}
+    if (aDown && mDown){ pRot.v -= 15 * deltaTime;}
+    if (dDown && mDown){ pRot.v += 15 * deltaTime;}
+    if (wDown && mDown){ pPos.z -= 60 * deltaTime;}
+    if (sDown && mDown){ pPos.z += 60 * deltaTime;}
 
 }
 

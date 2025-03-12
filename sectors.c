@@ -125,8 +125,14 @@ void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, i
 
 void sectorRender(SDL_Renderer* renderer){
 
+    int px = round(pPos.x);
+    int py = round(pPos.y);
+    int pz = round(pPos.z);
+    int pv = round(pRot.v);
+    int ph = round(pRot.h);
+
     int wx[4], wy[4], wz[4];
-    float CS = M.cos[pRot.h], SN = M.sin[pRot.h];
+    float CS = M.cos[ph], SN = M.sin[ph];
 
     // crappy bubble sort, replace later with somehting better
     for(int s = 0; s < numSect; s++){
@@ -137,19 +143,18 @@ void sectorRender(SDL_Renderer* renderer){
         }
     }
 
-
     for(int s = 0; s < numSect; s++){
         S[s].d = 0;
-        if (pPos.z < S[s].z1) { S[s].surface = 1;}
-        else if (pPos.z > S[s].z2) { S[s].surface = 2;}
+        if (pz < S[s].z1) { S[s].surface = 1;}
+        else if (pz > S[s].z2) { S[s].surface = 2;}
         else { S[s].surface = 0;}
 
         for (int loop = 0; loop < 2; loop++){
 
             for(int w = S[s].ws; w < S[s].we; w++){
 
-                int x1 = W[w].x1 - pPos.x; int y1 = W[w].y1 - pPos.y;
-                int x2 = W[w].x2 - pPos.x; int y2 = W[w].y2 - pPos.y;
+                int x1 = W[w].x1 - px; int y1 = W[w].y1 - py;
+                int x2 = W[w].x2 - px; int y2 = W[w].y2 - py;
 
                 if (loop == 0){ int swp = x1; x1 = x2; x2 = swp; swp = y1; y1 = y2; y2 = swp;}
 
@@ -166,8 +171,8 @@ void sectorRender(SDL_Renderer* renderer){
                 S[s].d += euclidianDistance2D(newVector2D(0, 0),
                     newVector2D((wx[0] + wx[1]) / 2, (wy[0] + wy[1]) / 2));
 
-                wz[0] = S[s].z1 - pPos.z + (pRot.v * wy[0]) / 32.0;
-                wz[1] = S[s].z1 - pPos.z + (pRot.v * wy[1]) / 32.0;
+                wz[0] = S[s].z1 - pz + (pv * wy[0]) / 32.0;
+                wz[1] = S[s].z1 - pz + (pv * wy[1]) / 32.0;
                 wz[2] = wz[0] + S[s].z2;
                 wz[3] = wz[1] + S[s].z2;
 

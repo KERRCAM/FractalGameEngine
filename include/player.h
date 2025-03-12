@@ -13,7 +13,7 @@
 //STRUCTS
 
 struct pPos {
-    int x, y, z;
+    float x, y, z;
 } pPos;
 
 struct rotation2D pRot;

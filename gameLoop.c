@@ -91,9 +91,10 @@ void setup(){
 
 void update(){
 
-    // ONLY NEEDED FOR A CAPPED FRAME RATE
+    /* ONLY NEEDED FOR A CAPPED FRAME RATE
     int waitTime = FRAME_TIME - (SDL_GetTicks() / lastFrame);
     if (waitTime > 0 && waitTime < FRAME_TIME){ SDL_Delay(waitTime); }
+    */
 
     float deltaTime = (SDL_GetTicks() - lastFrame) / 1000.0f;
 
