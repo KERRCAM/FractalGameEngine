@@ -1,0 +1,2 @@
+kerrcameron@Mac retroGame % ln -s /opt/homebrew/Cellar/sdl2_image/2.8.4/include/SDL2 ./include/SDL2_image
+kerrcameron@Mac retroGame % ln -s /opt/homebrew/Cellar/sdl2_image/2.8.4/lib ./lib/SDL2_image
