@@ -123,6 +123,16 @@ void render(){
         SDL_RenderDrawLine(renderer, col, 0, col, WINDOW_HEIGHT);
     }
 
+    int closestX = round(mX / 25.0) * 25;
+    int closestY = round(mY / 25.0) * 25;
+
+    SDL_Rect rect = {closestX - 5, closestY - 5, 10, 10};
+
+    SDL_SetRenderDrawColor(renderer, 10, 30, 250, 255);
+
+    SDL_RenderDrawRect(renderer, &rect);
+    SDL_RenderFillRect(renderer, &rect);
+
     SDL_RenderPresent(renderer);
 
 }

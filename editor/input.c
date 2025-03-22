@@ -5,6 +5,7 @@
 #include <stdbool.h>
 
 // LOCAL IMPORTS
+#include "include/input.h"
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -18,9 +19,7 @@ bool dDown = false;
 void editorInput(SDL_Event event){
 
     if (event.type == SDL_MOUSEMOTION){
-        int x, y;
-        SDL_GetMouseState(&x, &y);
-        printf("Mouse movement: %i %i\n", x, y);
+        SDL_GetMouseState(&mX, &mY);
     }
 
     if (event.type == SDL_KEYDOWN){
