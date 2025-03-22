@@ -142,6 +142,8 @@ void render(){
     SDL_SetRenderDrawColor(renderer, 10, 255, 20, 255);
     if (sX != -1 && eX != -1){
         SDL_RenderDrawLine(renderer, sX, sY, eX, eY);
+    } else if (sX != -1 && eX == -1){
+        SDL_RenderDrawLine(renderer, sX, sY, closestX, closestY);
     }
 
     SDL_RenderPresent(renderer);
@@ -179,3 +181,15 @@ int main(){
 }
 
 //-----------------------------------------------------------------------------------------------//
+
+/*
+up and down arrows to change sector min max hieghts with - for decrease and + for increase, down for min, up for max
+shift left and right arrows to change sectors
+Left and right arrows to change walls
+can delete any currently selected wall or sector -> make it shift delete to avoid mis click
+r to reset current wall placement
+have currently selected sector different colour to others, same for wall in that sector
+New level with shift L
+change level with shift up and down arrows
+new sector with shift S
+ */

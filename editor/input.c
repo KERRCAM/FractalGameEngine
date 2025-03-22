@@ -6,14 +6,17 @@
 
 // LOCAL IMPORTS
 #include "include/input.h"
+#include "include/editor.h"
 
 //-----------------------------------------------------------------------------------------------//
 
-bool wDown = false;
-bool aDown = false;
+bool upDown = false;
+bool downDown = false;
+bool leftDown = false;
+bool rightDown = false;
 bool sDown = false;
-bool dDown = false;
-bool lClick = false;
+bool lDown = false;
+bool leftShiftDown = false;
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -39,17 +42,26 @@ void editorInput(SDL_Event event){
 
     if (event.type == SDL_KEYDOWN){
         switch (event.key.keysym.sym){
-            case SDLK_w:
-                wDown = true;
+            case SDLK_UP:
+                upDown = true;
+            break;
+            case SDLK_DOWN:
+                downDown = true;
+            break;
+            case SDLK_LEFT:
+                leftDown = true;
+            break;
+            case SDLK_RIGHT:
+                rightDown = true;
+            break;
+            case SDLK_LSHIFT:
+                leftShiftDown = true;
             break;
             case SDLK_s:
                 sDown = true;
             break;
-            case SDLK_a:
-                aDown = true;
-            break;
-            case SDLK_d:
-                dDown = true;
+            case SDLK_l:
+                lDown = true;
             break;
             case SDLK_r:
                 sX = -1;
@@ -61,14 +73,20 @@ void editorInput(SDL_Event event){
 
     if (event.type == SDL_KEYUP){
         switch (event.key.keysym.sym){
-            case SDLK_w:
-                wDown = false;
+            case SDLK_UP:
+                upDown = false;
+            case SDLK_DOWN:
+                downDown = false;
+            case SDLK_LEFT:
+                leftDown = false;
+            case SDLK_RIGHT:
+                rightDown = false;
+            case SDLK_LSHIFT:
+                leftShiftDown = false;
             case SDLK_s:
                 sDown = false;
-            case SDLK_a:
-                aDown = false;
-            case SDLK_d:
-                dDown = false;
+            case SDLK_l:
+                lDown = false;
         }
     }
 
