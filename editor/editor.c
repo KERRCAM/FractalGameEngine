@@ -5,6 +5,7 @@
 
 // LOCAL IMPORTS
 #include "../src/include/constants.h"
+#include "include/input.h"
 
 //-----------------------------------------------------------------------------------------------//
 // INITIALISATIONS
@@ -24,10 +25,12 @@ int initialize_window(void){
         return 0;
     }
 
+    int displays = SDL_GetNumVideoDisplays();
+
     window = SDL_CreateWindow(
         "TEST BUILD",
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED_DISPLAY(displays),
+        SDL_WINDOWPOS_CENTERED_DISPLAY(displays),
         WINDOW_WIDTH,
         WINDOW_HEIGHT,
         SDL_WINDOW_RESIZABLE
@@ -65,6 +68,8 @@ void processInput(){
             }
             break;
     }
+
+    editorInput(event);
 
 }
 
@@ -108,7 +113,15 @@ void render(){
     SDL_SetRenderDrawColor(renderer, 0, 0, 30, 255);
     SDL_RenderClear(renderer);
 
+    SDL_SetRenderDrawColor(renderer, 70, 70, 70, 255);
 
+    for (int row = 0; row < WINDOW_HEIGHT; row += 25){
+        SDL_RenderDrawLine(renderer, 0, row, WINDOW_WIDTH, row);
+    }
+
+    for (int col = 0; col < WINDOW_WIDTH; col += 25){
+        SDL_RenderDrawLine(renderer, col, 0, col, WINDOW_HEIGHT);
+    }
 
     SDL_RenderPresent(renderer);
 
