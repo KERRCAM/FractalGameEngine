@@ -6,6 +6,7 @@
 // LOCAL IMPORTS
 #include "../src/include/constants.h"
 #include "include/input.h"
+#include "include/editor.h"
 
 //-----------------------------------------------------------------------------------------------//
 // INITIALISATIONS
@@ -82,6 +83,11 @@ void setup(){
         M.sin[i] = sin(i / 180.0 * M_PI);
     }
 
+    sX = -1;
+    sY = -1;
+    eX = -1;
+    eY = -1;
+
 }
 
 //-----------------------------------------------------------------------------------------------//
@@ -115,16 +121,16 @@ void render(){
 
     SDL_SetRenderDrawColor(renderer, 70, 70, 70, 255);
 
-    for (int row = 0; row < WINDOW_HEIGHT; row += 25){
+    for (int row = 0; row < WINDOW_HEIGHT; row += gridSize){
         SDL_RenderDrawLine(renderer, 0, row, WINDOW_WIDTH, row);
     }
 
-    for (int col = 0; col < WINDOW_WIDTH; col += 25){
+    for (int col = 0; col < WINDOW_WIDTH; col += gridSize){
         SDL_RenderDrawLine(renderer, col, 0, col, WINDOW_HEIGHT);
     }
 
-    int closestX = round(mX / 25.0) * 25;
-    int closestY = round(mY / 25.0) * 25;
+    int closestX = round(mX / gridSize) * gridSize;
+    int closestY = round(mY / gridSize) * gridSize;
 
     SDL_Rect rect = {closestX - 5, closestY - 5, 10, 10};
 
@@ -132,6 +138,11 @@ void render(){
 
     SDL_RenderDrawRect(renderer, &rect);
     SDL_RenderFillRect(renderer, &rect);
+
+    SDL_SetRenderDrawColor(renderer, 10, 255, 20, 255);
+    if (sX != -1 && eX != -1){
+        SDL_RenderDrawLine(renderer, sX, sY, eX, eY);
+    }
 
     SDL_RenderPresent(renderer);
 
