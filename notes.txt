@@ -1,0 +1,21 @@
+When sorting license -> need to check how to properly include dependency and tutorial.
+
+1 - level editor
+2 - sprite rendering
+3 - collision detection
+4 - bsp implementation
+5 - recursive room rendering and traversal?
+6 - perspective changing?, would just need to change between different rendering functions?, would need a character model though
+7 - probably easier to do dungeon crawl esk rather than puzzle, can skip a few of previous if needed
+
+
+
+Movement
+Controls will need serious change, swap look to mouse if possible
+sprint
+dash, give i-frames
+crouch, reduce speed and enemy detection
+
+
+
+Could add flow field visual if 2D perspective works

@@ -12,7 +12,7 @@
 //-----------------------------------------------------------------------------------------------//
 
 // maybe try and covert the below to a matrix struct
-int loadSectors[] = {
+int loadSectors[] = { //wall start, wall end, z1 height, z2 height, bottom color, top color
     0,   4, 0, 40, 2, 3,
     4,   8, 0, 40, 4, 5,
     8,  12, 0, 40, 6, 7,
