@@ -51,12 +51,16 @@ void editorInput(SDL_Event event){
                 if (currentWallPos < 0){ currentWallPos = MAX_WALLS - 1; }
                 currentWall = currentSector.sectorWalls[currentWallPos];
                 printf("Current wall pos = %d\n", currentWallPos);
+                printf("x1 = %d, y1 = %d\n", currentWall.x1, currentWall.y1);
+                printf("x2 = %d, y2 = %d\n", currentWall.x2, currentWall.y2);
             break;
             case SDLK_RIGHT:
                 currentWallPos += 1;
                 if (currentWallPos == MAX_WALLS) { currentWallPos = 0; }
                 currentWall = currentSector.sectorWalls[currentWallPos];
                 printf("Current wall pos = %d\n", currentWallPos);
+                printf("x1 = %d, y1 = %d\n", currentWall.x1, currentWall.y1);
+                printf("x2 = %d, y2 = %d\n", currentWall.x2, currentWall.y2);
             break;
             case SDLK_LSHIFT:
                 leftShiftDown = true;
