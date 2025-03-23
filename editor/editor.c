@@ -83,16 +83,6 @@ void setup(){
         M.sin[i] = sin(i / 180.0 * M_PI);
     }
 
-    sX = -1;
-    sY = -1;
-    eX = -1;
-    eY = -1;
-
-    // will need to construct structs for existing levels
-
-
-
-
     struct sector s = newSector(0, 0, 0, 0);
 
     currentSector = s;
@@ -106,13 +96,6 @@ void setup(){
     l.levelSectors[0] = s;
 
     currentLevel = l;
-
-    printf("test\n");
-
-    printf("%d\n", l.levelSectors[0].sectorWalls[0].x1);
-
-
-
 
 }
 
@@ -195,8 +178,8 @@ void render(){
 
     SDL_SetRenderDrawColor(renderer, 10, 255, 20, 255);
     if (currentWall.x1 != -1 && currentWall.x2 != -1){
-        // SDL_RenderDrawLine(renderer, sX, sY, eX, eY);
-        currentSector.sectorWalls[currentWallPos] = newWall(currentWall.x1, currentWall.y1, currentWall.x2, currentWall.y2, 0);
+        currentSector.sectorWalls[currentWallPos] = newWall(currentWall.x1, currentWall.y1,
+                                                            currentWall.x2, currentWall.y2, 0);
     } else if (currentWall.x1 != -1 && currentWall.x2 == -1){
         SDL_RenderDrawLine(renderer, currentWall.x1, currentWall.y1, closestX, closestY);
     }
@@ -254,4 +237,9 @@ when writting to file obviously skip over uninitialised walls / secotrs / levels
 deleted ones representation tbd
 
 command + s exits editor and re writes level files
+
+
+May want to scale down wall coords at write time
+currently in editor 1 = 25
+in renderer 1 = 8
  */
