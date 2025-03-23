@@ -2,15 +2,23 @@
 #include <math.h>
 
 
+struct sector {
+    int x, y;
+    int w[32];
+};
+
+
 int main(){
 
-    int x = 99;
-    float a = x / 25.0;
-    float b = round(a);
-    int nx = b * 25;
+    struct sector s = {3, 6, {}};
 
-    printf("x = %d\n", nx);
+    s.x = 7;
+    s.w[0] = 3;
+    s.w[100] = 6;
+
+    printf("%d\n", s.w[0]);
+    printf("%d\n", s.w[100]);
+
 
     return 0;
-
 }

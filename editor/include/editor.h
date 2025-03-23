@@ -2,7 +2,7 @@
 
 
 // LOCAL IMPORTS
-
+#include "levels.h"
 
 //-----------------------------------------------------------------------------------------------//
 //CONSTANTS
@@ -12,7 +12,13 @@
 //-----------------------------------------------------------------------------------------------//
 //STRUCTS
 
+struct level currentLevel;
+struct sector currentSector;
+struct wall currentWall;
 
+int currentLevelPos;
+int currentSectorPos;
+int currentWallPos;
 
 //-----------------------------------------------------------------------------------------------//
 // FUNCTIONS
