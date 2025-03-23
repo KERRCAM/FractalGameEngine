@@ -90,7 +90,29 @@ void setup(){
 
     // will need to construct structs for existing levels
 
-    
+
+
+
+    struct sector s = newSector(0, 0, 0, 0);
+
+    currentSector = s;
+
+    currentWall = currentSector.sectorWalls[0];
+
+    struct level l;
+    l.pX = 0;
+    l.pY = 0;
+    l.pZ = 0;
+    l.levelSectors[0] = s;
+
+    currentLevel = l;
+
+    printf("test\n");
+
+    printf("%d\n", l.levelSectors[0].sectorWalls[0].x1);
+
+
+
 
 }
 
@@ -103,15 +125,37 @@ void update(){
     if (waitTime > 0 && waitTime < FRAME_TIME){ SDL_Delay(waitTime); }
     */
 
-    float deltaTime = (SDL_GetTicks() - lastFrame) / 1000.0f;
+    // float deltaTime = (SDL_GetTicks() - lastFrame) / 1000.0f;
 
-    int waitTime = 1 - SDL_GetTicks();
-    if (waitTime > 0){
-        printf("frames per seconds: %f\n", 1000.0f / deltaTime);
+    // lastFrame = SDL_GetTicks();
+
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+
+
+//-----------------------------------------------------------------------------------------------//
+
+void drawWalls(){
+
+    for (int i = 0; i < MAX_WALLS; i++){
+        struct wall w = currentSector.sectorWalls[i];
+        drawWall(w);
     }
 
+}
 
-    lastFrame = SDL_GetTicks();
+//-----------------------------------------------------------------------------------------------//
+
+void drawWall(struct wall w){
+
+    SDL_SetRenderDrawColor(renderer, 10, 255, 20, 255);
+
+    if (w.x1 != -1 && w.y1 != -1 && w.x2 != -1 && w.y2 != -1){
+        SDL_RenderDrawLine(renderer, w.x1, w.y1, w.x2, w.y2);
+    }
+
 
 }
 
@@ -143,12 +187,21 @@ void render(){
     SDL_RenderDrawRect(renderer, &rect);
     SDL_RenderFillRect(renderer, &rect);
 
+
+
     SDL_SetRenderDrawColor(renderer, 10, 255, 20, 255);
-    if (sX != -1 && eX != -1){
-        SDL_RenderDrawLine(renderer, sX, sY, eX, eY);
-    } else if (sX != -1 && eX == -1){
-        SDL_RenderDrawLine(renderer, sX, sY, closestX, closestY);
+    if (currentWall.x1 != -1 && currentWall.x2 != -1){
+        // SDL_RenderDrawLine(renderer, sX, sY, eX, eY);
+        currentSector.sectorWalls[currentWallPos] = newWall(currentWall.x1, currentWall.y1, currentWall.x2, currentWall.y2, 0);
+    } else if (currentWall.x1 != -1 && currentWall.x2 == -1){
+        SDL_RenderDrawLine(renderer, currentWall.x1, currentWall.y1, closestX, closestY);
     }
+
+
+
+    drawWalls();
+    SDL_SetRenderDrawColor(renderer, 0, 25, 255, 255);
+    drawWall(currentWall);
 
     SDL_RenderPresent(renderer);
 
@@ -187,13 +240,15 @@ int main(){
 //-----------------------------------------------------------------------------------------------//
 
 /*
-up and down arrows to change sector min max hieghts with - for decrease and + for increase, down for min, up for max
-shift left and right arrows to change sectors
-Left and right arrows to change walls
-can delete any currently selected wall or sector -> make it shift delete to avoid mis click
-r to reset current wall placement
-have currently selected sector different colour to others, same for wall in that sector
-New level with shift L
-change level with shift up and down arrows
-new sector with shift S
+left and right to switch between current wall, sector and level.
+up and down to change max z of current sector
+shift up and down to change min z of current sector
+figure out good delete controls
+r to reset draw wall
+later we can make some buttons, but for now just use keybord stuff
+
+when writting to file obviously skip over uninitialised walls / secotrs / levels and deleted ones
+deleted ones representation tbd
+
+command + s exits editor and re writes level files
  */

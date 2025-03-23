@@ -24,6 +24,6 @@ struct level levels[MAX_LEVELS];
 //-----------------------------------------------------------------------------------------------//
 // FUNCTIONS
 
-
+struct level newLevel(int pX, int pY, int pZ, struct sector levelSectors[MAX_SECTORS]);
 
 //-----------------------------------------------------------------------------------------------//

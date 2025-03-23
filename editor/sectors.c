@@ -6,8 +6,7 @@
 
 //-----------------------------------------------------------------------------------------------//
 
-struct sector newSector(int minZ, int maxZ, int floorColour, int ceilingColour,
-                        struct wall sectorWalls[MAX_WALLS]){
+struct sector newSector(int minZ, int maxZ, int floorColour, int ceilingColour){
 
     struct sector s;
 
@@ -17,7 +16,7 @@ struct sector newSector(int minZ, int maxZ, int floorColour, int ceilingColour,
     s.ceilingColour = ceilingColour;
 
     for (int i = 0; i < MAX_WALLS; i++){
-        s.sectorWalls[i] = sectorWalls[i];
+        s.sectorWalls[i] = newWall(-1, -1, -1, -1, 0);
     }
 
     return s;

@@ -12,8 +12,6 @@
 
 bool upDown = false;
 bool downDown = false;
-bool leftDown = false;
-bool rightDown = false;
 bool sDown = false;
 bool lDown = false;
 bool leftShiftDown = false;
@@ -28,15 +26,15 @@ void editorInput(SDL_Event event){
 
     if (event.type == SDL_MOUSEBUTTONDOWN){
         if (event.button.button == SDL_BUTTON_LEFT){
-            if (eX == -1 && sX == -1){
-                sX = round(mX / gridSize) * gridSize;
-                sY = round(mY / gridSize) * gridSize;
-            } else if (eX == -1) {
-                eX = round(mX / gridSize) * gridSize;
-                eY = round(mY / gridSize) * gridSize;
+            if (currentWall.x1 == -1 && currentWall.x2 == -1){
+                currentWall.x1 = round(mX / gridSize) * gridSize;
+                currentWall.y1 = round(mY / gridSize) * gridSize;
+            } else if (currentWall.x2 == -1) {
+                currentWall.x2 = round(mX / gridSize) * gridSize;
+                currentWall.y2 = round(mY / gridSize) * gridSize;
             }
-            printf("x1 = %d, y1 = %d\n", sX, sY);
-            printf("x2 = %d, y2 = %d\n", eX, eY);
+            printf("x1 = %d, y1 = %d\n", currentWall.x1, currentWall.y1);
+            printf("x2 = %d, y2 = %d\n", currentWall.x2, currentWall.y2);
         }
     }
 
@@ -49,10 +47,16 @@ void editorInput(SDL_Event event){
                 downDown = true;
             break;
             case SDLK_LEFT:
-                leftDown = true;
+                currentWallPos -= 1;
+                if (currentWallPos < 0){ currentWallPos = MAX_WALLS - 1; }
+                currentWall = currentSector.sectorWalls[currentWallPos];
+                printf("Current wall pos = %d\n", currentWallPos);
             break;
             case SDLK_RIGHT:
-                rightDown = true;
+                currentWallPos += 1;
+                if (currentWallPos == MAX_WALLS) { currentWallPos = 0; }
+                currentWall = currentSector.sectorWalls[currentWallPos];
+                printf("Current wall pos = %d\n", currentWallPos);
             break;
             case SDLK_LSHIFT:
                 leftShiftDown = true;
@@ -64,10 +68,12 @@ void editorInput(SDL_Event event){
                 lDown = true;
             break;
             case SDLK_r:
-                sX = -1;
-                sY = -1;
-                eX = -1;
-                eY = -1;
+                currentWall.x1 = -1;
+                currentWall.y1 = -1;
+                currentWall.x2 = -1;
+                currentWall.y2 = -1;
+
+            break;
         }
     }
 
@@ -77,10 +83,6 @@ void editorInput(SDL_Event event){
                 upDown = false;
             case SDLK_DOWN:
                 downDown = false;
-            case SDLK_LEFT:
-                leftDown = false;
-            case SDLK_RIGHT:
-                rightDown = false;
             case SDLK_LSHIFT:
                 leftShiftDown = false;
             case SDLK_s:
