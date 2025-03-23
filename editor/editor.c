@@ -153,6 +153,10 @@ void drawWall(struct wall w){
     SDL_SetRenderDrawColor(renderer, 10, 255, 20, 255);
 
     if (w.x1 != -1 && w.y1 != -1 && w.x2 != -1 && w.y2 != -1){
+        if (w.x1 == currentWall.x1 && w.y1 == currentWall.y1
+            && w.x2 == currentWall.x2 && w.y2 == currentWall.y2){
+            SDL_SetRenderDrawColor(renderer, 0, 25, 255, 255);
+        }
         SDL_RenderDrawLine(renderer, w.x1, w.y1, w.x2, w.y2);
     }
 
@@ -200,8 +204,7 @@ void render(){
 
 
     drawWalls();
-    SDL_SetRenderDrawColor(renderer, 0, 25, 255, 255);
-    drawWall(currentWall);
+
 
     SDL_RenderPresent(renderer);
 
