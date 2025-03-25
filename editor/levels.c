@@ -6,7 +6,7 @@
 
 //-----------------------------------------------------------------------------------------------//
 
-struct level newLevel(int pX, int pY, int pZ, struct sector levelSectors[MAX_SECTORS]){
+struct level newLevel(int pX, int pY, int pZ){
 
 
 
@@ -17,7 +17,7 @@ struct level newLevel(int pX, int pY, int pZ, struct sector levelSectors[MAX_SEC
     l.pZ = pZ;
 
     for (int i = 0; i < MAX_SECTORS; i++){
-        l.levelSectors[i] = levelSectors[i];
+        l.levelSectors[i] = newSector(-1, -1, -1, -1);
     }
 
     return l;

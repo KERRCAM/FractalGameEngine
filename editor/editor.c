@@ -29,7 +29,7 @@ int initialize_window(void){
     int displays = SDL_GetNumVideoDisplays();
 
     window = SDL_CreateWindow(
-        "TEST BUILD",
+        "LEVEL EDITOR",
         SDL_WINDOWPOS_CENTERED_DISPLAY(displays),
         SDL_WINDOWPOS_CENTERED_DISPLAY(displays),
         WINDOW_WIDTH,
@@ -83,19 +83,10 @@ void setup(){
         M.sin[i] = sin(i / 180.0 * M_PI);
     }
 
-    struct sector s = newSector(0, 0, 0, 0);
-
-    currentSector = s;
-
-    currentWall = currentSector.sectorWalls[0];
-
-    struct level l;
-    l.pX = 0;
-    l.pY = 0;
-    l.pZ = 0;
-    l.levelSectors[0] = s;
-
+    struct level l = newLevel(0, 0, 0);
     currentLevel = l;
+    currentSector = currentLevel.levelSectors[0];
+    currentWall = currentSector.sectorWalls[0];
 
 }
 

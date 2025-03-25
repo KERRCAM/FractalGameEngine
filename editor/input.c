@@ -10,11 +10,7 @@
 
 //-----------------------------------------------------------------------------------------------//
 
-bool upDown = false;
-bool downDown = false;
-bool sDown = false;
-bool lDown = false;
-bool leftShiftDown = false;
+
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -41,10 +37,10 @@ void editorInput(SDL_Event event){
     if (event.type == SDL_KEYDOWN){
         switch (event.key.keysym.sym){
             case SDLK_UP:
-                upDown = true;
+
             break;
             case SDLK_DOWN:
-                downDown = true;
+
             break;
             case SDLK_LEFT:
                 currentWallPos -= 1;
@@ -62,37 +58,31 @@ void editorInput(SDL_Event event){
                 printf("x1 = %d, y1 = %d\n", currentWall.x1, currentWall.y1);
                 printf("x2 = %d, y2 = %d\n", currentWall.x2, currentWall.y2);
             break;
-            case SDLK_LSHIFT:
-                leftShiftDown = true;
+            case SDLK_COMMA:
+                currentSectorPos -= 1;
+                if (currentSectorPos < 0){ currentSectorPos = MAX_SECTORS - 1; }
+                currentSector = currentLevel.levelSectors[currentSectorPos];
+                currentWall = currentSector.sectorWalls[currentWallPos];
+                printf("Current sector pos = %d\n", currentSectorPos);
+                printf("minZ = %d, maxZ = %d\n", currentSector.minZ, currentSector.maxZ);
             break;
-            case SDLK_s:
-                sDown = true;
+            case SDLK_PERIOD:
+                currentSectorPos += 1;
+                if (currentSectorPos ==  MAX_SECTORS){ currentSectorPos = 0; }
+                currentSector = currentLevel.levelSectors[currentSectorPos];
+                currentWall = currentSector.sectorWalls[currentWallPos];
+                printf("Current sector pos = %d\n", currentSectorPos);
+                printf("minZ = %d, maxZ = %d\n", currentSector.minZ, currentSector.maxZ);
             break;
             case SDLK_l:
-                lDown = true;
+
             break;
             case SDLK_r:
                 currentWall.x1 = -1;
                 currentWall.y1 = -1;
                 currentWall.x2 = -1;
                 currentWall.y2 = -1;
-
             break;
-        }
-    }
-
-    if (event.type == SDL_KEYUP){
-        switch (event.key.keysym.sym){
-            case SDLK_UP:
-                upDown = false;
-            case SDLK_DOWN:
-                downDown = false;
-            case SDLK_LSHIFT:
-                leftShiftDown = false;
-            case SDLK_s:
-                sDown = false;
-            case SDLK_l:
-                lDown = false;
         }
     }
 
