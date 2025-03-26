@@ -113,10 +113,22 @@ void update(){
 
 void drawWalls(){
 
-    for (int i = 0; i < MAX_WALLS; i++){
-        struct wall w = currentLevel.levelSectors[currentSectorPos].sectorWalls[i];
-        drawWall(w);
+    for (int i = 0; i < MAX_SECTORS; i++){
+        if (i == currentSectorPos){
+            SDL_SetRenderDrawColor(renderer, 10, 255, 20, 255);
+        } else {
+            SDL_SetRenderDrawColor(renderer, 10, 130, 30, 30);
+        }
+        for (int j = 0; j < MAX_WALLS; j++){
+            if (i == currentSectorPos && j == currentWallPos){
+                SDL_SetRenderDrawColor(renderer, 0, 25, 255, 255);
+            }
+            struct wall w = currentLevel.levelSectors[i].sectorWalls[j];
+            drawWall(w);
+        }
     }
+
+
 
 }
 
@@ -124,13 +136,7 @@ void drawWalls(){
 
 void drawWall(struct wall w){
 
-    SDL_SetRenderDrawColor(renderer, 10, 255, 20, 255);
-
     if (w.x1 != -1 && w.y1 != -1 && w.x2 != -1 && w.y2 != -1){
-        if (w.x1 == currentWall.x1 && w.y1 == currentWall.y1
-            && w.x2 == currentWall.x2 && w.y2 == currentWall.y2){
-            SDL_SetRenderDrawColor(renderer, 0, 25, 255, 255);
-        }
         SDL_RenderDrawLine(renderer, w.x1, w.y1, w.x2, w.y2);
     }
 
