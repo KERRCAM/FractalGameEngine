@@ -8,29 +8,25 @@
 #include "include/sectors.h"
 #include "include/vectors.h"
 #include "include/player.h"
-#include "level.h"
+#include "newLevel.h"
 
 //-----------------------------------------------------------------------------------------------//
 
 void sectorSetup(){
 
-    int s, w, v1 = 0, v2 = 0;
+    int s, w;
     for (s = 0; s < numSect; s++){
-        S[s].ws = loadSectors[v1 + 0];
-        S[s].we = loadSectors[v1 + 1];
-        S[s].z1 = loadSectors[v1 + 2];
-        S[s].z2 = loadSectors[v1 + 3] - loadSectors[v1 + 2];
-        S[s].c1 = loadSectors[v1 + 4];
-        S[s].c2 = loadSectors[v1 + 5];
-        v1 += 6;
+        S[s].z1 = loadSectors[s][0];
+        S[s].z2 = loadSectors[s][1] - loadSectors[s][0];
+        S[s].c1 = loadSectors[s][2];
+        S[s].c2 = loadSectors[s][3];
 
-        for (w = S[s].ws; w < S[s].we; w++){
-            W[w].x1 = loadWalls[v2 + 0];
-            W[w].y1 = loadWalls[v2 + 1];
-            W[w].x2 = loadWalls[v2 + 2];
-            W[w].y2 = loadWalls[v2 + 3];
-            W[w].c = loadWalls[v2 + 4];
-            v2 += 5;
+        for (w = 0; w < 5; w++){
+            W[w].x1 = loadWalls[w][0];
+            W[w].y1 = loadWalls[w][1];
+            W[w].x2 = loadWalls[w][2];
+            W[w].y2 = loadWalls[w][3];
+            W[w].c = loadWalls[w][4];
         }
 
     }
@@ -120,7 +116,7 @@ void sectorRender(SDL_Renderer* renderer){
 
         for (int loop = 0; loop < 2; loop++){
 
-            for(int w = S[s].ws; w < S[s].we; w++){
+            for(int w = 0; w < 5; w++){ // number of elements in each wall array
 
                 int x1 = W[w].x1 - px; int y1 = W[w].y1 - py;
                 int x2 = W[w].x2 - px; int y2 = W[w].y2 - py;
@@ -170,7 +166,7 @@ void sectorRender(SDL_Renderer* renderer){
 
                 drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], s);
             }
-        S[s].d /= (S[s].we - S[s].ws);
+        // S[s].d /= (S[s].we - S[s].ws);
         S[s].surface *= -1;
         }
     }
