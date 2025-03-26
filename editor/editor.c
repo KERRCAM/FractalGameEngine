@@ -7,6 +7,8 @@
 #include "../src/include/constants.h"
 #include "include/input.h"
 #include "include/editor.h"
+#include "include/read.h"
+#include "include/write.h"
 
 //-----------------------------------------------------------------------------------------------//
 // INITIALISATIONS
@@ -65,6 +67,7 @@ void processInput(){
             break;
         case SDL_KEYDOWN:
             if (event.key.keysym.sym == SDLK_ESCAPE){
+                saveLevels();
                 gameRunning = 0;
             }
             break;
