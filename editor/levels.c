@@ -24,9 +24,3 @@ struct level newLevel(int pX, int pY, int pZ){
 }
 
 //-----------------------------------------------------------------------------------------------//
-
-void addSector(struct level l, struct sector s){
-
-
-
-}

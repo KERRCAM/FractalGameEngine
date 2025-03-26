@@ -16,6 +16,9 @@ struct sector {
     int minZ, maxZ;
     int floorColour, ceilingColour;
     struct wall sectorWalls[MAX_WALLS];
+    int dis;
+    int surf[1200];
+    int surface;
 };
 
 //-----------------------------------------------------------------------------------------------//

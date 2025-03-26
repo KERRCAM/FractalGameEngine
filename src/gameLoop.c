@@ -7,7 +7,7 @@
 #include "include/constants.h"
 #include "include/player.h"
 #include "include/vectors.h"
-#include "include/sectors.h"
+#include "include/draw.h"
 
 //-----------------------------------------------------------------------------------------------//
 // INITIALISATIONS
