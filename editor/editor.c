@@ -83,8 +83,11 @@ void setup(){
         M.sin[i] = sin(i / 180.0 * M_PI);
     }
 
-    struct level l = newLevel(0, 0, 0);
-    currentLevel = l;
+    for (int i = 0; i < MAX_LEVELS; i++){
+        levels[i] = newLevel(0, 0, 0);
+    }
+
+    currentLevel = levels[0];
     currentSector = currentLevel.levelSectors[0];
     currentWall = currentSector.sectorWalls[0];
 
@@ -94,20 +97,9 @@ void setup(){
 
 void update(){
 
-    /* // ONLY NEEDED FOR A CAPPED FRAME RATE
-    int waitTime = FRAME_TIME - (SDL_GetTicks() / lastFrame);
-    if (waitTime > 0 && waitTime < FRAME_TIME){ SDL_Delay(waitTime); }
-    */
 
-    // float deltaTime = (SDL_GetTicks() - lastFrame) / 1000.0f;
-
-    // lastFrame = SDL_GetTicks();
 
 }
-
-//-----------------------------------------------------------------------------------------------//
-
-
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -122,12 +114,10 @@ void drawWalls(){
             } else {
                 SDL_SetRenderDrawColor(renderer, 10, 130, 30, 30);
             }
-            struct wall w = currentLevel.levelSectors[i].sectorWalls[j];
+            struct wall w = levels[currentLevelPos].levelSectors[i].sectorWalls[j];
             drawWall(w);
         }
     }
-
-
 
 }
 
@@ -171,7 +161,7 @@ void render(){
 
     SDL_SetRenderDrawColor(renderer, 10, 255, 20, 255);
     if (currentWall.x1 != -1 && currentWall.x2 != -1){
-        currentLevel.levelSectors[currentSectorPos].sectorWalls[currentWallPos] = newWall(currentWall.x1, currentWall.y1,
+        levels[currentLevelPos].levelSectors[currentSectorPos].sectorWalls[currentWallPos] = newWall(currentWall.x1, currentWall.y1,
                                                             currentWall.x2, currentWall.y2, 0);
     } else if (currentWall.x1 != -1 && currentWall.x2 == -1){
         SDL_RenderDrawLine(renderer, currentWall.x1, currentWall.y1, closestX, closestY);
@@ -216,20 +206,12 @@ int main(){
 //-----------------------------------------------------------------------------------------------//
 
 /*
-left and right to switch between current wall, sector and level.
-up and down to change max z of current sector
-shift up and down to change min z of current sector
-figure out good delete controls
-r to reset draw wall
-later we can make some buttons, but for now just use keybord stuff
-
 when writting to file obviously skip over uninitialised walls / secotrs / levels and deleted ones
 deleted ones representation tbd
 
 command + s exits editor and re writes level files
 
-
 May want to scale down wall coords at write time
 currently in editor 1 = 25
 in renderer 1 = 8
- */
+*/

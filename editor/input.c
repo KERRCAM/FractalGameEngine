@@ -36,11 +36,43 @@ void editorInput(SDL_Event event){
 
     if (event.type == SDL_KEYDOWN){
         switch (event.key.keysym.sym){
-            case SDLK_UP:
-
+            case SDLK_COMMA:
+                currentLevelPos -= 1;
+                if (currentLevelPos < 0){ currentLevelPos = MAX_LEVELS - 1; }
+                currentLevel = levels[currentLevelPos];
+                currentSector = currentLevel.levelSectors[0];
+                currentSectorPos = 0;
+                currentWall = currentSector.sectorWalls[0];
+                currentWallPos = 0;
+                printf("Current level pos = %d\n", currentLevelPos);
+            break;
+            case SDLK_PERIOD:
+                currentLevelPos += 1;
+                if (currentLevelPos == MAX_LEVELS){ currentLevelPos = 0; }
+                currentLevel = levels[currentLevelPos];
+                currentSector = currentLevel.levelSectors[0];
+                currentSectorPos = 0;
+                currentWall = currentSector.sectorWalls[0];
+                currentSectorPos = 0;
+                printf("Current level pos = %d\n", currentLevelPos);
             break;
             case SDLK_DOWN:
-
+                currentSectorPos -= 1;
+                if (currentSectorPos < 0){ currentSectorPos = MAX_SECTORS - 1; }
+                currentSector = currentLevel.levelSectors[currentSectorPos];
+                currentWall = currentSector.sectorWalls[0];
+                currentWallPos = 0;
+                printf("Current sector pos = %d\n", currentSectorPos);
+                printf("minZ = %d, maxZ = %d\n", currentSector.minZ, currentSector.maxZ);
+            break;
+            case SDLK_UP:
+                currentSectorPos += 1;
+                if (currentSectorPos ==  MAX_SECTORS){ currentSectorPos = 0; }
+                currentSector = currentLevel.levelSectors[currentSectorPos];
+                currentWall = currentSector.sectorWalls[0];
+                currentWallPos = 0;
+                printf("Current sector pos = %d\n", currentSectorPos);
+                printf("minZ = %d, maxZ = %d\n", currentSector.minZ, currentSector.maxZ);
             break;
             case SDLK_LEFT:
                 currentWallPos -= 1;
@@ -57,22 +89,6 @@ void editorInput(SDL_Event event){
                 printf("Current wall pos = %d\n", currentWallPos);
                 printf("x1 = %d, y1 = %d\n", currentWall.x1, currentWall.y1);
                 printf("x2 = %d, y2 = %d\n", currentWall.x2, currentWall.y2);
-            break;
-            case SDLK_COMMA:
-                currentSectorPos -= 1;
-                if (currentSectorPos < 0){ currentSectorPos = MAX_SECTORS - 1; }
-                currentSector = currentLevel.levelSectors[currentSectorPos];
-                currentWall = currentSector.sectorWalls[currentWallPos];
-                printf("Current sector pos = %d\n", currentSectorPos);
-                printf("minZ = %d, maxZ = %d\n", currentSector.minZ, currentSector.maxZ);
-            break;
-            case SDLK_PERIOD:
-                currentSectorPos += 1;
-                if (currentSectorPos ==  MAX_SECTORS){ currentSectorPos = 0; }
-                currentSector = currentLevel.levelSectors[currentSectorPos];
-                currentWall = currentSector.sectorWalls[currentWallPos];
-                printf("Current sector pos = %d\n", currentSectorPos);
-                printf("minZ = %d, maxZ = %d\n", currentSector.minZ, currentSector.maxZ);
             break;
             case SDLK_l:
 
