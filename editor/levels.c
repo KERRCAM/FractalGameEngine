@@ -17,7 +17,7 @@ struct level newLevel(int pX, int pY, int pZ){
     l.pZ = pZ;
 
     for (int i = 0; i < MAX_SECTORS; i++){
-        l.levelSectors[i] = newSector(-1, -1, -1, -1);
+        l.levelSectors[i] = newSector(-1, -1, 0, 0);
     }
 
     return l;

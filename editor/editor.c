@@ -114,7 +114,7 @@ void update(){
 void drawWalls(){
 
     for (int i = 0; i < MAX_WALLS; i++){
-        struct wall w = currentSector.sectorWalls[i];
+        struct wall w = currentLevel.levelSectors[currentSectorPos].sectorWalls[i];
         drawWall(w);
     }
 
@@ -133,7 +133,6 @@ void drawWall(struct wall w){
         }
         SDL_RenderDrawLine(renderer, w.x1, w.y1, w.x2, w.y2);
     }
-
 
 }
 
@@ -165,20 +164,15 @@ void render(){
     SDL_RenderDrawRect(renderer, &rect);
     SDL_RenderFillRect(renderer, &rect);
 
-
-
     SDL_SetRenderDrawColor(renderer, 10, 255, 20, 255);
     if (currentWall.x1 != -1 && currentWall.x2 != -1){
-        currentSector.sectorWalls[currentWallPos] = newWall(currentWall.x1, currentWall.y1,
+        currentLevel.levelSectors[currentSectorPos].sectorWalls[currentWallPos] = newWall(currentWall.x1, currentWall.y1,
                                                             currentWall.x2, currentWall.y2, 0);
     } else if (currentWall.x1 != -1 && currentWall.x2 == -1){
         SDL_RenderDrawLine(renderer, currentWall.x1, currentWall.y1, closestX, closestY);
     }
 
-
-
     drawWalls();
-
 
     SDL_RenderPresent(renderer);
 
