@@ -3,6 +3,7 @@
 
 // LOCAL IMPORTS
 #include "walls.h"
+#include "../src/include/constants.h"
 
 //-----------------------------------------------------------------------------------------------//
 //CONSTANTS
@@ -18,7 +19,7 @@ struct sector {
     int floorColour, ceilingColour;
     struct wall sectorWalls[MAX_WALLS];
     int distance;
-    int surf[1200];
+    int surf[WINDOW_WIDTH];
     int surface;
 };
 

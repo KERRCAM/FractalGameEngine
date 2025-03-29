@@ -4,12 +4,10 @@
 #include <math.h>
 
 // LOCAL IMPORTS
-#include "include/constants.h"
 #include "include/draw.h"
 #include "include/vectors.h"
 #include "include/player.h"
 #include "level.h"
-
 #include "../editor/include/levels.h"
 
 //-----------------------------------------------------------------------------------------------//

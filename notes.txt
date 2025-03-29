@@ -1,3 +1,34 @@
+
+
+
+
+
+TODO:
+draw file now converted to my struct types
+now need to change it to pull the data from my level file format
+will need a new average distance to sector function for this to replace the ws we? maybe, look into more
+Once working, can then make the write to file stuff, just need some defaults, so I can not draw null walls and sectors
+(don't bother checking walls in a sector if the sector itself is null)
+Can then work on the reading part as well so we can actually save files fully -> i.e. load existing level information into the editor on start up
+
+Can then work on floor ceiling stuff and collisions on Monday
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 When sorting license -> need to check how to properly include dependency and tutorial.
 
 1 - level editor

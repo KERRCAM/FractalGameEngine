@@ -4,7 +4,6 @@
 #include <math.h>
 
 // LOCAL IMPORTS
-#include "../src/include/constants.h"
 #include "include/input.h"
 #include "include/editor.h"
 #include "include/read.h"
