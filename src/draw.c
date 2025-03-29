@@ -10,26 +10,38 @@
 #include "include/player.h"
 #include "level.h"
 
+#include "../editor/include/levels.h"
+
+//-----------------------------------------------------------------------------------------------//
+
+// distance function -> calc wall midpoints, calc midpoint of all walls in sector
+// calc L2 distance from player to sector midpoint (2D) and return it
+
+struct level l;
+
 //-----------------------------------------------------------------------------------------------//
 
 void sectorSetup(){
 
+    struct level l1 = newLevel(0, 0, 0);
+    l = l1;
+
     int s, w, v1 = 0, v2 = 0;
     for (s = 0; s < numSect; s++){
-        S[s].ws = loadSectors[v1 + 0];
-        S[s].we = loadSectors[v1 + 1];
-        S[s].z1 = loadSectors[v1 + 2];
-        S[s].z2 = loadSectors[v1 + 3] - loadSectors[v1 + 2];
-        S[s].c1 = loadSectors[v1 + 4];
-        S[s].c2 = loadSectors[v1 + 5];
+        l.levelSectors[s].ws = loadSectors[v1 + 0];
+        l.levelSectors[s].we = loadSectors[v1 + 1];
+        l.levelSectors[s].minZ = loadSectors[v1 + 2];
+        l.levelSectors[s].maxZ = loadSectors[v1 + 3] - loadSectors[v1 + 2];
+        l.levelSectors[s].floorColour = loadSectors[v1 + 4];
+        l.levelSectors[s].ceilingColour = loadSectors[v1 + 5];
         v1 += 6;
 
-        for (w = S[s].ws; w < S[s].we; w++){
-            W[w].x1 = loadWalls[v2 + 0];
-            W[w].y1 = loadWalls[v2 + 1];
-            W[w].x2 = loadWalls[v2 + 2];
-            W[w].y2 = loadWalls[v2 + 3];
-            W[w].c = loadWalls[v2 + 4];
+        for (w = l.levelSectors[s].ws; w < l.levelSectors[s].we; w++){
+            l.levelSectors[s].sectorWalls[w].x1 = loadWalls[v2 + 0];
+            l.levelSectors[s].sectorWalls[w].y1 = loadWalls[v2 + 1];
+            l.levelSectors[s].sectorWalls[w].x2 = loadWalls[v2 + 2];
+            l.levelSectors[s].sectorWalls[w].y2 = loadWalls[v2 + 3];
+            l.levelSectors[s].sectorWalls[w].colour = loadWalls[v2 + 4];
             v2 += 5;
         }
 
@@ -80,10 +92,10 @@ void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, i
         if (y1 > WINDOW_HEIGHT - 1){ y1 = WINDOW_HEIGHT - 1;}
         if (y2 > WINDOW_HEIGHT - 1){ y2 = WINDOW_HEIGHT - 1;}
 
-        if (S[s].surface == 1){ S[s].surf[x] = y1; continue;}
-        if (S[s].surface == 2){ S[s].surf[x] = y2; continue;}
-        if (S[s].surface == -1){ SDL_RenderDrawLine(renderer, x, S[s].surf[x], x, y1);}
-        if (S[s].surface == -2){ SDL_RenderDrawLine(renderer, x, y2, x, S[s].surf[x]);}
+        if (l.levelSectors[s].surface == 1){ l.levelSectors[s].surf[x] = y1; continue;}
+        if (l.levelSectors[s].surface == 2){ l.levelSectors[s].surf[x] = y2; continue;}
+        if (l.levelSectors[s].surface == -1){ SDL_RenderDrawLine(renderer, x, l.levelSectors[s].surf[x], x, y1);}
+        if (l.levelSectors[s].surface == -2){ SDL_RenderDrawLine(renderer, x, y2, x, l.levelSectors[s].surf[x]);}
 
         SDL_RenderDrawLine(renderer, x, y1, x, y2);
     }
@@ -106,24 +118,26 @@ void sectorRender(SDL_Renderer* renderer){
     // crappy bubble sort, replace later with somehting better
     for(int s = 0; s < numSect; s++){
         for(int w = 0; w < numSect - s - 1; w++){
-            if (S[w].d < S[w + 1].d){
-                sectors st = S[w]; S[w] = S[w + 1]; S[w + 1] = st;
+            if (l.levelSectors[w].distance < l.levelSectors[w + 1].distance){
+                struct sector st = l.levelSectors[w];
+                l.levelSectors[w] = l.levelSectors[w + 1];
+                l.levelSectors[w + 1] = st;
             }
         }
     }
 
     for(int s = 0; s < numSect; s++){
-        S[s].d = 0;
-        if (pz < S[s].z1) { S[s].surface = 1;}
-        else if (pz > S[s].z2) { S[s].surface = 2;}
-        else { S[s].surface = 0;}
+        l.levelSectors[s].distance = 0;
+        if (pz < l.levelSectors[s].minZ) { l.levelSectors[s].surface = 1;}
+        else if (pz > l.levelSectors[s].maxZ) { l.levelSectors[s].surface = 2;}
+        else { l.levelSectors[s].surface = 0;}
 
         for (int loop = 0; loop < 2; loop++){
 
-            for(int w = S[s].ws; w < S[s].we; w++){
+            for(int w = l.levelSectors[s].ws; w < l.levelSectors[s].we; w++){
 
-                int x1 = W[w].x1 - px; int y1 = W[w].y1 - py;
-                int x2 = W[w].x2 - px; int y2 = W[w].y2 - py;
+                int x1 = l.levelSectors[s].sectorWalls[w].x1 - px; int y1 = l.levelSectors[s].sectorWalls[w].y1 - py;
+                int x2 = l.levelSectors[s].sectorWalls[w].x2 - px; int y2 = l.levelSectors[s].sectorWalls[w].y2 - py;
 
                 if (loop == 0){ int swp = x1; x1 = x2; x2 = swp; swp = y1; y1 = y2; y2 = swp;}
 
@@ -137,13 +151,13 @@ void sectorRender(SDL_Renderer* renderer){
                 wy[2] = wy[0];
                 wy[3] = wy[1];
 
-                S[s].d += euclidianDistance2D(newVector2D(0, 0),
+                l.levelSectors[s].distance += euclidianDistance2D(newVector2D(0, 0),
                     newVector2D((wx[0] + wx[1]) / 2, (wy[0] + wy[1]) / 2));
 
-                wz[0] = S[s].z1 - pz + (pv * wy[0]) / 32.0;
-                wz[1] = S[s].z1 - pz + (pv * wy[1]) / 32.0;
-                wz[2] = wz[0] + S[s].z2;
-                wz[3] = wz[1] + S[s].z2;
+                wz[0] = l.levelSectors[s].minZ - pz + (pv * wy[0]) / 32.0;
+                wz[1] = l.levelSectors[s].minZ - pz + (pv * wy[1]) / 32.0;
+                wz[2] = wz[0] + l.levelSectors[s].maxZ;
+                wz[3] = wz[1] + l.levelSectors[s].maxZ;
 
                 if (wy[0] < 1 && wy[1] < 1){ continue;}
 
@@ -170,8 +184,8 @@ void sectorRender(SDL_Renderer* renderer){
 
                 drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], s);
             }
-        S[s].d /= (S[s].we - S[s].ws);
-        S[s].surface *= -1;
+        l.levelSectors[s].distance /= (l.levelSectors[s].we - l.levelSectors[s].ws);
+        l.levelSectors[s].surface *= -1;
         }
     }
 

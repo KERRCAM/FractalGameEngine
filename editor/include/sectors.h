@@ -13,10 +13,11 @@
 //STRUCTS
 
 struct sector {
+    int ws, we;
     int minZ, maxZ;
     int floorColour, ceilingColour;
     struct wall sectorWalls[MAX_WALLS];
-    int dis;
+    int distance;
     int surf[1200];
     int surface;
 };

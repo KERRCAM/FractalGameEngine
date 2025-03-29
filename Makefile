@@ -12,7 +12,7 @@ COMPILER_FLAGS = -Wall -std=c99
 LINKER_FLAGS = -lsdl2
 
 build:
-	$(CC) $(COMPILER_FLAGS) $(LINKER_FLAGS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(GAME_FILES) -o $(BUILD_DIR)/$(OBJ_NAME)
+	$(CC) $(COMPILER_FLAGS) $(LINKER_FLAGS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(GAME_FILES) editor/levels.c editor/sectors.c editor/walls.c -o $(BUILD_DIR)/$(OBJ_NAME)
 
 run:
 	./testBuild/debug/game

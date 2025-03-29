@@ -12,20 +12,7 @@
 //-----------------------------------------------------------------------------------------------//
 //STRUCTS
 
-typedef struct {
-    int x1, y1;
-    int x2, y2;
-    int c; // colour
-}walls; walls W[30];
 
-typedef struct {
-    int ws, we;
-    int z1, z2;
-    int d;
-    int c1, c2;
-    int surf[WINDOW_WIDTH];
-    int surface;
-}sectors; sectors S[30];
 
 //-----------------------------------------------------------------------------------------------//
 // FUNCTIONS

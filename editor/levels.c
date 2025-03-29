@@ -8,8 +8,6 @@
 
 struct level newLevel(int pX, int pY, int pZ){
 
-
-
     struct level l;
 
     l.pX = pX;
