@@ -9,6 +9,7 @@
 #include "include/player.h"
 #include "../levels/level1.h"
 #include "../editor/include/levels.h"
+#include "include/colours.h"
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -58,7 +59,10 @@ void clip(int *x1, int *y1, int *z1, int x2, int y2, int z2){
 
 //-----------------------------------------------------------------------------------------------//
 
-void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, int t2, int s){
+void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, int t2, int s, int colour){
+
+    SDL_SetRenderDrawColor(renderer, colours[colour][0], colours[colour][1], colours[colour][2], 255);
+
     int x; // ,y; -> never used so far
 
     int dyb = b2 - b1;
@@ -184,9 +188,7 @@ void sectorRender(SDL_Renderer* renderer){
                 wx[3] = wx[3] * 200 / wy[3] + (WINDOW_WIDTH / 2);
                 wy[3] = wz[3] * 200 / wy[3] + (WINDOW_HEIGHT / 2);
 
-                SDL_SetRenderDrawColor(renderer, 10, 255, 20, 255);
-
-                drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], s);
+                drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], s, l.levelSectors[s].sectorWalls[w].colour);
             }
 
         // can probably be optimised later, definetely put in seperate function at the very least

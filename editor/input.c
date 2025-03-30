@@ -102,6 +102,15 @@ void editorInput(SDL_Event event){
                 printf("Current sector maxZ = %d\n",
                         levels[currentLevelPos].levelSectors[currentSectorPos].maxZ);
                 break;
+            case SDLK_c:
+                if (levels[currentLevelPos].levelSectors[currentSectorPos].sectorWalls[currentWallPos].colour == 10){
+                    levels[currentLevelPos].levelSectors[currentSectorPos].sectorWalls[currentWallPos].colour = 0;
+                } else{
+                    levels[currentLevelPos].levelSectors[currentSectorPos].sectorWalls[currentWallPos].colour += 1;
+                }
+                printf("Current wall colour = %d\n",
+                        levels[currentLevelPos].levelSectors[currentSectorPos].sectorWalls[currentWallPos].colour);
+                break;
         }
     }
 
