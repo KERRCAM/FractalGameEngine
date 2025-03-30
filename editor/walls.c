@@ -6,7 +6,7 @@
 
 //-----------------------------------------------------------------------------------------------//
 
-struct wall newWall(int x1, int y1, int x2, int y2, int colour){
+struct wall newWall(int x1, int y1, int x2, int y2, int colour, int init){
 
 
     struct wall w;
@@ -16,6 +16,7 @@ struct wall newWall(int x1, int y1, int x2, int y2, int colour){
     w.x2 = x2;
     w.y2 = y2;
     w.colour = colour;
+    w.init = init;
 
     return w;
 

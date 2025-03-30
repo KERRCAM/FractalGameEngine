@@ -7,8 +7,8 @@
 //-----------------------------------------------------------------------------------------------//
 //CONSTANTS
 
-#define numSect 4
-#define numWall 16
+#define numSect 32
+#define numWall 32
 #define FPS 30.0
 #define FRAME_TIME 1000.0 / FPS
 #define WINDOW_WIDTH 1200

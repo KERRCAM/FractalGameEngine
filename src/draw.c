@@ -21,7 +21,7 @@ struct level l;
 
 void sectorSetup(){
 
-    struct level l1 = newLevel(0, 0, 0);
+    struct level l1 = newLevel(0, 0, 0, 1);
     l = l1;
 
     int s, w, v1 = 0, v2 = 0;

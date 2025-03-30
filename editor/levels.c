@@ -6,16 +6,17 @@
 
 //-----------------------------------------------------------------------------------------------//
 
-struct level newLevel(int pX, int pY, int pZ){
+struct level newLevel(int pX, int pY, int pZ, int init){
 
     struct level l;
 
     l.pX = pX;
     l.pY = pY;
     l.pZ = pZ;
+    l.init = init;
 
     for (int i = 0; i < MAX_SECTORS; i++){
-        l.levelSectors[i] = newSector(-1, -1, 0, 0);
+        l.levelSectors[i] = newSector(-1, -1, 0, 0, 0);
     }
 
     return l;

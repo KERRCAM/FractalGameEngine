@@ -15,7 +15,7 @@ Can then work on floor ceiling stuff and collisions on Monday
 
 
 
-
+add sector and level init checks at file write time -> just if sector contains any init walls then init sector and if level contains any init sectors then init level
 
 
 

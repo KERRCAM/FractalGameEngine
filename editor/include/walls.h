@@ -15,11 +15,12 @@
 struct wall {
     int x1, y1, x2, y2;
     int colour;
+    int init;
 };
 
 //-----------------------------------------------------------------------------------------------//
 // FUNCTIONS
 
-struct wall newWall(int x1, int y1, int x2, int y2, int colour);
+struct wall newWall(int x1, int y1, int x2, int y2, int colour, int init);
 
 //-----------------------------------------------------------------------------------------------//

@@ -86,7 +86,7 @@ void setup(){
     }
 
     for (int i = 0; i < MAX_LEVELS; i++){
-        levels[i] = newLevel(0, 0, 0);
+        levels[i] = newLevel(0, 0, 0, 0);
     }
 
     currentLevel = levels[0];
@@ -164,7 +164,7 @@ void render(){
     SDL_SetRenderDrawColor(renderer, 10, 255, 20, 255);
     if (currentWall.x1 != -1 && currentWall.x2 != -1){
         levels[currentLevelPos].levelSectors[currentSectorPos].sectorWalls[currentWallPos] = newWall(currentWall.x1, currentWall.y1,
-                                                            currentWall.x2, currentWall.y2, 0);
+                                                            currentWall.x2, currentWall.y2, 0, 1);
     } else if (currentWall.x1 != -1 && currentWall.x2 == -1){
         SDL_RenderDrawLine(renderer, currentWall.x1, currentWall.y1, closestX, closestY);
     }

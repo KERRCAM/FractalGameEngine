@@ -21,11 +21,12 @@ struct sector {
     int distance;
     int surf[WINDOW_WIDTH];
     int surface;
+    int init;
 };
 
 //-----------------------------------------------------------------------------------------------//
 // FUNCTIONS
 
-struct sector newSector(int minZ, int maxZ, int floorColour, int ceilingColour);
+struct sector newSector(int minZ, int maxZ, int floorColour, int ceilingColour, int init);
 
 //-----------------------------------------------------------------------------------------------//
