@@ -2,13 +2,14 @@
 
 
 // LOCAL IMPORTS
+#pragma once
 
 
 //-----------------------------------------------------------------------------------------------//
 //CONSTANTS
 
-#define numSect 32
-#define numWall 32
+#define MAX_SECTORS 32
+#define MAX_WALLS 32
 #define FPS 30.0
 #define FRAME_TIME 1000.0 / FPS
 #define WINDOW_WIDTH 1200

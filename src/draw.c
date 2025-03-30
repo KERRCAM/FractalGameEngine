@@ -7,7 +7,7 @@
 #include "include/draw.h"
 #include "include/vectors.h"
 #include "include/player.h"
-#include "newLevel.h"
+#include "../levels/level1.h"
 #include "../editor/include/levels.h"
 
 //-----------------------------------------------------------------------------------------------//
@@ -24,14 +24,14 @@ void sectorSetup(){
     struct level l1 = newLevel(0, 0, 0, 1);
     l = l1;
 
-    for (int i = 0; i < 4; i++){ // will be max sectors
+    for (int i = 0; i < MAX_SECTORS; i++){ // will be max sectors
         l.levelSectors[i].minZ = sectors[i][0];
         l.levelSectors[i].maxZ = sectors[i][1];
         l.levelSectors[i].floorColour = sectors[i][2];
         l.levelSectors[i].ceilingColour = sectors[i][3];
         l.levelSectors[i].init = sectors[i][4];
 
-        for (int j = 0; j < 4; j++){ // will be max walls
+        for (int j = 0; j < MAX_WALLS; j++){ // will be max walls
             l.levelSectors[i].sectorWalls[j].x1 = walls[i][j][0];
             l.levelSectors[i].sectorWalls[j].y1 = walls[i][j][1];
             l.levelSectors[i].sectorWalls[j].x2 = walls[i][j][2];
@@ -62,7 +62,6 @@ void clip(int *x1, int *y1, int *z1, int x2, int y2, int z2){
 //-----------------------------------------------------------------------------------------------//
 
 void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, int t2, int s){
-
     int x; // ,y; -> never used so far
 
     int dyb = b2 - b1;
@@ -110,8 +109,8 @@ void sectorRender(SDL_Renderer* renderer){
     float CS = M.cos[ph], SN = M.sin[ph];
 
     // crappy bubble sort, replace later with somehting better
-    for(int s = 0; s < numSect; s++){
-        for(int w = 0; w < numSect - s - 1; w++){
+    for(int s = 0; s < MAX_SECTORS; s++){
+        for(int w = 0; w < MAX_SECTORS - s - 1; w++){
             if (l.levelSectors[w].distance < l.levelSectors[w + 1].distance){
                 struct sector st = l.levelSectors[w];
                 l.levelSectors[w] = l.levelSectors[w + 1];
@@ -120,7 +119,12 @@ void sectorRender(SDL_Renderer* renderer){
         }
     }
 
-    for(int s = 0; s < numSect; s++){
+    for(int s = 0; s < MAX_SECTORS; s++){
+        if (l.levelSectors[s].init == 0){
+            continue;
+        }
+
+
         l.levelSectors[s].distance = 0;
         if (pz < l.levelSectors[s].minZ) { l.levelSectors[s].surface = 1;}
         else if (pz > l.levelSectors[s].maxZ) { l.levelSectors[s].surface = 2;}
@@ -128,7 +132,10 @@ void sectorRender(SDL_Renderer* renderer){
 
         for (int loop = 0; loop < 2; loop++){
 
-            for(int w = 0; w < 4; w++){
+            for(int w = 0; w < MAX_WALLS; w++){
+                if (l.levelSectors[s].sectorWalls[w].init == 0){
+                    continue;
+                }
 
                 int x1 = l.levelSectors[s].sectorWalls[w].x1 - px; int y1 = l.levelSectors[s].sectorWalls[w].y1 - py;
                 int x2 = l.levelSectors[s].sectorWalls[w].x2 - px; int y2 = l.levelSectors[s].sectorWalls[w].y2 - py;
@@ -182,7 +189,7 @@ void sectorRender(SDL_Renderer* renderer){
         // can probably be optimised later, definetely put in seperate function at the very least
         int minDistance = 10000000;
         int newDistance;
-        for (int i = 0; i < 4; i++){ // will be wall max
+        for (int i = 0; i < MAX_WALLS; i++){ // will be wall max
             newDistance = euclidianDistance2D(newVector2D(px, py),
                 newVector2D(l.levelSectors[s].sectorWalls[i].x1, l.levelSectors[s].sectorWalls[i].y1)
             );
