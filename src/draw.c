@@ -178,7 +178,21 @@ void sectorRender(SDL_Renderer* renderer){
 
                 drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], s);
             }
-        l.levelSectors[s].distance /= (4 * s);
+
+        int minDistance = 10000000;
+        int newDistance;
+        for (int i = 0; i < 4; i++){ // will be wall max
+            newDistance = euclidianDistance2D(newVector2D(px, py),
+                newVector2D(l.levelSectors[s].sectorWalls[i].x1, l.levelSectors[s].sectorWalls[i].y1)
+            );
+            if (newDistance < minDistance){ minDistance = newDistance;}
+
+            newDistance = euclidianDistance2D(newVector2D(px, py),
+                newVector2D(l.levelSectors[s].sectorWalls[i].x2, l.levelSectors[s].sectorWalls[i].y2)
+            );
+            if (newDistance < minDistance){ minDistance = newDistance;}
+        }
+
         l.levelSectors[s].surface *= -1;
         }
     }
