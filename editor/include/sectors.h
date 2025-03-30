@@ -14,7 +14,6 @@
 //STRUCTS
 
 struct sector {
-    int ws, we;
     int minZ, maxZ;
     int floorColour, ceilingColour;
     struct wall sectorWalls[MAX_WALLS];

@@ -179,6 +179,7 @@ void sectorRender(SDL_Renderer* renderer){
                 drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], s);
             }
 
+        // can probably be optimised later, definetely put in seperate function at the very least
         int minDistance = 10000000;
         int newDistance;
         for (int i = 0; i < 4; i++){ // will be wall max

@@ -7,19 +7,16 @@
 
 int main(){
 
+    FILE *fptr;
 
-    int test[32];
+    // Open a file in writing mode
+    fptr = fopen("levels/filename.txt", "w");
 
-    test[3] = 10;
+    // Write some text to the file
+    fprintf(fptr, "Some text");
 
-    printf("%d\n", test[3]);
-    printf("%d\n", test[4]);
-    printf("%d\n", test[5]);
-    printf("%d\n", test[6]);
-    printf("%d\n", test[7]);
-    printf("%d\n", test[8]);
-    printf("%d\n", test[9]);
-    printf("%d\n", test[10]);
+    // Close the file
+    fclose(fptr);
 
     return 0;
 }
