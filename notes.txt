@@ -16,6 +16,9 @@ also need to fix walls going down not up?
 
 think walls and sectors need to be sorted properly before each frame runs
 
+
+NOTE - will use the closest point not mid-point as midpoint could break onm wall corners
+
 could be best to have a mid-point stored on each wall
 can then calculate and store a mid-point of a sector at run time
 

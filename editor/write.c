@@ -49,7 +49,7 @@ void addSector(struct sector *s){
 
     char newLine[64];
     sprintf(newLine, "    {%d, %d, %d, %d, %d},\n",
-            s -> minZ, s -> maxZ, s -> floorColour, s -> ceilingColour, s -> init);
+            s -> minZ, 80, s -> floorColour, s -> ceilingColour, s -> init);
     char *str = newLine;
     buildOutput(str);
 

@@ -125,6 +125,28 @@ void sectorRender(SDL_Renderer* renderer){
     }
 
     for(int s = 0; s < MAX_SECTORS; s++){
+        for(int w = 0; w < MAX_SECTORS - s - 1; w++){
+            if (l.levelSectors[w].distance < l.levelSectors[w + 1].distance){
+                struct sector st = l.levelSectors[w];
+                l.levelSectors[w] = l.levelSectors[w + 1];
+                l.levelSectors[w + 1] = st;
+            }
+        }
+    }
+
+    for(int i = 0; i < MAX_SECTORS; i++){
+        for (int j = 0; j < MAX_WALLS ; j++){
+            for (int k = 0; k < MAX_WALLS - i - 1; k++){
+                if (l.levelSectors[i].sectorWalls[k].distance < l.levelSectors[i].sectorWalls[k + 1].distance){
+                    struct wall w = l.levelSectors[i].sectorWalls[k];
+                    l.levelSectors[i].sectorWalls[k] = l.levelSectors[i].sectorWalls[k + 1];
+                    l.levelSectors[i].sectorWalls[k + 1] = w;
+                }
+            }
+        }
+    }
+
+    for(int s = 0; s < MAX_SECTORS; s++){
         if (l.levelSectors[s].init == 0){
             continue;
         }
@@ -193,17 +215,24 @@ void sectorRender(SDL_Renderer* renderer){
 
         // can probably be optimised later, definetely put in seperate function at the very least
         int minDistance = 10000000;
-        int newDistance;
+        int newDistance1;
+        int newDistance2;
         for (int i = 0; i < MAX_WALLS; i++){ // will be wall max
-            newDistance = euclidianDistance2D(newVector2D(px, py),
+            newDistance1 = euclidianDistance2D(newVector2D(px, py),
                 newVector2D(l.levelSectors[s].sectorWalls[i].x1,
                             l.levelSectors[s].sectorWalls[i].y1));
-            if (newDistance < minDistance){ minDistance = newDistance;}
+            if (newDistance1 < minDistance){ minDistance = newDistance1;}
 
-            newDistance = euclidianDistance2D(newVector2D(px, py),
+            newDistance2 = euclidianDistance2D(newVector2D(px, py),
                 newVector2D(l.levelSectors[s].sectorWalls[i].x2,
                             l.levelSectors[s].sectorWalls[i].y2));
-            if (newDistance < minDistance){ minDistance = newDistance;}
+            if (newDistance2 < minDistance){ minDistance = newDistance2;}
+
+            if (newDistance1 < newDistance2){
+                l.levelSectors[s].sectorWalls[i].distance = newDistance1;
+            } else {
+                l.levelSectors[s].sectorWalls[i].distance = newDistance2;
+            }
         }
 
         l.levelSectors[s].surface *= -1;

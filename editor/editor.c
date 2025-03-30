@@ -93,7 +93,7 @@ void setup(){
     currentSector = currentLevel.levelSectors[0];
     currentWall = currentSector.sectorWalls[0];
 
-    /*
+
     for (int k = 0; k < MAX_LEVELS; k++){
         for (int i = 0; i < MAX_SECTORS; i++){
         levels[k].levelSectors[i].minZ = sectors[i][0];
@@ -112,7 +112,7 @@ void setup(){
         }
     }
     }
-     */
+
 
 }
 

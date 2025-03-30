@@ -23,7 +23,7 @@ void playerSetup(){
 
     pPos.x = 70;
     pPos.y = -110;
-    pPos.z = 20;
+    pPos.z = 40;
 
     pRot.h = 0;
     pRot.v = 0;
