@@ -22,14 +22,14 @@ void sectorSetup(){
     struct level l1 = newLevel(0, 0, 0, 1);
     l = l1;
 
-    for (int i = 0; i < MAX_SECTORS; i++){ // will be max sectors
+    for (int i = 0; i < MAX_SECTORS; i++){
         l.levelSectors[i].minZ = sectors[i][0];
         l.levelSectors[i].maxZ = sectors[i][1];
         l.levelSectors[i].floorColour = sectors[i][2];
         l.levelSectors[i].ceilingColour = sectors[i][3];
         l.levelSectors[i].init = sectors[i][4];
 
-        for (int j = 0; j < MAX_WALLS; j++){ // will be max walls
+        for (int j = 0; j < MAX_WALLS; j++){
             l.levelSectors[i].sectorWalls[j].x1 = walls[i][j][0];
             l.levelSectors[i].sectorWalls[j].y1 = walls[i][j][1];
             l.levelSectors[i].sectorWalls[j].x2 = walls[i][j][2];

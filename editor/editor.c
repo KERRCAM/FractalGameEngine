@@ -8,6 +8,7 @@
 #include "include/editor.h"
 #include "include/read.h"
 #include "include/write.h"
+#include "../levels/level1.h"
 
 //-----------------------------------------------------------------------------------------------//
 // INITIALISATIONS
@@ -92,6 +93,25 @@ void setup(){
     currentLevel = levels[0];
     currentSector = currentLevel.levelSectors[0];
     currentWall = currentSector.sectorWalls[0];
+
+    for (int k = 0; k < MAX_LEVELS; k++){
+        for (int i = 0; i < MAX_SECTORS; i++){
+        levels[k].levelSectors[i].minZ = sectors[i][0];
+        levels[k].levelSectors[i].maxZ = sectors[i][1];
+        levels[k].levelSectors[i].floorColour = sectors[i][2];
+        levels[k].levelSectors[i].ceilingColour = sectors[i][3];
+        levels[k].levelSectors[i].init = sectors[i][4];
+
+        for (int j = 0; j < MAX_WALLS; j++){
+            levels[k].levelSectors[i].sectorWalls[j].x1 = walls[i][j][0] * 5;
+            levels[k].levelSectors[i].sectorWalls[j].y1 = walls[i][j][1] * 5;
+            levels[k].levelSectors[i].sectorWalls[j].x2 = walls[i][j][2] * 5;
+            levels[k].levelSectors[i].sectorWalls[j].y2 = walls[i][j][3] * 5;
+            levels[k].levelSectors[i].sectorWalls[j].colour = walls[i][j][4];
+            levels[k].levelSectors[i].sectorWalls[j].init = walls[i][j][5];
+        }
+    }
+    }
 
 }
 

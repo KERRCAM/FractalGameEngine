@@ -4,21 +4,17 @@
 
 
 TODO:
-Once working, can then make the write to file stuff, just need some defaults, so I can not draw null walls and sectors
-(don't bother checking walls in a sector if the sector itself is null)
 Can then work on the reading part as well so we can actually save files fully -> i.e. load existing level information into the editor on start up
 
 Can then work on floor ceiling stuff and collisions on Monday
 
 
 
-add sector and level init checks at file write time -> just if sector contains any init walls then init sector and if level contains any init sectors then init level
 
 
 
-
-
-
+Floor ceiling rendering a bit buggy, may be due to wall draw order in editor.
+If so -> can maybe add a sort at write time to fix this.
 
 
 
