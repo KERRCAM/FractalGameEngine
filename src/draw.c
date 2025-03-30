@@ -7,7 +7,7 @@
 #include "include/draw.h"
 #include "include/vectors.h"
 #include "include/player.h"
-#include "level.h"
+#include "newLevel.h"
 #include "../editor/include/levels.h"
 
 //-----------------------------------------------------------------------------------------------//
@@ -24,25 +24,21 @@ void sectorSetup(){
     struct level l1 = newLevel(0, 0, 0, 1);
     l = l1;
 
-    int s, w, v1 = 0, v2 = 0;
-    for (s = 0; s < numSect; s++){
-        l.levelSectors[s].ws = loadSectors[v1 + 0];
-        l.levelSectors[s].we = loadSectors[v1 + 1];
-        l.levelSectors[s].minZ = loadSectors[v1 + 2];
-        l.levelSectors[s].maxZ = loadSectors[v1 + 3] - loadSectors[v1 + 2];
-        l.levelSectors[s].floorColour = loadSectors[v1 + 4];
-        l.levelSectors[s].ceilingColour = loadSectors[v1 + 5];
-        v1 += 6;
+    for (int i = 0; i < 4; i++){ // will be max sectors
+        l.levelSectors[i].minZ = sectors[i][0];
+        l.levelSectors[i].maxZ = sectors[i][1];
+        l.levelSectors[i].floorColour = sectors[i][2];
+        l.levelSectors[i].ceilingColour = sectors[i][3];
+        l.levelSectors[i].init = sectors[i][4];
 
-        for (w = l.levelSectors[s].ws; w < l.levelSectors[s].we; w++){
-            l.levelSectors[s].sectorWalls[w].x1 = loadWalls[v2 + 0];
-            l.levelSectors[s].sectorWalls[w].y1 = loadWalls[v2 + 1];
-            l.levelSectors[s].sectorWalls[w].x2 = loadWalls[v2 + 2];
-            l.levelSectors[s].sectorWalls[w].y2 = loadWalls[v2 + 3];
-            l.levelSectors[s].sectorWalls[w].colour = loadWalls[v2 + 4];
-            v2 += 5;
+        for (int j = 0; j < 4; j++){ // will be max walls
+            l.levelSectors[i].sectorWalls[j].x1 = walls[i][j][0];
+            l.levelSectors[i].sectorWalls[j].y1 = walls[i][j][1];
+            l.levelSectors[i].sectorWalls[j].x2 = walls[i][j][2];
+            l.levelSectors[i].sectorWalls[j].y2 = walls[i][j][3];
+            l.levelSectors[i].sectorWalls[j].colour = walls[i][j][4];
+            l.levelSectors[i].sectorWalls[j].init = walls[i][j][5];
         }
-
     }
 
 }
@@ -132,7 +128,7 @@ void sectorRender(SDL_Renderer* renderer){
 
         for (int loop = 0; loop < 2; loop++){
 
-            for(int w = l.levelSectors[s].ws; w < l.levelSectors[s].we; w++){
+            for(int w = 0; w < 4; w++){
 
                 int x1 = l.levelSectors[s].sectorWalls[w].x1 - px; int y1 = l.levelSectors[s].sectorWalls[w].y1 - py;
                 int x2 = l.levelSectors[s].sectorWalls[w].x2 - px; int y2 = l.levelSectors[s].sectorWalls[w].y2 - py;
@@ -182,7 +178,7 @@ void sectorRender(SDL_Renderer* renderer){
 
                 drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], s);
             }
-        l.levelSectors[s].distance /= (l.levelSectors[s].we - l.levelSectors[s].ws);
+        l.levelSectors[s].distance /= (4 * s);
         l.levelSectors[s].surface *= -1;
         }
     }

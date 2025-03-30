@@ -1,4 +1,4 @@
-#include "../editor/include/levels.h"
+
 
 int sectors[4][5] = { //z1 height, z2 height, bottom color, top color, init // sectors elements
     {0, 40, 2, 3, 1},
