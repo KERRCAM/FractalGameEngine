@@ -179,14 +179,14 @@ void sectorRender(SDL_Renderer* renderer){
                     clip(&wx[3], &wy[3], &wz[3], wx[2], wy[2], wz[2]);
                 }
 
-                wx[0] = wx[0] * 200 / wy[0] + (WINDOW_WIDTH / 2);
-                wy[0] = wz[0] * 200 / wy[0] + (WINDOW_HEIGHT / 2);
-                wx[1] = wx[1] * 200 / wy[1] + (WINDOW_WIDTH / 2);
-                wy[1] = wz[1] * 200 / wy[1] + (WINDOW_HEIGHT / 2);
-                wx[2] = wx[2] * 200 / wy[2] + (WINDOW_WIDTH / 2);
-                wy[2] = wz[2] * 200 / wy[2] + (WINDOW_HEIGHT / 2);
-                wx[3] = wx[3] * 200 / wy[3] + (WINDOW_WIDTH / 2);
-                wy[3] = wz[3] * 200 / wy[3] + (WINDOW_HEIGHT / 2);
+                wx[0] = wx[0] * FOV / wy[0] + (WINDOW_WIDTH / 2);
+                wy[0] = wz[0] * FOV / wy[0] + (WINDOW_HEIGHT / 2);
+                wx[1] = wx[1] * FOV / wy[1] + (WINDOW_WIDTH / 2);
+                wy[1] = wz[1] * FOV / wy[1] + (WINDOW_HEIGHT / 2);
+                wx[2] = wx[2] * FOV / wy[2] + (WINDOW_WIDTH / 2);
+                wy[2] = wz[2] * FOV / wy[2] + (WINDOW_HEIGHT / 2);
+                wx[3] = wx[3] * FOV / wy[3] + (WINDOW_WIDTH / 2);
+                wy[3] = wz[3] * FOV / wy[3] + (WINDOW_HEIGHT / 2);
 
                 drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], s, l.levelSectors[s].sectorWalls[w].colour);
             }

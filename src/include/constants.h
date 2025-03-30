@@ -9,11 +9,12 @@
 //CONSTANTS
 
 #define MAX_SECTORS 32
-#define MAX_WALLS 32
+#define MAX_WALLS 12
 #define FPS 30.0
 #define FRAME_TIME 1000.0 / FPS
-#define WINDOW_WIDTH 1200
-#define WINDOW_HEIGHT 900
+#define WINDOW_WIDTH 3840
+#define WINDOW_HEIGHT 2160
+#define FOV 550
 
 //-----------------------------------------------------------------------------------------------//
 //STRUCTS

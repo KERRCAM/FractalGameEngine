@@ -37,7 +37,7 @@ void addWall(struct wall *w){
 
     char newLine[64];
     sprintf(newLine, "    {%d, %d, %d, %d, %d, %d},\n",
-            w -> x1 / 5, w -> y1 / 5, w -> x2 / 5, w -> y2 / 5, w -> colour, w -> init);
+            w -> x1, w -> y1, w -> x2, w -> y2, w -> colour, w -> init);
     char *str = newLine;
     buildOutput(str);
 

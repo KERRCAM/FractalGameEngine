@@ -4,19 +4,25 @@
 
 
 TODO:
-Can then work on the reading part as well so we can actually save files fully -> i.e. load existing level information into the editor on start up
 
 Can then work on floor ceiling stuff and collisions on Monday
 
 
 
 
+change editor so deleting walls works better, sectors too would be nice
+try and fix wrong rendering order for walls
+also need to fix walls going down not up?
 
+think walls and sectors need to be sorted properly before each frame runs
 
-Floor ceiling rendering a bit buggy, may be due to wall draw order in editor.
-If so -> can maybe add a sort at write time to fix this.
+could be best to have a mid-point stored on each wall
+can then calculate and store a mid-point of a sector at run time
 
+then sort each sector and wall by distance between player and mid-points
+smaller should be done last, biggest first
 
+can probably also make it so only the closest 3 sectors (or more if needed) are rendered to reduce amount being drawn each frame
 
 
 

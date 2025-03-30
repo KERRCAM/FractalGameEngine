@@ -14,8 +14,8 @@ bool aDown = false;
 bool sDown = false;
 bool dDown = false;
 bool mDown = false;
-bool zDown = false;
-bool xDown = false;
+bool leftDown = false;
+bool rightDown = false;
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -51,11 +51,11 @@ void playerInput(SDL_Event event){
             case SDLK_m:
                 mDown = true;
             break;
-            case SDLK_z:
-                zDown = true;
+            case SDLK_LEFT:
+                leftDown = true;
             break;
-            case SDLK_x:
-                xDown = true;
+            case SDLK_RIGHT:
+                rightDown = true;
             break;
         }
     }
@@ -72,10 +72,10 @@ void playerInput(SDL_Event event){
                 dDown = false;
             case SDLK_m:
                 mDown = false;
-            case SDLK_z:
-                zDown = false;
-            case SDLK_x:
-                xDown = false;
+            case SDLK_LEFT:
+                leftDown = false;
+            case SDLK_RIGHT:
+                rightDown = false;
         }
     }
 
@@ -86,23 +86,23 @@ void playerInput(SDL_Event event){
 void playerUpdate(float deltaTime){
     // may want to paramaterise speed values for x and y (or one overall for linear movement)
 
-    if (aDown && !mDown){
-        pRot.h -= 60 * deltaTime;
+    if (leftDown && !mDown){
+        pRot.h -= 120 * deltaTime;
         if (pRot.h < 0){pRot.h += 360;};
     }
-    if (dDown && !mDown){
-        pRot.h += 60 * deltaTime;
+    if (rightDown && !mDown){
+        pRot.h += 120 * deltaTime;
         if (pRot.h > 359){pRot.h -= 360;};
     }
 
-    float dx = M.sin[(int)pRot.h] * 100.0 * deltaTime;
-    float dy = M.cos[(int)pRot.h] * 100.0 * deltaTime;
+    float dx = M.sin[(int)pRot.h] * 120.0 * deltaTime;
+    float dy = M.cos[(int)pRot.h] * 120.0 * deltaTime;
 
     if (wDown && !mDown){ pPos.x += dx; pPos.y += dy;}
     if (sDown && !mDown){ pPos.x -= dx; pPos.y -= dy;}
 
-    if (xDown){ pPos.x += dy; pPos.y -= dx;}
-    if (zDown){ pPos.x -= dy; pPos.y += dx;}
+    if (dDown){ pPos.x += dy * 1.2; pPos.y -= dx * 1.2;}
+    if (aDown){ pPos.x -= dy * 1.2; pPos.y += dx * 1.2;}
 
     if (aDown && mDown){ pRot.v -= 15 * deltaTime;}
     if (dDown && mDown){ pRot.v += 15 * deltaTime;}
