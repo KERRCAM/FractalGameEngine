@@ -12,9 +12,6 @@
 
 //-----------------------------------------------------------------------------------------------//
 
-// distance function -> calc wall midpoints, calc midpoint of all walls in sector
-// calc L2 distance from player to sector midpoint (2D) and return it
-
 struct level l;
 
 //-----------------------------------------------------------------------------------------------//
@@ -87,8 +84,12 @@ void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, i
 
         if (l.levelSectors[s].surface == 1){ l.levelSectors[s].surf[x] = y1; continue;}
         if (l.levelSectors[s].surface == 2){ l.levelSectors[s].surf[x] = y2; continue;}
-        if (l.levelSectors[s].surface == -1){ SDL_RenderDrawLine(renderer, x, l.levelSectors[s].surf[x], x, y1);}
-        if (l.levelSectors[s].surface == -2){ SDL_RenderDrawLine(renderer, x, y2, x, l.levelSectors[s].surf[x]);}
+        if (l.levelSectors[s].surface == -1){
+            SDL_RenderDrawLine(renderer, x, l.levelSectors[s].surf[x], x, y1);
+        }
+        if (l.levelSectors[s].surface == -2){
+            SDL_RenderDrawLine(renderer, x, y2, x, l.levelSectors[s].surf[x]);
+        }
 
         SDL_RenderDrawLine(renderer, x, y1, x, y2);
     }
@@ -137,8 +138,10 @@ void sectorRender(SDL_Renderer* renderer){
                     continue;
                 }
 
-                int x1 = l.levelSectors[s].sectorWalls[w].x1 - px; int y1 = l.levelSectors[s].sectorWalls[w].y1 - py;
-                int x2 = l.levelSectors[s].sectorWalls[w].x2 - px; int y2 = l.levelSectors[s].sectorWalls[w].y2 - py;
+                int x1 = l.levelSectors[s].sectorWalls[w].x1 - px;
+                int y1 = l.levelSectors[s].sectorWalls[w].y1 - py;
+                int x2 = l.levelSectors[s].sectorWalls[w].x2 - px;
+                int y2 = l.levelSectors[s].sectorWalls[w].y2 - py;
 
                 if (loop == 0){ int swp = x1; x1 = x2; x2 = swp; swp = y1; y1 = y2; y2 = swp;}
 
@@ -181,7 +184,7 @@ void sectorRender(SDL_Renderer* renderer){
                 wx[3] = wx[3] * 200 / wy[3] + (WINDOW_WIDTH / 2);
                 wy[3] = wz[3] * 200 / wy[3] + (WINDOW_HEIGHT / 2);
 
-                SDL_SetRenderDrawColor(renderer, (wx[0] * 5 % 255), (wy[1] * 15 % 255), (wy[0] * 20 % 255), (wx[1] * 8 % 255));
+                SDL_SetRenderDrawColor(renderer, 10, 255, 20, 255);
 
                 drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], s);
             }
@@ -191,13 +194,13 @@ void sectorRender(SDL_Renderer* renderer){
         int newDistance;
         for (int i = 0; i < MAX_WALLS; i++){ // will be wall max
             newDistance = euclidianDistance2D(newVector2D(px, py),
-                newVector2D(l.levelSectors[s].sectorWalls[i].x1, l.levelSectors[s].sectorWalls[i].y1)
-            );
+                newVector2D(l.levelSectors[s].sectorWalls[i].x1,
+                            l.levelSectors[s].sectorWalls[i].y1));
             if (newDistance < minDistance){ minDistance = newDistance;}
 
             newDistance = euclidianDistance2D(newVector2D(px, py),
-                newVector2D(l.levelSectors[s].sectorWalls[i].x2, l.levelSectors[s].sectorWalls[i].y2)
-            );
+                newVector2D(l.levelSectors[s].sectorWalls[i].x2,
+                            l.levelSectors[s].sectorWalls[i].y2));
             if (newDistance < minDistance){ minDistance = newDistance;}
         }
 

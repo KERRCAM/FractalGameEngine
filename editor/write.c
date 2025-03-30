@@ -37,7 +37,7 @@ void addWall(struct wall *w){
 
     char newLine[64];
     sprintf(newLine, "    {%d, %d, %d, %d, %d, %d},\n",
-            w -> x1, w -> y1, w -> x2, w -> y2, w -> colour, w -> init);
+            w -> x1 / 5, w -> y1 / 5, w -> x2 / 5, w -> y2 / 5, w -> colour, w -> init);
     char *str = newLine;
     buildOutput(str);
 
@@ -59,8 +59,8 @@ void addSector(struct sector *s){
 
 void writeLevel(struct level *l, int number){
 
-    output = malloc(69);
-    char init[69] = "#include \"src/include/constants.h\"\n\nint sectors[MAX_SECTORS][5] = {\n";
+    output = malloc(72);
+    char init[72] = "#include \"../src/include/constants.h\"\n\nint sectors[MAX_SECTORS][5] = {\n";
     sprintf(output, "%s", init);
 
     for (int i = 0; i < MAX_SECTORS; i++) {

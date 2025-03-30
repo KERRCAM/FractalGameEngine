@@ -165,6 +165,8 @@ void render(){
     if (currentWall.x1 != -1 && currentWall.x2 != -1){
         levels[currentLevelPos].levelSectors[currentSectorPos].sectorWalls[currentWallPos] = newWall(currentWall.x1, currentWall.y1,
                                                             currentWall.x2, currentWall.y2, 0, 1);
+        levels[currentLevelPos].levelSectors[currentSectorPos].minZ = 0;
+        levels[currentLevelPos].levelSectors[currentSectorPos].init = 1;
     } else if (currentWall.x1 != -1 && currentWall.x2 == -1){
         SDL_RenderDrawLine(renderer, currentWall.x1, currentWall.y1, closestX, closestY);
     }
