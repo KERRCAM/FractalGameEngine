@@ -124,16 +124,6 @@ void sectorRender(SDL_Renderer* renderer){
         }
     }
 
-    for(int s = 0; s < MAX_SECTORS; s++){
-        for(int w = 0; w < MAX_SECTORS - s - 1; w++){
-            if (l.levelSectors[w].distance < l.levelSectors[w + 1].distance){
-                struct sector st = l.levelSectors[w];
-                l.levelSectors[w] = l.levelSectors[w + 1];
-                l.levelSectors[w + 1] = st;
-            }
-        }
-    }
-
     for(int i = 0; i < MAX_SECTORS; i++){
         for (int j = 0; j < MAX_WALLS ; j++){
             for (int k = 0; k < MAX_WALLS - i - 1; k++){

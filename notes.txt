@@ -28,7 +28,7 @@ smaller should be done last, biggest first
 can probably also make it so only the closest 3 sectors (or more if needed) are rendered to reduce amount being drawn each frame
 
 
-
+last resort try rewrite draw myself
 
 
 When sorting license -> need to check how to properly include dependency and tutorial.
