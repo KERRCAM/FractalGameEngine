@@ -53,30 +53,25 @@ float minDistance(int px, int py, int x1, int y1, int x2, int y2){
 
     float min = 1000000;
 
-    float intx = abs(x1 - x2) / 10;
-    float inty = abs(y1 - y2) / 10;
+    float intx = abs(x1 - x2) / 50;
+    float inty = abs(y1 - y2) / 50;
 
     float cx, cy;
-    float sx, sy;
     float ex, ey;
 
     if (x1 < x2){
-        sx = x1;
-        cx = sx;
+        cx = x1;
         ex = x2;
     } else {
-        sx = x2;
-        cx = sx;
+        cx = x2;
         ex = x1;
     }
 
     if (y1 < y2){
-        sy = y1;
-        cy = sy;
+        cy = y1;
         ey = y2;
     } else{
-        sy = y2;
-        cy = sy;
+        cy = y2;
         ey = y1;
     }
 
@@ -114,7 +109,7 @@ void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, i
 
     SDL_SetRenderDrawColor(renderer, colours[colour][0], colours[colour][1], colours[colour][2], 255);
 
-    int x; // ,y; -> never used so far
+    int x;
 
     int dyb = b2 - b1;
     int dyt = t2 - t1;
@@ -182,19 +177,7 @@ void sectorRender(SDL_Renderer* renderer){
                 struct wall w2 = l.levelSectors[w + 1].closestWall;
                 if (w1.init == 0 || w2.init == 0){ continue;}
                 float d1 = minDistance(px, py, w1.x1, w1.y1, w1.x2, w1.y2);
-                printf("D1\n");
-                printf("px %d, py %d\n", px, py);
-                printf("x1 %d, y1 %d\n", w1.x1, w1.y1);
-                printf("x2 %d, y2 %d\n", w1.x2, w1.y2);
-
                 float d2 = minDistance(px, py, w2.x1, w2.y1, w2.x2, w2.y2);
-                printf("D2\n");
-                printf("px %d, py %d\n", px, py);
-                printf("x1 %d, y1 %d\n", w2.x1, w2.y1);
-                printf("x2 %d, y2 %d\n", w2.x2, w2.y2);
-
-
-                printf("d1: %f, d2: %f \n", d1, d2);
                 if (d1 < d2){
                     struct sector st = l.levelSectors[w];
                     l.levelSectors[w] = l.levelSectors[w + 1];
@@ -283,12 +266,11 @@ void sectorRender(SDL_Renderer* renderer){
                 drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], s, w, frontBack, l.levelSectors[s].sectorWalls[w].colour);
             }
 
-        // can probably be optimised later, definetely put in seperate function at the very least
         int minDistance = 10000000;
         int newDistance1;
         int newDistance2;
         int cw;
-        for (int i = 0; i < MAX_WALLS; i++){ // will be wall max
+        for (int i = 0; i < MAX_WALLS; i++){
             newDistance1 = euclidianDistance2D(newVector2D(px, py),
                 newVector2D(l.levelSectors[s].sectorWalls[i].x1,
                             l.levelSectors[s].sectorWalls[i].y1));
@@ -305,11 +287,8 @@ void sectorRender(SDL_Renderer* renderer){
                 l.levelSectors[s].sectorWalls[i].distance = newDistance2;
             }
         }
-
         l.levelSectors[s].distance = minDistance;
         l.levelSectors[s].closestWall = l.levelSectors[s].sectorWalls[cw];
-
-        //l.levelSectors[s].surface *= -1;
         }
     }
 
