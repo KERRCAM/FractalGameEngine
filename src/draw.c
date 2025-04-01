@@ -42,6 +42,7 @@ void sectorSetup(){
         }
 
         l.levelSectors[i].closestWall = l.levelSectors[i].sectorWalls[0];
+
     }
 
 }
@@ -49,26 +50,45 @@ void sectorSetup(){
 //-----------------------------------------------------------------------------------------------//
 
 float minDistance(int px, int py, int x1, int y1, int x2, int y2){
-    printf("dist func start\n");
+
     float min = 1000000;
-    float wx = x1;
-    float wy = y1;
 
-    float intx = abs(x2 - x1) / 10;
+    float intx = abs(x1 - x2) / 10;
+    float inty = abs(y1 - y2) / 10;
 
-    float inty = abs(y2 - y1) / 10;
-    printf("intx %f, inty %f\n", intx, inty);
-    while (wx <= x2 && wy <= y2){
-        float newDistance = euclidianDistance2D(newVector2D(px, py), newVector2D(wx, wy));
+    float cx, cy;
+    float sx, sy;
+    float ex, ey;
+
+    if (x1 < x2){
+        sx = x1;
+        cx = sx;
+        ex = x2;
+    } else {
+        sx = x2;
+        cx = sx;
+        ex = x1;
+    }
+
+    if (y1 < y2){
+        sy = y1;
+        cy = sy;
+        ey = y2;
+    } else{
+        sy = y2;
+        cy = sy;
+        ey = y1;
+    }
+
+    while (cx < ex || cy < ey){
+        float newDistance = euclidianDistance2D(newVector2D(px, py), newVector2D(cx, cy));
         if (newDistance < min){
             min = newDistance;
         }
-        wy += inty;
-        wx += intx;
+        cx += intx;
+        cy += inty;
     }
 
-
-    printf("minDistance %f\n", min);
     return min;
 }
 
@@ -149,19 +169,32 @@ void sectorRender(SDL_Renderer* renderer){
     int wx[4], wy[4], wz[4];
     float CS = M.cos[ph], SN = M.sin[ph];
 
-    // crappy bubble sort, replace later with somehting better
     for(int s = 0; s < MAX_SECTORS; s++){
         for(int w = 0; w < MAX_SECTORS - s - 1; w++){
+
             if (l.levelSectors[w].distance < l.levelSectors[w + 1].distance){
                 struct sector st = l.levelSectors[w];
                 l.levelSectors[w] = l.levelSectors[w + 1];
                 l.levelSectors[w + 1] = st;
             } else if (l.levelSectors[w].distance == l.levelSectors[w + 1].distance){
+                if (l.levelSectors[w].init == 0){ continue;}
                 struct wall w1 = l.levelSectors[w].closestWall;
                 struct wall w2 = l.levelSectors[w + 1].closestWall;
+                if (w1.init == 0 || w2.init == 0){ continue;}
                 float d1 = minDistance(px, py, w1.x1, w1.y1, w1.x2, w1.y2);
+                printf("D1\n");
+                printf("px %d, py %d\n", px, py);
+                printf("x1 %d, y1 %d\n", w1.x1, w1.y1);
+                printf("x2 %d, y2 %d\n", w1.x2, w1.y2);
+
                 float d2 = minDistance(px, py, w2.x1, w2.y1, w2.x2, w2.y2);
-                printf("%f, %f, \n", d1, d2);
+                printf("D2\n");
+                printf("px %d, py %d\n", px, py);
+                printf("x1 %d, y1 %d\n", w2.x1, w2.y1);
+                printf("x2 %d, y2 %d\n", w2.x2, w2.y2);
+
+
+                printf("d1: %f, d2: %f \n", d1, d2);
                 if (d1 < d2){
                     struct sector st = l.levelSectors[w];
                     l.levelSectors[w] = l.levelSectors[w + 1];

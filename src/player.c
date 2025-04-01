@@ -21,8 +21,8 @@ bool rightDown = false;
 
 void playerSetup(){
 
-    pPos.x = 70;
-    pPos.y = -110;
+    pPos.x = 250;
+    pPos.y = 250;
     pPos.z = 40;
 
     pRot.h = 0;
@@ -95,8 +95,8 @@ void playerUpdate(float deltaTime){
         if (pRot.h > 359){pRot.h -= 360;};
     }
 
-    float dx = M.sin[(int)pRot.h] * 120.0 * deltaTime;
-    float dy = M.cos[(int)pRot.h] * 120.0 * deltaTime;
+    float dx = M.sin[(int)pRot.h] * 150.0 * deltaTime;
+    float dy = M.cos[(int)pRot.h] * 150.0 * deltaTime;
 
     if (wDown && !mDown){ pPos.x += dx; pPos.y += dy;}
     if (sDown && !mDown){ pPos.x -= dx; pPos.y -= dy;}
