@@ -4,51 +4,16 @@
 
 
 TODO:
+GAME:
+... TBD
 
-Can then work on floor ceiling stuff and collisions on Monday
 
 
-
+delete the closest wall dead code
+Can then work on floor ceiling stuff and collisions
 
 change editor so deleting walls works better, sectors too would be nice
 try and fix wrong rendering order for walls
 also need to fix walls going down not up?
 
-think walls and sectors need to be sorted properly before each frame runs
-
-
-NOTE - will use the closest point not mid-point as midpoint could break onm wall corners
-
-could be best to have a mid-point stored on each wall
-can then calculate and store a mid-point of a sector at run time
-
-then sort each sector and wall by distance between player and mid-points
-smaller should be done last, biggest first
-
-can probably also make it so only the closest 3 sectors (or more if needed) are rendered to reduce amount being drawn each frame
-
-
-last resort try rewrite draw myself
-
-
 When sorting license -> need to check how to properly include dependency and tutorial.
-
-1 - level editor
-2 - sprite rendering
-3 - collision detection
-4 - bsp implementation
-5 - recursive room rendering and traversal?
-6 - perspective changing?, would just need to change between different rendering functions?, would need a character model though
-7 - probably easier to do dungeon crawl esk rather than puzzle, can skip a few of previous if needed
-
-
-
-Movement
-Controls will need serious change, swap look to mouse if possible
-sprint
-dash, give i-frames
-crouch, reduce speed and enemy detection
-
-
-
-Could add flow field visual if 2D perspective works

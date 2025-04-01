@@ -17,7 +17,10 @@ struct sector {
     int minZ, maxZ;
     int floorColour, ceilingColour;
     struct wall sectorWalls[MAX_WALLS];
-    int distance;
+    float mpx;
+    float mpy;
+    float distance;
+    struct wall closestWall;
     int surf[WINDOW_WIDTH];
     int surface;
     int init;

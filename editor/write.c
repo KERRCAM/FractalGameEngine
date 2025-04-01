@@ -47,9 +47,26 @@ void addWall(struct wall *w){
 
 void addSector(struct sector *s){
 
+    int tx = 0;
+    int ty = 0;
+    int c = 0;
+    for (int i = 0; i < MAX_WALLS; i++){
+        if (s -> sectorWalls[i].init == 1){
+            c++;
+            tx += (s -> sectorWalls[i].x1) + (s -> sectorWalls[i].x2);
+            ty += (s -> sectorWalls[i].y1) + (s -> sectorWalls[i].y2);
+        }
+    }
+
+    float nmpx = tx / c;
+    float nmpy = ty / c;
+
+    s -> mpx = nmpx;
+    s -> mpy = nmpy;
+
     char newLine[64];
-    sprintf(newLine, "    {%d, %d, %d, %d, %d},\n",
-            s -> minZ, 80, s -> floorColour, s -> ceilingColour, s -> init);
+    sprintf(newLine, "    {%d, %d, %d, %d, %d, %f, %f},\n",
+            s -> minZ, 80, s -> floorColour, s -> ceilingColour, s -> init, s -> mpx, s -> mpy);
     char *str = newLine;
     buildOutput(str);
 
@@ -60,7 +77,7 @@ void addSector(struct sector *s){
 void writeLevel(struct level *l, int number){
 
     output = malloc(72);
-    char init[72] = "#include \"../src/include/constants.h\"\n\nint sectors[MAX_SECTORS][5] = {\n";
+    char init[72] = "#include \"../src/include/constants.h\"\n\nint sectors[MAX_SECTORS][7] = {\n";
     sprintf(output, "%s", init);
 
     for (int i = 0; i < MAX_SECTORS; i++) {
