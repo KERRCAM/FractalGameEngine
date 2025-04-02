@@ -42,20 +42,22 @@ void sectorSetup(){
         }
 
         l.levelSectors[i].closestWall = l.levelSectors[i].sectorWalls[0];
-
     }
-
 }
 
 //-----------------------------------------------------------------------------------------------//
 
 float minDistance(int px, int py, int x1, int y1, int x2, int y2){
 
+    printf("START\n");
+
+    printf("px: %d, py: %d\n", px, py);
+    printf("x1: %d, y1: %d\n", x1, y1);
+    printf("x2: %d, y2: %d\n", x2, y2);
+
     float min = 1000000;
-
-    float intx = abs(x1 - x2) / 50;
-    float inty = abs(y1 - y2) / 50;
-
+    float intx = abs(x1 - x2) / 50.0;
+    float inty = abs(y1 - y2) / 50.0;
     float cx, cy;
     float ex, ey;
 
@@ -75,6 +77,10 @@ float minDistance(int px, int py, int x1, int y1, int x2, int y2){
         ey = y1;
     }
 
+    printf("cx: %f, cy: %f\n", cx, cy);
+    printf("ex: %f, ey: %f\n", ex, ey);
+    printf("intx: %f, inty: %f\n", intx, inty);
+
     while (cx < ex || cy < ey){
         float newDistance = euclidianDistance2D(newVector2D(px, py), newVector2D(cx, cy));
         if (newDistance < min){
@@ -83,6 +89,8 @@ float minDistance(int px, int py, int x1, int y1, int x2, int y2){
         cx += intx;
         cy += inty;
     }
+
+    printf("END\n");
 
     return min;
 }
@@ -143,10 +151,7 @@ void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, i
             if (l.levelSectors[s].surface == 2){ y1 = l.levelSectors[s].surf[x];}
             SDL_RenderDrawLine(renderer, x, y1, x, y2);
         }
-
-
     }
-
 }
 
 //-----------------------------------------------------------------------------------------------//
@@ -187,6 +192,8 @@ void sectorRender(SDL_Renderer* renderer){
         }
     }
 
+
+
     for(int i = 0; i < MAX_SECTORS; i++){
         for (int j = 0; j < MAX_WALLS ; j++){
             for (int k = 0; k < MAX_WALLS - i - 1; k++){
@@ -199,6 +206,8 @@ void sectorRender(SDL_Renderer* renderer){
         }
     }
 
+
+
     for(int s = 0; s < MAX_SECTORS; s++){
         if (l.levelSectors[s].init == 0){
             continue;
@@ -209,9 +218,7 @@ void sectorRender(SDL_Renderer* renderer){
         else if (pz > l.levelSectors[s].maxZ) { l.levelSectors[s].surface = 2; cycles = 2; for (int x = 0; x < WINDOW_WIDTH; x++){l.levelSectors[s].surf[x] = 0;}}
         else { l.levelSectors[s].surface = 0; cycles = 1;}
 
-
         for (int frontBack = 0; frontBack < cycles; frontBack++){
-
             for(int w = 0; w < MAX_WALLS; w++){
                 if (l.levelSectors[s].sectorWalls[w].init == 0){
                     continue;
@@ -264,7 +271,9 @@ void sectorRender(SDL_Renderer* renderer){
                 wy[3] = wz[3] * FOV / wy[3] + (WINDOW_HEIGHT / 2);
 
                 drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], s, w, frontBack, l.levelSectors[s].sectorWalls[w].colour);
+
             }
+
 
         int minDistance = 10000000;
         int newDistance1;
@@ -287,11 +296,11 @@ void sectorRender(SDL_Renderer* renderer){
                 l.levelSectors[s].sectorWalls[i].distance = newDistance2;
             }
         }
+
         l.levelSectors[s].distance = minDistance;
         l.levelSectors[s].closestWall = l.levelSectors[s].sectorWalls[cw];
         }
     }
-
 }
 
 //-----------------------------------------------------------------------------------------------//
