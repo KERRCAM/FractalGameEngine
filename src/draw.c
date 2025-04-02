@@ -56,8 +56,8 @@ float minDistance(int px, int py, int x1, int y1, int x2, int y2){
     printf("x2: %d, y2: %d\n", x2, y2);
 
     float min = 1000000;
-    float intx = abs(x1 - x2) / 50.0;
-    float inty = abs(y1 - y2) / 50.0;
+    float intx = abs(x1 - x2) / 10.0;
+    float inty = abs(y1 - y2) / 10.0;
     float cx, cy;
     float ex, ey;
 
