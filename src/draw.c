@@ -49,12 +49,6 @@ void sectorSetup(){
 
 float minDistance(int px, int py, int x1, int y1, int x2, int y2){
 
-    printf("START\n");
-
-    printf("px: %d, py: %d\n", px, py);
-    printf("x1: %d, y1: %d\n", x1, y1);
-    printf("x2: %d, y2: %d\n", x2, y2);
-
     float min = 1000000;
     float intx = abs(x1 - x2) / 10.0;
     float inty = abs(y1 - y2) / 10.0;
@@ -77,10 +71,6 @@ float minDistance(int px, int py, int x1, int y1, int x2, int y2){
         ey = y1;
     }
 
-    printf("cx: %f, cy: %f\n", cx, cy);
-    printf("ex: %f, ey: %f\n", ex, ey);
-    printf("intx: %f, inty: %f\n", intx, inty);
-
     while (cx < ex || cy < ey){
         float newDistance = euclidianDistance2D(newVector2D(px, py), newVector2D(cx, cy));
         if (newDistance < min){
@@ -89,8 +79,6 @@ float minDistance(int px, int py, int x1, int y1, int x2, int y2){
         cx += intx;
         cy += inty;
     }
-
-    printf("END\n");
 
     return min;
 }

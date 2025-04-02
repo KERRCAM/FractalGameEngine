@@ -98,12 +98,6 @@ void update(){
 
     float deltaTime = (SDL_GetTicks() - lastFrame) / 1000.0f;
 
-    int waitTime = 1 - SDL_GetTicks();
-    if (waitTime > 0){
-        printf("frames per seconds: %f\n", 1000.0f / deltaTime);
-    }
-
-
     lastFrame = SDL_GetTicks();
 
     playerUpdate(deltaTime);
