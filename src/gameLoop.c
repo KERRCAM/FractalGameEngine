@@ -36,6 +36,8 @@ int initialize_window(void){
         SDL_WINDOW_RESIZABLE
     );
 
+    SDL_WarpMouseInWindow(window, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+
     if (!window){
         fprintf(stderr, "Error creating SDL window\n");
         return 0;

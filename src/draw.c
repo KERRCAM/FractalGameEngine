@@ -153,8 +153,8 @@ void floors(SDL_Renderer* renderer){
     int ph = round(pRot.h);
     float scale = 0.25;
 
-    for (y = upDown; y < yo; y += 4){
-        for (x = -xo; x < xo; x += 4){
+    for (y = upDown; y < yo; y += 2){
+        for (x = -xo; x < xo; x += 2){
             float z = y + upDown; if (z == 0){ z = 0.0001;}
             float fx = x / z * scale;
             float fy = (float)FOV / z * scale;
@@ -189,8 +189,8 @@ void ceilings(SDL_Renderer* renderer){
     int ph = round(pRot.h);
     float scale = 0.25;
 
-    for (y = -yo; y < -upDown; y += 4){
-        for (x = -xo; x < xo; x += 4){
+    for (y = -yo; y < -upDown; y += 2){
+        for (x = -xo; x < xo; x += 2){
             float z = y + upDown; if (z == 0){ z = 0.0001;}
             float fx = x / z * scale;
             float fy = (float)FOV / z * scale;

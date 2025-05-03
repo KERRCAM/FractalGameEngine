@@ -16,6 +16,8 @@ bool dDown = false;
 bool mDown = false;
 bool leftDown = false;
 bool rightDown = false;
+bool upDown = false;
+bool downDown = false;
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -28,11 +30,18 @@ void playerSetup(){
     pRot.h = 0;
     pRot.v = 0;
 
+    lmX = WINDOW_WIDTH / 2;
+    lmY = WINDOW_HEIGHT / 2;
+
 }
 
 //-----------------------------------------------------------------------------------------------//
 
 void playerInput(SDL_Event event){
+
+    if (event.type == SDL_MOUSEMOTION){
+        SDL_GetMouseState(&mX, &mY);
+    }
 
     if (event.type == SDL_KEYDOWN){
         switch (event.key.keysym.sym){
@@ -57,6 +66,12 @@ void playerInput(SDL_Event event){
             case SDLK_RIGHT:
                 rightDown = true;
             break;
+            case SDLK_UP:
+                upDown = true;
+            break;
+            case SDLK_DOWN:
+                downDown = true;
+            break;
         }
     }
 
@@ -76,6 +91,10 @@ void playerInput(SDL_Event event){
                 leftDown = false;
             case SDLK_RIGHT:
                 rightDown = false;
+            case SDLK_UP:
+                upDown = false;
+            case SDLK_DOWN:
+                downDown = false;
         }
     }
 
@@ -86,28 +105,56 @@ void playerInput(SDL_Event event){
 void playerUpdate(float deltaTime){
     // may want to paramaterise speed values for x and y (or one overall for linear movement)
 
-    if (leftDown && !mDown){
-        pRot.h -= 120 * deltaTime;
-        if (pRot.h < 0){pRot.h += 360;};
-    }
-    if (rightDown && !mDown){
-        pRot.h += 120 * deltaTime;
-        if (pRot.h > 359){pRot.h -= 360;};
-    }
-
     float dx = M.sin[(int)pRot.h] * 150.0 * deltaTime;
     float dy = M.cos[(int)pRot.h] * 150.0 * deltaTime;
 
-    if (wDown && !mDown){ pPos.x += dx; pPos.y += dy;}
-    if (sDown && !mDown){ pPos.x -= dx; pPos.y -= dy;}
+    if (wDown){ pPos.x += dx; pPos.y += dy;}
+    if (sDown){ pPos.x -= dx; pPos.y -= dy;}
 
     if (dDown){ pPos.x += dy * 1.2; pPos.y -= dx * 1.2;}
     if (aDown){ pPos.x -= dy * 1.2; pPos.y += dx * 1.2;}
 
-    if (aDown && mDown){ pRot.v -= 15 * deltaTime;}
-    if (dDown && mDown){ pRot.v += 15 * deltaTime;}
-    if (wDown && mDown){ pPos.z -= 60 * deltaTime;}
-    if (sDown && mDown){ pPos.z += 60 * deltaTime;}
+
+
+
+
+    // pitch up down keys
+    if (downDown){ pRot.v -= 15 * deltaTime;}
+    if (upDown){ pRot.v += 15 * deltaTime;}
+
+    // move up down keys
+    //if (wDown && mDown){ pPos.z -= 60 * deltaTime;}
+    //if (sDown && mDown){ pPos.z += 60 * deltaTime;}
+
+    // Look left right keys
+    if (leftDown){
+        pRot.h -= 120 * deltaTime;
+        if (pRot.h < 0){pRot.h += 360;};
+    }
+    if (rightDown){
+        pRot.h += 120 * deltaTime;
+        if (pRot.h > 359){pRot.h -= 360;};
+    }
+
+    lmX = mX;
+    lmY = mY;
+
+        // Look left right mouse
+//
+//    int dmX = mX - lmX;
+//    int dmY = mY - lmY;
+//
+//    if (dmX != 0){
+//        int rX = dmX * 8 * deltaTime;
+//        pRot.h += rX;
+//        if (pRot.h < 0){pRot.h += 360;};
+//        if (pRot.h > 359){pRot.h -= 360;};
+//    }
+//
+//    if (dmY != 0){
+//        int rY = dmY * 8 * deltaTime;
+//        pRot.v += rY;
+//    }
 
 }
 
