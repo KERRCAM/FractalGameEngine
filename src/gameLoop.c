@@ -112,6 +112,7 @@ void render(){
     SDL_SetRenderDrawColor(renderer, 0, 0, 60, 255);
     SDL_RenderClear(renderer);
     floors(renderer);
+    ceilings(renderer);
     sectorRender(renderer);
     SDL_RenderPresent(renderer);
 
