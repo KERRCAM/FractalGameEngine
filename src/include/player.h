@@ -18,8 +18,8 @@ struct pPos {
 
 struct rotation2D pRot;
 
-int mX, mY;
-int lmX, lmY;
+int dashTime;
+int xMov, yMov;
 
 //-----------------------------------------------------------------------------------------------//
 //FUNCTIONS
