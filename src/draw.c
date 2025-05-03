@@ -144,6 +144,53 @@ void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, i
 
 //-----------------------------------------------------------------------------------------------//
 
+
+void floors(SDL_Renderer* renderer){
+    int x;
+    int y;
+    int xo = WINDOW_WIDTH / 2;
+    int yo = WINDOW_HEIGHT / 2;
+    float upDown = pRot.v * 2; if (upDown > WINDOW_HEIGHT){upDown = WINDOW_HEIGHT;}
+    int ph = round(pRot.h);
+
+//    for (y = -yo; y < yo; y++){
+//        float fy = (float)FOV / (float)y;
+//        if ((int)fy % 2 == 0){
+//                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+//                SDL_RenderDrawLine(renderer, -xo, y, xo, y);
+//            } else{
+//                SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+//                SDL_RenderDrawLine(renderer, -xo, y, xo, y);
+//            }
+//    }
+
+
+    for (y = -yo; y < -upDown; y += 5){
+        for (x = -xo; x < xo; x += 5){
+            float z = y + upDown; if (z == 0){ z = 0.0001;}
+            float fx = x / z;
+            float fy = (float)FOV / z;
+            float rx = fx * M.sin[ph] - fy * M.cos[ph] + (pPos.y / 120.0);
+            float ry = fx * M.cos[ph] + fy * M.sin[ph] + (pPos.x / 120.0);
+
+            if (rx < 0){ rx = -rx + 1;}
+            if (ry < 0){ ry = -ry + 1;}
+            if ((int)rx % 2 == (int)ry % 2){
+                int c = 255 * (255 - (y / (float)yo));
+                SDL_SetRenderDrawColor(renderer, c, 0, 60, 255);
+                SDL_RenderDrawPoint(renderer, x + xo, y + yo);
+            } else{
+                SDL_SetRenderDrawColor(renderer, 0, 0, 60, 255);
+                SDL_RenderDrawPoint(renderer, x + xo, y + yo);
+            }
+        }
+    }
+
+}
+
+
+//-----------------------------------------------------------------------------------------------//
+
 void sectorRender(SDL_Renderer* renderer){
 
     int cycles;
