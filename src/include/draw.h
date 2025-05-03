@@ -29,7 +29,7 @@ void floors(SDL_Renderer* renderer);
 
 void ceilings(SDL_Renderer* renderer);
 
-void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, int t2, int s, int w, int frontBack, int colour);
+void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, int t2, int s, int w, int frontBack, int colour, int distance);
 
 void sectorRender(SDL_Renderer* renderer);
 

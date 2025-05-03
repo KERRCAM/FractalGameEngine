@@ -101,7 +101,15 @@ void clip(int *x1, int *y1, int *z1, int x2, int y2, int z2){
 
 //-----------------------------------------------------------------------------------------------//
 
-void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, int t2, int s, int w, int frontBack, int colour){
+void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, int t2, int s, int w, int frontBack, int colour, int distance){
+
+//    int r1 = distance / 4; if (r1 > 255) r1 = 255;
+//    int c1 = colours[colour][0] * r1;
+//    int r2 = distance / 4; if (r2 > 255) r2 = 255;
+//    int c2 = colours[colour][1] * r2;
+//    int r3 = distance / 4; if (r3 > 255) r3 = 255;
+//    int c3 = colours[colour][2] * r3;
+//    SDL_SetRenderDrawColor(renderer, c1, c2, c3, 255);
 
     SDL_SetRenderDrawColor(renderer, colours[colour][0], colours[colour][1], colours[colour][2], 255);
 
@@ -329,7 +337,7 @@ void sectorRender(SDL_Renderer* renderer){
                 wx[3] = wx[3] * FOV / wy[3] + (WINDOW_WIDTH / 2);
                 wy[3] = wz[3] * FOV / wy[3] + (WINDOW_HEIGHT / 2);
 
-                drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], s, w, frontBack, l.levelSectors[s].sectorWalls[w].colour);
+                drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], s, w, frontBack, l.levelSectors[s].sectorWalls[w].colour, l.levelSectors[s].sectorWalls[w].distance);
 
             }
 

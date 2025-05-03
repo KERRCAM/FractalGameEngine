@@ -13,7 +13,7 @@ Tue: damaging enemies and enemies damaging player, score for killing enemies, ga
 Wed: need to finish up, start and end screen, ui display for score and hp -> essentially find out how best to render text to screen
 Wed night crunch: sort out document and video to go with the game submission
 
-
+If there is time - can play with getting wall fading to sync up with floors and ceilings.
 
 
 
