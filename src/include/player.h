@@ -19,7 +19,8 @@ struct pPos {
 struct rotation2D pRot;
 
 int dashTime;
-int xMov, yMov;
+int vertAcc;
+bool inAir;
 
 //-----------------------------------------------------------------------------------------------//
 //FUNCTIONS

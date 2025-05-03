@@ -29,6 +29,8 @@ void playerSetup(){
     pRot.h = 0;
     pRot.v = 0;
 
+    inAir = false;
+
 }
 
 //-----------------------------------------------------------------------------------------------//
@@ -102,10 +104,22 @@ void playerUpdate(float deltaTime){
         dy *= 6;
     }
 
-    if (wDown){ xMov = dx; yMov = dy; pPos.x += xMov; pPos.y += yMov;}
-    if (sDown){ xMov = dx; yMov = dy; pPos.x -= xMov; pPos.y -= yMov;}
-    if (dDown){ xMov = dx; yMov = dy; pPos.x += yMov * 1.2; pPos.y -= xMov * 1.2;}
-    if (aDown){ xMov = dx; yMov = dy; pPos.x -= yMov * 1.2; pPos.y += xMov * 1.2;}
+    if (spaceDown && pPos.z == 40){
+        vertAcc = 6;
+        inAir = true;
+    }
+
+    if (inAir){
+        int newZ = pPos.z - (vertAcc * 30.0 * deltaTime);
+        if (newZ > 40){ pPos.z = 40; inAir = false;}
+        else (pPos.z = newZ);
+        vertAcc -= 30.0 * deltaTime;
+    }
+
+    if (wDown){ pPos.x += dx; pPos.y += dy;}
+    if (sDown){ pPos.x -= dx; pPos.y -= dy;}
+    if (dDown){ pPos.x += dy * 1.2; pPos.y -= dx * 1.2;}
+    if (aDown){ pPos.x -= dy * 1.2; pPos.y += dx * 1.2;}
 
     // Look left right keys
     if (leftDown){
