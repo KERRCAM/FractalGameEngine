@@ -24,6 +24,8 @@ int vertAcc;
 bool inAir;
 
 struct wall* nearWall;
+int sNum;
+int wNum;
 
 //-----------------------------------------------------------------------------------------------//
 //FUNCTIONS
