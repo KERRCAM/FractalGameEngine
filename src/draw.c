@@ -49,10 +49,8 @@ void sectorSetup(){
 
     for (int s = 0; s < MAX_SECTORS; s++){
         for (int w = 0; w < MAX_WALLS ; w++){
-            if (l.levelSectors[s].sectorWalls[w].init == 1){
-                allWalls[pos] = &l.levelSectors[s].sectorWalls[w];
-                pos++;
-            }
+            allWalls[pos] = &l.levelSectors[s].sectorWalls[w];
+            pos++;
         }
     }
 
@@ -417,13 +415,13 @@ void sectorRender(SDL_Renderer* renderer){
     float CS = M.cos[ph], SN = M.sin[ph];
 
     int wallsSize = (sizeof(allWalls) / sizeof(allWalls[0]));
-
+    printf("%d\n", wallsSize);
 
     // re compute wall distances here
-    for (int i = 0; i < wallsSize; i++){
-
+    for (int i = 0; i < 27; i++){
+        printf("ONE\n");
         allWalls[i] -> distance = minDistance(pPos.x, pPos.y, allWalls[i] -> x1, allWalls[i] -> y1, allWalls[i] -> x2, allWalls[i] -> y2);
-
+        printf("TWO\n");
     }
 
 
