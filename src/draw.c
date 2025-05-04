@@ -112,7 +112,7 @@ void clip(int *x1, int *y1, int *z1, int x2, int y2, int z2){
 
 //-----------------------------------------------------------------------------------------------//
 
-void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, int t2, int s, int w, int frontBack, int colour, int distance){
+void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, int t2, int colour, int distance){
 
 //    int r1 = distance / 4; if (r1 > 255) r1 = 255;
 //    int c1 = colours[colour][0] * r1;
@@ -163,8 +163,8 @@ void floors(SDL_Renderer* renderer){
     int ph = round(pRot.h);
     float scale = 0.25;
 
-    for (y = upDown; y < yo; y += 4){
-        for (x = -xo; x < xo; x += 4){
+    for (y = upDown; y < yo; y += 2){
+        for (x = -xo; x < xo; x += 2){
             float z = y + upDown; if (z == 0){ z = 0.0001;}
             float fx = x / z * scale;
             float fy = (float)FOV / z * scale;
@@ -199,8 +199,8 @@ void ceilings(SDL_Renderer* renderer){
     int ph = round(pRot.h);
     float scale = 0.25;
 
-    for (y = -yo; y < -upDown; y += 4){
-        for (x = -xo; x < xo; x += 4){
+    for (y = -yo; y < -upDown; y += 2){
+        for (x = -xo; x < xo; x += 2){
             float z = y + upDown; if (z == 0){ z = 0.0001;}
             float fx = x / z * scale;
             float fy = (float)FOV / z * scale;
@@ -309,7 +309,7 @@ void sectorRender(SDL_Renderer* renderer){
         wx[3] = wx[3] * FOV / wy[3] + (WINDOW_WIDTH / 2);
         wy[3] = wz[3] * FOV / wy[3] + (WINDOW_HEIGHT / 2);
 
-        drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], 0, 0, 0, allWalls[w] -> colour, allWalls[w] -> distance);
+        drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], allWalls[w] -> colour, allWalls[w] -> distance);
 
     }
 
