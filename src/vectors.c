@@ -114,7 +114,7 @@ float dotProduct3D(struct vector3D v1, struct vector3D v2){
 
 //-----------------------------------------------------------------------------------------------//
 
-struct vector3D crossProduct(struct vector3D v1, struct vector3D v2){
+struct vector3D crossProduct3D(struct vector3D v1, struct vector3D v2){
 
     int x = (v1.y * v2.z) - (v1.z * v2.y);
     int y = (v1.z * v2.x) - (v1.x * v2.z);
@@ -125,3 +125,17 @@ struct vector3D crossProduct(struct vector3D v1, struct vector3D v2){
 }
 
 //-----------------------------------------------------------------------------------------------//
+
+int crossProduct2D(struct vector2D v1, struct vector2D v2, struct vector2D v3){
+
+    float ccw = (v2.x - v1.x) * (v3.y - v1.y) - (v3.x - v1.x) * (v2.y - v1.y);
+
+    if (ccw > 0){
+        return 1;
+    } else if (ccw < 0){
+        return -1;
+    } else {
+        return 0;
+    }
+
+}

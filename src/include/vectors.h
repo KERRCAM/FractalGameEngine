@@ -51,6 +51,8 @@ float dotProduct2D(struct vector2D v1, struct vector2D v2);
 
 float dotProduct3D(struct vector3D v1, struct vector3D v2);
 
-struct vector3D crossProduct(struct vector3D v1, struct vector3D v2);
+int crossProduct2D(struct vector2D v1, struct vector2D v2, struct vector2D v3);
+
+struct vector3D crossProduct3D(struct vector3D v1, struct vector3D v2);
 
 //-----------------------------------------------------------------------------------------------//

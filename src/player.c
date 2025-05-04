@@ -6,6 +6,7 @@
 // LOCAL IMPORTS
 #include "include/player.h"
 #include "include/constants.h"
+#include "include/vectors.h"
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -17,6 +18,21 @@ bool mDown = false;
 bool leftDown = false;
 bool rightDown = false;
 bool spaceDown = false;
+
+//-----------------------------------------------------------------------------------------------//
+
+int detectCollision(struct vector2D pc, struct vector2D pn, struct vector2D w1, struct vector2D w2){
+
+    int c1 = crossProduct2D(pc, w1, w2);
+    int c2 = crossProduct2D(pn, w1, w2);
+
+    if ((c1 == 1 && c2 == -1) || (c1 == -1 && c2 == 1)) {
+        return 1;
+    } else {
+        return 0;
+    }
+
+}
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -96,6 +112,9 @@ void playerInput(SDL_Event event){
 
 void playerUpdate(float deltaTime){
 
+    float movX = 0;
+    float movY = 0;
+
     float dx = M.sin[(int)pRot.h] * 150.0 * deltaTime;
     float dy = M.cos[(int)pRot.h] * 150.0 * deltaTime;
 
@@ -116,10 +135,17 @@ void playerUpdate(float deltaTime){
         vertAcc -= 30.0 * deltaTime;
     }
 
-    if (wDown){ pPos.x += dx; pPos.y += dy;}
-    if (sDown){ pPos.x -= dx; pPos.y -= dy;}
-    if (dDown){ pPos.x += dy * 1.2; pPos.y -= dx * 1.2;}
-    if (aDown){ pPos.x -= dy * 1.2; pPos.y += dx * 1.2;}
+    if (wDown){ movX += dx; movY += dy;}
+    if (sDown){ movX -= dx; movY -= dy;}
+    if (dDown){ movX += dy * 1.2; movY -= dx * 1.2;}
+    if (aDown){ movX -= dy * 1.2; movY += dx * 1.2;}
+
+    float newX = pPos.x + movX;
+    float newY = pPos.y + movY;
+    if (detectCollision(newVector2D(pPos.x, pPos.y), newVector2D(newX, newY), newVector2D(nearWall.x1, nearWall.y1), newVector2D(nearWall.x2, nearWall.y2)) == 0){
+        pPos.x += movX;
+        pPos.y += movY;
+    }
 
     // Look left right keys
     if (leftDown){

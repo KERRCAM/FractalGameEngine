@@ -342,7 +342,7 @@ void sectorRender(SDL_Renderer* renderer){
             }
 
 
-        int minDistance = 10000000;
+        int minDistance = 1000000000;
         int newDistance1;
         int newDistance2;
         int cw;
@@ -366,6 +366,7 @@ void sectorRender(SDL_Renderer* renderer){
 
         l.levelSectors[s].distance = minDistance;
         l.levelSectors[s].closestWall = l.levelSectors[s].sectorWalls[cw];
+        nearWall = l.levelSectors[s].sectorWalls[cw];
         }
     }
 }

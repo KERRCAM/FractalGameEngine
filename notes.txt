@@ -20,7 +20,10 @@ If there is time - can play with getting wall fading to sync up with floors and 
 
 
 
+Collisions, maybe pass closest wall, calculate next locations for player movement if any old nad new points together would go through the wall then disallow the movement
+Work in seperated dirs tho, so if walking to wall at angle you can move along it?
 
+only issue could be corners with this method as we only consider one wall at once
 
 
 

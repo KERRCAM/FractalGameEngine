@@ -3,6 +3,7 @@
 
 // LOCAL IMPORTS
 #include "rotations.h"
+#include "../editor/include/walls.h"
 
 //-----------------------------------------------------------------------------------------------//
 //CONSTANTS
@@ -21,6 +22,8 @@ struct rotation2D pRot;
 int dashTime;
 int vertAcc;
 bool inAir;
+
+struct wall nearWall;
 
 //-----------------------------------------------------------------------------------------------//
 //FUNCTIONS
