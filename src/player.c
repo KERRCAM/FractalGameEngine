@@ -47,6 +47,7 @@ void playerSetup(){
     pRot.v = 0;
 
     inAir = false;
+    nearWall = NULL;
 
 }
 
@@ -144,7 +145,7 @@ void playerUpdate(float deltaTime){
     float newX = pPos.x + movX;
     float newY = pPos.y + movY;
 
-    if (nearWall == NULL || detectCollision(newVector2D(pPos.x, pPos.y), newVector2D(newX, newY), newVector2D(nearWall->x1, nearWall->y1), newVector2D(nearWall->x2, nearWall->y2)) == 0){
+    if (nearWall != NULL && detectCollision(newVector2D(pPos.x, pPos.y), newVector2D(newX, newY), newVector2D(nearWall->x1, nearWall->y1), newVector2D(nearWall->x2, nearWall->y2)) == 0){
         pPos.x += movX;
         pPos.y += movY;
     }

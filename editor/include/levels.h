@@ -8,7 +8,7 @@
 //CONSTANTS
 
 #define MAX_LEVELS 16
-#define MAX_SECTORS 32
+#define MAX_SECTORS 12
 
 //-----------------------------------------------------------------------------------------------//
 //STRUCTS

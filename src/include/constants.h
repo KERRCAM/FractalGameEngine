@@ -8,7 +8,7 @@
 //-----------------------------------------------------------------------------------------------//
 //CONSTANTS
 
-#define MAX_SECTORS 32
+#define MAX_SECTORS 12
 #define MAX_WALLS 12
 #define FPS 30.0
 #define FRAME_TIME 1000.0 / FPS

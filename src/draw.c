@@ -163,8 +163,8 @@ void floors(SDL_Renderer* renderer){
     int ph = round(pRot.h);
     float scale = 0.25;
 
-    for (y = upDown; y < yo; y += 2){
-        for (x = -xo; x < xo; x += 2){
+    for (y = upDown; y < yo; y += 4){
+        for (x = -xo; x < xo; x += 4){
             float z = y + upDown; if (z == 0){ z = 0.0001;}
             float fx = x / z * scale;
             float fy = (float)FOV / z * scale;
@@ -199,8 +199,8 @@ void ceilings(SDL_Renderer* renderer){
     int ph = round(pRot.h);
     float scale = 0.25;
 
-    for (y = -yo; y < -upDown; y += 2){
-        for (x = -xo; x < xo; x += 2){
+    for (y = -yo; y < -upDown; y += 4){
+        for (x = -xo; x < xo; x += 4){
             float z = y + upDown; if (z == 0){ z = 0.0001;}
             float fx = x / z * scale;
             float fy = (float)FOV / z * scale;
@@ -240,14 +240,17 @@ void sectorRender(SDL_Renderer* renderer){
 
     // re compute wall distances here
     for (int i = 0; i < wallsSize; i++){
-        allWalls[i] -> distance = minDistance(pPos.x, pPos.y, allWalls[i] -> x1, allWalls[i] -> y1, allWalls[i] -> x2, allWalls[i] -> y2);
+        if (allWalls[i] -> init == 0){
+            allWalls[i] -> distance = 999999999;
+        } else  {
+            allWalls[i] -> distance = minDistance(pPos.x, pPos.y, allWalls[i] -> x1, allWalls[i] -> y1, allWalls[i] -> x2, allWalls[i] -> y2);
+        }
+
     }
-
-
 
     for (int i = 0; i < wallsSize; i++){
         for (int j = 0; j < wallsSize - i - 1; j++){
-            if ((allWalls[j] -> init == 1 && allWalls[j + 1] -> init == 0) || (allWalls[j] -> distance < allWalls[j + 1] -> distance)){
+            if ((allWalls[j] -> distance < allWalls[j + 1] -> distance)){
                 struct wall* w = allWalls[j];
                 allWalls[j] = allWalls[j + 1];
                 allWalls[j + 1] = w;
@@ -255,6 +258,12 @@ void sectorRender(SDL_Renderer* renderer){
         }
     }
     nearWall = allWalls[wallsSize - 1];
+
+//    printf("START\n");
+//    for (int w = 0; w < wallsSize; w++){
+//        printf("x1: %d, y1: %d, x2: %d, y2: %d \n", allWalls[w]->x1, allWalls[w]->y1, allWalls[w]->x2, allWalls[w]->y2);
+//    }
+//    printf("END\n");
 
     for (int w = 0; w < wallsSize; w++){
         if (allWalls[w] -> init == 0){ continue;}
@@ -302,188 +311,6 @@ void sectorRender(SDL_Renderer* renderer){
 
         drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], 0, 0, 0, allWalls[w] -> colour, allWalls[w] -> distance);
 
-    }
-
-}
-
-//-----------------------------------------------------------------------------------------------//
-//-----------------------------------------------------------------------------------------------//
-//-----------------------------------------------------------------------------------------------//
-//-----------------------------------------------------------------------------------------------//
-//-----------------------------------------------------------------------------------------------//
-
-void sectorRenderOLD(SDL_Renderer* renderer){
-
-    int cycles;
-
-    int px = round(pPos.x);
-    int py = round(pPos.y);
-    int pz = round(pPos.z);
-    int pv = round(pRot.v);
-    int ph = round(pRot.h);
-
-    int wx[4], wy[4], wz[4];
-    float CS = M.cos[ph], SN = M.sin[ph];
-
-    for(int s = 0; s < MAX_SECTORS; s++){
-        for(int w = 0; w < MAX_SECTORS - s - 1; w++){
-
-            if (l.levelSectors[w].distance < l.levelSectors[w + 1].distance){
-                struct sector st = l.levelSectors[w];
-                l.levelSectors[w] = l.levelSectors[w + 1];
-                l.levelSectors[w + 1] = st;
-            } else if (l.levelSectors[w].distance == l.levelSectors[w + 1].distance){
-                if (l.levelSectors[w].init == 0){ continue;}
-                struct wall w1 = l.levelSectors[w].closestWall;
-                struct wall w2 = l.levelSectors[w + 1].closestWall;
-                if (w1.init == 0 || w2.init == 0){ continue;}
-                float d1 = minDistance(px, py, w1.x1, w1.y1, w1.x2, w1.y2);
-                float d2 = minDistance(px, py, w2.x1, w2.y1, w2.x2, w2.y2);
-                if (d1 < d2){
-                    struct sector st = l.levelSectors[w];
-                    l.levelSectors[w] = l.levelSectors[w + 1];
-                    l.levelSectors[w + 1] = st;
-                }
-            }
-        }
-    }
-
-
-
-    for(int i = 0; i < MAX_SECTORS; i++){
-        for (int j = 0; j < MAX_WALLS ; j++){
-            for (int k = 0; k < MAX_WALLS - i - 1; k++){
-                if (l.levelSectors[i].sectorWalls[k].distance < l.levelSectors[i].sectorWalls[k + 1].distance){
-                    struct wall w = l.levelSectors[i].sectorWalls[k];
-                    l.levelSectors[i].sectorWalls[k] = l.levelSectors[i].sectorWalls[k + 1];
-                    l.levelSectors[i].sectorWalls[k + 1] = w;
-                }
-            }
-        }
-    }
-
-
-
-    for(int s = 0; s < MAX_SECTORS; s++){
-        if (l.levelSectors[s].init == 0){
-            continue;
-        }
-
-        l.levelSectors[s].distance = 0;
-        if (pz < l.levelSectors[s].minZ) { l.levelSectors[s].surface = 1; cycles = 2; for (int x = 0; x < WINDOW_WIDTH; x++){l.levelSectors[s].surf[x] = WINDOW_HEIGHT;} printf("IF\n");}
-        else if (pz > l.levelSectors[s].maxZ) { l.levelSectors[s].surface = 2; cycles = 2; for (int x = 0; x < WINDOW_WIDTH; x++){l.levelSectors[s].surf[x] = 0;} printf("IF ELSE\n");}
-        else { l.levelSectors[s].surface = 0; cycles = 1; printf("ELSE\n");}
-
-
-
-
-
-        for (int frontBack = 0; frontBack < cycles; frontBack++){
-            for(int w = 0; w < MAX_WALLS; w++){
-                if (l.levelSectors[s].sectorWalls[w].init == 0){
-                    continue;
-                }
-
-                int x1 = l.levelSectors[s].sectorWalls[w].x1 - px;
-                int y1 = l.levelSectors[s].sectorWalls[w].y1 - py;
-                int x2 = l.levelSectors[s].sectorWalls[w].x2 - px;
-                int y2 = l.levelSectors[s].sectorWalls[w].y2 - py;
-
-                if (frontBack == 1){ int swp = x1; x1 = x2; x2 = swp; swp = y1; y1 = y2; y2 = swp;}
-
-                wx[0] = x1 * CS - y1 * SN;
-                wx[1] = x2 * CS - y2 * SN;
-                wx[2] = wx[0];
-                wx[3] = wx[1];
-
-                wy[0] = y1 * CS + x1 * SN;
-                wy[1] = y2 * CS + x2 * SN;
-                wy[2] = wy[0];
-                wy[3] = wy[1];
-
-                l.levelSectors[s].distance += euclidianDistance2D(newVector2D(0, 0),
-                    newVector2D((wx[0] + wx[1]) / 2, (wy[0] + wy[1]) / 2));
-
-                wz[0] = l.levelSectors[s].minZ - pz + (pv * wy[0]) / 32.0;
-                wz[1] = l.levelSectors[s].minZ - pz + (pv * wy[1]) / 32.0;
-                wz[2] = wz[0] + l.levelSectors[s].maxZ;
-                wz[3] = wz[1] + l.levelSectors[s].maxZ;
-
-                if (wy[0] < 1 && wy[1] < 1){ continue;}
-
-                if (wy[0] < 1){
-                    clip(&wx[0], &wy[0], &wz[0], wx[1], wy[1], wz[1]);
-                    clip(&wx[2], &wy[2], &wz[2], wx[3], wy[3], wz[3]);
-                }
-
-                if (wy[1] < 1){
-                    clip(&wx[1], &wy[1], &wz[1], wx[0], wy[0], wz[0]);
-                    clip(&wx[3], &wy[3], &wz[3], wx[2], wy[2], wz[2]);
-                }
-
-                wx[0] = wx[0] * FOV / wy[0] + (WINDOW_WIDTH / 2);
-                wy[0] = wz[0] * FOV / wy[0] + (WINDOW_HEIGHT / 2);
-                wx[1] = wx[1] * FOV / wy[1] + (WINDOW_WIDTH / 2);
-                wy[1] = wz[1] * FOV / wy[1] + (WINDOW_HEIGHT / 2);
-                wx[2] = wx[2] * FOV / wy[2] + (WINDOW_WIDTH / 2);
-                wy[2] = wz[2] * FOV / wy[2] + (WINDOW_HEIGHT / 2);
-                wx[3] = wx[3] * FOV / wy[3] + (WINDOW_WIDTH / 2);
-                wy[3] = wz[3] * FOV / wy[3] + (WINDOW_HEIGHT / 2);
-
-                drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], s, w, frontBack, l.levelSectors[s].sectorWalls[w].colour, l.levelSectors[s].sectorWalls[w].distance);
-
-            }
-
-
-        int minDistance = 1000000000;
-        int newDistance1;
-        int newDistance2;
-        int cw;
-        for (int i = 0; i < MAX_WALLS; i++){
-            if (l.levelSectors[s].sectorWalls[i].init == 0){
-                continue;
-            }
-            newDistance1 = euclidianDistance2D(newVector2D(px, py),
-                newVector2D(l.levelSectors[s].sectorWalls[i].x1,
-                            l.levelSectors[s].sectorWalls[i].y1));
-            if (newDistance1 < minDistance){ minDistance = newDistance1; cw = i;}
-
-            newDistance2 = euclidianDistance2D(newVector2D(px, py),
-                newVector2D(l.levelSectors[s].sectorWalls[i].x2,
-                            l.levelSectors[s].sectorWalls[i].y2));
-            if (newDistance2 < minDistance){ minDistance = newDistance2; cw = i;}
-
-            if (newDistance1 < newDistance2){
-                l.levelSectors[s].sectorWalls[i].distance = newDistance1;
-            } else {
-                l.levelSectors[s].sectorWalls[i].distance = newDistance2;
-            }
-        }
-
-        l.levelSectors[s].distance = minDistance;
-        l.levelSectors[s].closestWall = l.levelSectors[s].sectorWalls[cw];
-        if (minDistance < 100){
-            nearWall = &l.levelSectors[s].sectorWalls[cw];
-            sNum = s;
-            wNum = cw;
-        } else {
-            nearWall = NULL;
-        }
-
-        }
-    }
-
-    int min = -1;
-    for(int s = 0; s < MAX_SECTORS; s++){
-        for(int w = 0; w < MAX_WALLS; w++){
-            if (l.levelSectors[s].sectorWalls[w].init == 0){
-                continue;
-            }
-            if (l.levelSectors[s].sectorWalls[w].distance < min || min == -1){
-                min = l.levelSectors[s].sectorWalls[w].distance;
-                nearWall = &l.levelSectors[s].sectorWalls[w];
-            }
-        }
     }
 
 }
