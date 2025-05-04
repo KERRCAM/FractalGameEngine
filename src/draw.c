@@ -347,6 +347,9 @@ void sectorRender(SDL_Renderer* renderer){
         int newDistance2;
         int cw;
         for (int i = 0; i < MAX_WALLS; i++){
+            if (l.levelSectors[s].sectorWalls[i].x1 == -1){
+                continue;
+            }
             newDistance1 = euclidianDistance2D(newVector2D(px, py),
                 newVector2D(l.levelSectors[s].sectorWalls[i].x1,
                             l.levelSectors[s].sectorWalls[i].y1));
@@ -366,9 +369,15 @@ void sectorRender(SDL_Renderer* renderer){
 
         l.levelSectors[s].distance = minDistance;
         l.levelSectors[s].closestWall = l.levelSectors[s].sectorWalls[cw];
-        nearWall = l.levelSectors[s].sectorWalls[cw];
+        if (minDistance < 100){
+            nearWall = &l.levelSectors[s].sectorWalls[cw];
+        } else {
+            nearWall = NULL;
+        }
+
         }
     }
+
 }
 
 //-----------------------------------------------------------------------------------------------//

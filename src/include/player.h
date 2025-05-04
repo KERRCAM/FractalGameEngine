@@ -23,7 +23,7 @@ int dashTime;
 int vertAcc;
 bool inAir;
 
-struct wall nearWall;
+struct wall* nearWall;
 
 //-----------------------------------------------------------------------------------------------//
 //FUNCTIONS

@@ -94,7 +94,7 @@ void setup(){
     currentWall = currentSector.sectorWalls[0];
 
     ///*
-    for (int k = 0; k < MAX_LEVELS; k++){
+    for (int k = 0; k < 1; k++){ // needs to be replaced with MAX_LEVEL later
         for (int i = 0; i < MAX_SECTORS; i++){
             levels[k].levelSectors[i].minZ = sectors[i][0];
             levels[k].levelSectors[i].maxZ = sectors[i][1];
@@ -130,12 +130,13 @@ void drawWalls(){
 
     for (int i = 0; i < MAX_SECTORS; i++){
         for (int j = 0; j < MAX_WALLS; j++){
-            if (i == currentSectorPos && j == currentWallPos){
-                SDL_SetRenderDrawColor(renderer, 0, 25, 255, 255);
-            } else if (i == currentSectorPos){
-                SDL_SetRenderDrawColor(renderer, 10, 255, 20, 255);
+            if (i == currentSectorPos){
+                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
             } else {
                 SDL_SetRenderDrawColor(renderer, 10, 130, 30, 30);
+            }
+            if (i == currentSectorPos && j == currentWallPos){
+                SDL_SetRenderDrawColor(renderer, 0, 25, 255, 255);
             }
             struct wall w = levels[currentLevelPos].levelSectors[i].sectorWalls[j];
             drawWall(w);

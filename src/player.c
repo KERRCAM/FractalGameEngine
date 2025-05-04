@@ -25,8 +25,9 @@ int detectCollision(struct vector2D pc, struct vector2D pn, struct vector2D w1, 
 
     int c1 = crossProduct2D(pc, w1, w2);
     int c2 = crossProduct2D(pn, w1, w2);
+    int check = c1 * c2;
 
-    if ((c1 == 1 && c2 == -1) || (c1 == -1 && c2 == 1)) {
+    if (check <= 0) {
         return 1;
     } else {
         return 0;
@@ -142,7 +143,8 @@ void playerUpdate(float deltaTime){
 
     float newX = pPos.x + movX;
     float newY = pPos.y + movY;
-    if (detectCollision(newVector2D(pPos.x, pPos.y), newVector2D(newX, newY), newVector2D(nearWall.x1, nearWall.y1), newVector2D(nearWall.x2, nearWall.y2)) == 0){
+
+    if (nearWall == NULL || detectCollision(newVector2D(pPos.x, pPos.y), newVector2D(newX, newY), newVector2D(nearWall->x1, nearWall->y1), newVector2D(nearWall->x2, nearWall->y2)) == 0){
         pPos.x += movX;
         pPos.y += movY;
     }
