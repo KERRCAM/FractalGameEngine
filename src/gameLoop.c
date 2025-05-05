@@ -51,10 +51,10 @@ int initialize_window(void){
         return 0;
     }
 
-    if (TTF_Init() == -1){
-        fprintf(stderr, "Error initialising TTF\n");
-        return 0;
-    }
+//    if (TTF_Init() == -1){
+//        fprintf(stderr, "Error initialising TTF\n");
+//        return 0;
+//    }
 
     return 1;
 }
@@ -121,6 +121,7 @@ void render(){
     SDL_RenderClear(renderer);
     floors(renderer);
     ceilings(renderer);
+    drawDemons(renderer);
     sectorRender(renderer);
 
     SDL_RenderPresent(renderer);
@@ -134,7 +135,7 @@ void destroyWindow(){
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
-    TTF_Quit();
+    //TTF_Quit();
 
 }
 

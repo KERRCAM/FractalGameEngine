@@ -18,6 +18,7 @@ bool mDown = false;
 bool leftDown = false;
 bool rightDown = false;
 bool spaceDown = false;
+bool clipOn = true;
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -84,6 +85,12 @@ void playerInput(SDL_Event event){
             case SDLK_LSHIFT:
                 if (SDL_GetTicks() - dashTime > 2500){ dashTime = SDL_GetTicks();}
             break;
+            case SDLK_c:
+                clipOn = true;
+            break;
+            case SDLK_n:
+                clipOn = false;
+            break;
         }
     }
 
@@ -127,7 +134,7 @@ void playerUpdate(float deltaTime){
 
     if (spaceDown && pPos.z == 40){
         vertAcc = 6;
-        //inAir = true;
+        inAir = true;
     }
 
     if (inAir){
@@ -145,7 +152,7 @@ void playerUpdate(float deltaTime){
     float newX = pPos.x + movX;
     float newY = pPos.y + movY;
 
-    if (nearWall != NULL && detectCollision(newVector2D(pPos.x, pPos.y), newVector2D(newX, newY), newVector2D(nearWall->x1, nearWall->y1), newVector2D(nearWall->x2, nearWall->y2)) == 0){
+    if (clipOn == false ||(nearWall != NULL && detectCollision(newVector2D(pPos.x, pPos.y), newVector2D(newX, newY), newVector2D(nearWall->x1, nearWall->y1), newVector2D(nearWall->x2, nearWall->y2)) == 0)){
         pPos.x += movX;
         pPos.y += movY;
     }

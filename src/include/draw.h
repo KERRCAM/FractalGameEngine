@@ -21,6 +21,8 @@ void sectorSetup();
 
 int dist(int x1, int y1, int x2, int y2);
 
+void drawDemons(SDL_Renderer* renderer);
+
 float minDistance(int px, int py, int x1, int y1, int x2, int y2);
 
 void clip(int *x1, int *y1, int *z1, int x2, int y2, int z2);

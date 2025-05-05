@@ -8,9 +8,11 @@
 #include "include/draw.h"
 #include "include/vectors.h"
 #include "include/player.h"
-#include "../levels/level1.h"
+#include "../levels/level2.h"
 #include "../editor/include/levels.h"
 #include "include/colours.h"
+#include "include/demon.h"
+#include "include/globals.h"
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -19,6 +21,9 @@ struct level l;
 //-----------------------------------------------------------------------------------------------//
 
 void sectorSetup(){
+
+    struct demon test = newDemon(400, 400, 80, 50, 50, 9, 1);
+    demons[0] = test;
 
     struct level l1 = newLevel(0, 0, 0, 1);
     l = l1;
@@ -53,6 +58,71 @@ void sectorSetup(){
             pos++;
         }
     }
+
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+void drawDemons(SDL_Renderer* renderer){
+
+    int px = round(pPos.x);
+    int py = round(pPos.y);
+    int pz = round(pPos.z);
+    int pv = round(pRot.v);
+    int ph = round(pRot.h);
+
+    int wx[4], wy[4], wz[4];
+    float CS = M.cos[ph], SN = M.sin[ph];
+
+    struct demon current = demons[0];
+
+    int offX = current.width / 2;
+    int offY = current.height / 2;
+
+    int x1 = current.x - offX - px * 50;
+    int y1 = current.y + offX - py * 50;
+    int x2 = current.x - offY - px * 50;
+    int y2 = current.y + offY - py * 50;
+
+    wx[0] = x1 * CS - y1 * SN;
+    wx[1] = x2 * CS - y2 * SN;
+    wx[2] = wx[0];
+    wx[3] = wx[1];
+
+    wy[0] = y1 * CS + x1 * SN;
+    wy[1] = y2 * CS + x2 * SN;
+    wy[2] = wy[0];
+    wy[3] = wy[1];
+
+    wz[0] = 0 - pz + (pv * wy[0]) / 32.0;
+    wz[1] = 0 - pz + (pv * wy[1]) / 32.0;
+    wz[2] = wz[0] + 80;
+    wz[3] = wz[1] + 80;
+
+    if (wy[0] < 1 && wy[1] < 1){ return;}
+
+    if (wy[0] < 1){
+        clip(&wx[0], &wy[0], &wz[0], wx[1], wy[1], wz[1]);
+        clip(&wx[2], &wy[2], &wz[2], wx[3], wy[3], wz[3]);
+    }
+
+    if (wy[1] < 1){
+        clip(&wx[1], &wy[1], &wz[1], wx[0], wy[0], wz[0]);
+        clip(&wx[3], &wy[3], &wz[3], wx[2], wy[2], wz[2]);
+    }
+
+    wx[0] = wx[0] * FOV / wy[0] + (WINDOW_WIDTH / 2);
+    wy[0] = wz[0] * FOV / wy[0] + (WINDOW_HEIGHT / 2);
+    wx[1] = wx[1] * FOV / wy[1] + (WINDOW_WIDTH / 2);
+    wy[1] = wz[1] * FOV / wy[1] + (WINDOW_HEIGHT / 2);
+    wx[2] = wx[2] * FOV / wy[2] + (WINDOW_WIDTH / 2);
+    wy[2] = wz[2] * FOV / wy[2] + (WINDOW_HEIGHT / 2);
+    wx[3] = wx[3] * FOV / wy[3] + (WINDOW_WIDTH / 2);
+    wy[3] = wz[3] * FOV / wy[3] + (WINDOW_HEIGHT / 2);
+
+    printf("%d, %d, %d, %d, %d, %d\n", wx[0], wx[1], wy[0], wy[1], wy[2], wy[3]);
+
+    drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], current.colour, 0);
 
 }
 
@@ -155,6 +225,7 @@ void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, i
 //-----------------------------------------------------------------------------------------------//
 
 void floors(SDL_Renderer* renderer){
+
     int x;
     int y;
     int xo = WINDOW_WIDTH / 2;
@@ -177,7 +248,6 @@ void floors(SDL_Renderer* renderer){
                 SDL_SetRenderDrawColor(renderer, 0, 130, 0, 255);
                 SDL_RenderDrawPoint(renderer, x + xo, y + yo);
             } else{
-
                 //int c = 255 * (255 - (y / (float)yo));
                 int c = 120;
                 SDL_SetRenderDrawColor(renderer, c, 120, 60, 255);
@@ -191,6 +261,7 @@ void floors(SDL_Renderer* renderer){
 //-----------------------------------------------------------------------------------------------//
 
 void ceilings(SDL_Renderer* renderer){
+
     int x;
     int y;
     int xo = WINDOW_WIDTH / 2;
