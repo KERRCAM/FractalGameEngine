@@ -8,7 +8,7 @@
 #include "include/draw.h"
 #include "include/vectors.h"
 #include "include/player.h"
-#include "../levels/level2.h"
+#include "../levels/level1.h"
 #include "../editor/include/levels.h"
 #include "include/colours.h"
 #include "include/demon.h"
@@ -76,13 +76,18 @@ void drawDemons(SDL_Renderer* renderer){
 
     struct demon current = demons[0];
 
-    int offX = current.width / 2;
-    int offY = current.height / 2;
+    int angle = ph + 90; if (angle > 359){ angle -= 360;}
 
-    int x1 = current.x - offX - px * 50;
-    int y1 = current.y + offX - py * 50;
-    int x2 = current.x - offY - px * 50;
-    int y2 = current.y + offY - py * 50;
+    float xComp = M.sin[(ph + 90) % 360];
+    float yComp = M.cos[(ph + 90) % 360];
+
+    int offX = (current.width * xComp) / 2;
+    int offY = (current.height * yComp) / 2;
+
+    int x1 = current.x - offX - px;
+    int y1 = current.y - offY - py;
+    int x2 = current.x + offX - px;
+    int y2 = current.y + offY - py;
 
     wx[0] = x1 * CS - y1 * SN;
     wx[1] = x2 * CS - y2 * SN;
@@ -119,8 +124,6 @@ void drawDemons(SDL_Renderer* renderer){
     wy[2] = wz[2] * FOV / wy[2] + (WINDOW_HEIGHT / 2);
     wx[3] = wx[3] * FOV / wy[3] + (WINDOW_WIDTH / 2);
     wy[3] = wz[3] * FOV / wy[3] + (WINDOW_HEIGHT / 2);
-
-    printf("%d, %d, %d, %d, %d, %d\n", wx[0], wx[1], wy[0], wy[1], wy[2], wy[3]);
 
     drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], current.colour, 0);
 

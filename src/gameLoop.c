@@ -121,8 +121,8 @@ void render(){
     SDL_RenderClear(renderer);
     floors(renderer);
     ceilings(renderer);
-    drawDemons(renderer);
     sectorRender(renderer);
+    drawDemons(renderer);
 
     SDL_RenderPresent(renderer);
 

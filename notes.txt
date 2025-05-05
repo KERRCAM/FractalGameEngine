@@ -6,8 +6,6 @@
 TODO PLAN:
 put look controls on mouse movement
 
-Sat: sort out player controller, dash, jump etc -> mouse controls too maybe for looking? ---------------------------- CHECK ----------------------------
-Sun: Collision detection ---------------------------- CHECK ish ----------------------------
 Mon: Enemy rendering and pathfinding to the player if possible -> just need to write A* in c and work with our walls
 Tue: damaging enemies and enemies damaging player, score for killing enemies, game end on death etc
 Wed: need to finish up, start and end screen, ui display for score and hp -> essentially find out how best to render text to screen
