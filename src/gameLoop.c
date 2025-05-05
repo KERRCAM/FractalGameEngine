@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include <math.h>
+#include <SDL2_ttf/SDL_ttf.h>
 
 // LOCAL IMPORTS
 #include "include/constants.h"
@@ -47,6 +48,11 @@ int initialize_window(void){
     renderer = SDL_CreateRenderer(window, -1, 0);
     if (!renderer){
         fprintf(stderr, "Error creating SDL renderer\n");
+        return 0;
+    }
+
+    if (TTF_Init() == -1){
+        fprintf(stderr, "Error initialising TTF\n");
         return 0;
     }
 
@@ -116,6 +122,7 @@ void render(){
     floors(renderer);
     ceilings(renderer);
     sectorRender(renderer);
+
     SDL_RenderPresent(renderer);
 
 }
@@ -127,6 +134,7 @@ void destroyWindow(){
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
+    TTF_Quit();
 
 }
 

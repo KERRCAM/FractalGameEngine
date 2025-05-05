@@ -7,7 +7,7 @@ EDITOR_FILES = $(wildcard $(EDITOR_DIR)/*.c)
 OBJ_NAME = game
 EDIT_NAME = editor
 INCLUDE_PATHS = -Iinclude
-LIBRARY_PATHS = -L/opt/homebrew/Cellar/sdl2/2.30.12/lib/ -L/opt/homebrew/Cellar/sdl2_image/2.8.4/lib/
+LIBRARY_PATHS = -L/opt/homebrew/Cellar/sdl2/2.30.12/lib/ -L/opt/homebrew/Cellar/sdl2_image/2.8.4/lib/ -L/opt/homebrew/Cellar/sdl2_ttf/2.24.0/lib/
 COMPILER_FLAGS = -Wall -std=c99
 LINKER_FLAGS = -lsdl2
 
