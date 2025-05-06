@@ -8,7 +8,7 @@
 #include "include/draw.h"
 #include "include/vectors.h"
 #include "include/player.h"
-#include "../levels/level1.h"
+#include "../levels/level2.h"
 #include "../editor/include/levels.h"
 #include "include/colours.h"
 #include "include/demon.h"
@@ -111,8 +111,8 @@ void drawEntity(SDL_Renderer* renderer, int width, int height, int x, int y, int
 
     wz[0] = 0 - pz + (pv * wy[0]) / 32.0;
     wz[1] = 0 - pz + (pv * wy[1]) / 32.0;
-    wz[2] = wz[0] + 80;
-    wz[3] = wz[1] + 80;
+    wz[2] = wz[0] + height;
+    wz[3] = wz[1] + height;
 
     if (wy[0] < 1 && wy[1] < 1){ return;}
 
@@ -135,6 +135,7 @@ void drawEntity(SDL_Renderer* renderer, int width, int height, int x, int y, int
     wx[3] = wx[3] * FOV / wy[3] + (WINDOW_WIDTH / 2);
     wy[3] = wz[3] * FOV / wy[3] + (WINDOW_HEIGHT / 2);
 
+    //printf("%d, %d, %d, %d, %d, %d\n", wx[0], wx[1], wy[0], wy[1], wy[2], wy[3]);
     drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], colour, 0);
 
 }

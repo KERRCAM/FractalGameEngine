@@ -18,9 +18,9 @@ struct bullet newBullet(int x, int y, int rot, int type, int init){
     b.height = 20;
 
     if (type == 1){
-        b.colour = 4;
+        b.colour = 1;
     } else {
-        b.colour = 7;
+        b.colour = 0;
     }
 
     b.scale = 5;

@@ -93,11 +93,11 @@ void playerInput(SDL_Event event){
             case SDLK_c:
                 clipOn = true;
             break;
-            case SDLK_n:
+            case SDLK_DOWN:
                 clipOn = false;
             break;
-            case SDLK_e:
-                if (SDL_GetTicks() - lastBullet > 500){ canShoot = true;}
+            case SDLK_UP:
+                if (SDL_GetTicks() - lastBullet > 1000){ canShoot = true;}
             break;
         }
     }
