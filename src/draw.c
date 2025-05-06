@@ -440,20 +440,19 @@ void renderWorld(SDL_Renderer* renderer){
 
     int w = 0;
     int d = 0;
-    int b = 0;
 
-    for (int p = 0; p < wallsSize + MAX_DEMONS + MAX_BULLETS; p++){
-        if ((w != wallsSize && allWalls[w] -> distance > demons[d].distance) || (d == MAX_DEMONS && b == MAX_BULLETS)){ //  && allWalls[w] -> distance > bullets[b].distance
+    for (int p = 0; p < wallsSize + MAX_DEMONS; p++){
+        if ((w != wallsSize && allWalls[w] -> distance > demons[d].distance) || d == MAX_DEMONS){ //  && allWalls[w] -> distance > bullets[b].distance
             wallSetup(renderer, w);
             w++;
-        } else if ((d != MAX_DEMONS && demons[d].distance > bullets[b].distance) || b == MAX_BULLETS){
+        } else if (d != MAX_DEMONS){
             drawEntity(renderer, demons[d].width, demons[d].height, demons[d].x, demons[d].y, demons[d].colour, demons[d].init);
             d++;
-        } else if (b != MAX_BULLETS){
-            drawEntity(renderer, bullets[b].width, bullets[b].height, bullets[b].x, bullets[b].y, bullets[b].colour, bullets[b].init);
-            b++;
         }
+    }
 
+    for (int b = 0; b < MAX_BULLETS; b++){
+        drawEntity(renderer, bullets[b].width, bullets[b].height, bullets[b].x, bullets[b].y, bullets[b].colour, bullets[b].init);
     }
 
 }
