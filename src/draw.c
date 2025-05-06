@@ -13,6 +13,7 @@
 #include "include/colours.h"
 #include "include/demon.h"
 #include "include/globals.h"
+#include "include/T_NUMBERS.h"
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -20,7 +21,7 @@ struct level l;
 
 //-----------------------------------------------------------------------------------------------//
 
-void sectorSetup(){
+void drawSetup(){
 
     for (int d = 0; d < MAX_DEMONS; d++){
         demons[d] = newDemon(-1, -1, -1, -1, 0);
@@ -64,6 +65,35 @@ void sectorSetup(){
         for (int w = 0; w < MAX_WALLS ; w++){
             allWalls[pos] = &l.levelSectors[s].sectorWalls[w];
             pos++;
+        }
+    }
+
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+void drawNumber(SDL_Renderer* renderer, int nx, int ny, int n){
+
+    int x,y;
+    int characterSize = 15;
+
+    for(y = 4; y >= 0; y--){
+        int y2 = ((5 - y - 1) + 5 * n) * 3 * 12;
+
+        for(x = 0; x < 12; x++){
+            int x2 = x * 3;
+            if(CHARACTERS[y2 + x2] == 0){ continue;}
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
+            int iters = 0;
+            int dx = nx + (characterSize * x);
+            int dy = ny + (characterSize * y);
+            for (int a = 0; a < characterSize; a++){
+                SDL_RenderDrawLine(renderer, x + dx + a, y + dy, x + dx + a, y + dy + characterSize);
+            }
+
+            //SDL_RenderDrawPoint(renderer, x + nx, y + ny);
+
         }
     }
 

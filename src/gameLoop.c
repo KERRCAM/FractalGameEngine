@@ -94,7 +94,7 @@ void setup(){
     gameStartTime = SDL_GetTicks();
 
     playerSetup();
-    sectorSetup();
+    drawSetup();
 
 }
 
@@ -125,6 +125,7 @@ void render(){
     floors(renderer);
     ceilings(renderer);
     renderWorld(renderer);
+    drawNumber(renderer, 20, 20, 3);
     SDL_RenderPresent(renderer);
 
 }

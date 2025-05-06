@@ -19,7 +19,9 @@ struct wall* allWalls[MAX_SECTORS * MAX_WALLS];
 //-----------------------------------------------------------------------------------------------//
 // FUNCTIONS
 
-void sectorSetup();
+void drawSetup();
+
+void drawNumber(SDL_Renderer* renderer, int nx, int ny, int n);
 
 int dist(int x1, int y1, int x2, int y2);
 
