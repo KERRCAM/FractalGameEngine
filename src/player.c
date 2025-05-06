@@ -19,7 +19,6 @@ bool mDown = false;
 bool leftDown = false;
 bool rightDown = false;
 bool spaceDown = false;
-bool clipOn = true;
 bool canShoot = false;
 
 //-----------------------------------------------------------------------------------------------//
@@ -28,9 +27,11 @@ int detectCollision(struct vector2D pc, struct vector2D pn, struct vector2D w1, 
 
     int c1 = crossProduct2D(pc, w1, w2);
     int c2 = crossProduct2D(pn, w1, w2);
-    int check = c1 * c2;
 
-    if (check <= 0) {
+    if (c1 != c2
+        && (euclidianDistance2D(pn,w1) < euclidianDistance2D(w1,w2))
+        && (euclidianDistance2D(pn,w2) < euclidianDistance2D(w1,w2))
+        ){
         return 1;
     } else {
         return 0;
@@ -89,12 +90,6 @@ void playerInput(SDL_Event event){
             break;
             case SDLK_LSHIFT:
                 if (SDL_GetTicks() - dashTime > 2500){ dashTime = SDL_GetTicks();}
-            break;
-            case SDLK_c:
-                clipOn = true;
-            break;
-            case SDLK_DOWN:
-                clipOn = false;
             break;
             case SDLK_UP:
                 if (SDL_GetTicks() - lastBullet > 1000){ canShoot = true;}
@@ -171,7 +166,7 @@ int playerUpdate(float deltaTime){
     float newX = pPos.x + movX;
     float newY = pPos.y + movY;
 
-    if (clipOn == false || (nearWall != NULL && detectCollision(newVector2D(pPos.x, pPos.y), newVector2D(newX, newY), newVector2D(nearWall->x1, nearWall->y1), newVector2D(nearWall->x2, nearWall->y2)) == 0)){
+    if (nearWall != NULL && detectCollision(newVector2D(pPos.x, pPos.y), newVector2D(newX, newY), newVector2D(nearWall->x1, nearWall->y1), newVector2D(nearWall->x2, nearWall->y2)) == 0){
         pPos.x += movX;
         pPos.y += movY;
     }

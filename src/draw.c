@@ -8,7 +8,7 @@
 #include "include/draw.h"
 #include "include/vectors.h"
 #include "include/player.h"
-#include "../levels/level2.h"
+#include "../levels/level3.h"
 #include "../editor/include/levels.h"
 #include "include/colours.h"
 #include "include/demon.h"
