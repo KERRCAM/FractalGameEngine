@@ -369,6 +369,25 @@ void wallSetup(SDL_Renderer* renderer, int w){
 
 //-----------------------------------------------------------------------------------------------//
 
+int checkBulletProximity(struct demon* d){
+
+    for (int b = 0; b < MAX_BULLETS; b++){
+
+        if (bullets[b].init == 0){ continue;}
+
+        if (euclidianDistance2D(newVector2D(bullets[b].x, bullets[b].x), newVector2D(d -> x, d -> y))  < d -> width / 2){
+            bullets[b] = newBullet(-1, -1, -1, -1, 0);
+            return 1;
+        }
+
+    }
+
+    return 0;
+
+}
+
+//-----------------------------------------------------------------------------------------------//
+
 void renderWorld(SDL_Renderer* renderer){
 
     int px = round(pPos.x);
@@ -399,8 +418,16 @@ void renderWorld(SDL_Renderer* renderer){
     for (int i = 0; i < MAX_DEMONS; i++){
         if (demons[i].init == 0){
             demons[i].distance = 999999999;
-        } else  {
-                demons[i].distance = euclidianDistance2D(newVector2D(px, py), newVector2D(demons[i].x, demons[i].y));
+        } else {
+            if (checkBulletProximity(&demons[i])){
+                demons[i].hp -= 10;
+                if (demons[i].hp <= 0){
+                    score += demons[i].bounty;
+                    demons[i] = newDemon(-1, -1, -1, -1, 0);
+                    demons[i].distance = 999999999;
+                }
+            }
+            demons[i].distance = euclidianDistance2D(newVector2D(px, py), newVector2D(demons[i].x, demons[i].y));
         }
     }
 

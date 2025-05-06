@@ -4,24 +4,22 @@
 
 
 TODO PLAN:
-put look controls on mouse movement
-
 Tue:
+
+for now just console print for hit marker
 
 if they are x dist from pl then path to them
 limit pathing to x iters to stop overcomp and also stop at x iters from player for certain enemy types
 melee player and enemy just make it so if in proximity and attack then does damage
-shooting -> if player is looking at enemy withing x dist and shoots then dmg
 enemy shooting -> probs not possible -> maybe show small squares moving out for x seconds then kill them -> same render as enemies (kinda doable actually)
 if enemy dies, add score to player
 let enemies spawn periodically at set points -> reduces spawn timer as the game goes on -> every minute maybe (2pm then 4pm then 6pm then 10pm then 14pm then 20pm (probably wont make it anything like that far?))
-player dies, end game, show final score, let them play again
 heal slowly if no damage taken in x seconds
-if player and bullet in x proximity, kill bullet, damage player -> can use same bullets for player too actually rather than hitscan
 
 
 Wed:
 POLISH - do some comments probably - for my own sake too.
+make crosshair and actual hit marker?
 need to finish up, start and end screen, ui display for score and hp -> essentially find out how best to render text to screen
 think might need to try and add more prominent physics thing, go back to friction with movement maybe
 sort out document and video to go with the game submission

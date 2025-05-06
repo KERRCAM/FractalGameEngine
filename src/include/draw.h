@@ -37,6 +37,8 @@ void drawWall(SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, in
 
 void wallSetup(SDL_Renderer* renderer, int w);
 
+int checkBulletProximity(struct demon* d);
+
 void renderWorld(SDL_Renderer* renderer);
 
 //-----------------------------------------------------------------------------------------------//
