@@ -26,6 +26,10 @@ void sectorSetup(){
         demons[d] = newDemon(-1, -1, -1, -1, 0);
     }
 
+    for (int b = 0; b < MAX_BULLETS; b++){
+        bullets[b] = newBullet(-1, -1, -1, -1, 0);
+    }
+
     struct demon test = newDemon(400, 400, 80, 1, 1);
     demons[0] = test;
 
@@ -67,9 +71,9 @@ void sectorSetup(){
 
 //-----------------------------------------------------------------------------------------------//
 
-void drawDemon(SDL_Renderer* renderer, struct demon* current){
+void drawEntity(SDL_Renderer* renderer, int width, int height, int x, int y, int colour, int init){
 
-    if (current -> init == 0){
+    if (init == 0){
         return;
     }
 
@@ -87,13 +91,13 @@ void drawDemon(SDL_Renderer* renderer, struct demon* current){
     float xComp = M.sin[(ph + 90) % 360];
     float yComp = M.cos[(ph + 90) % 360];
 
-    int offX = (current -> width * xComp) / 2;
-    int offY = (current -> height * yComp) / 2;
+    int offX = (width * xComp) / 2;
+    int offY = (height * yComp) / 2;
 
-    int x1 = current -> x - offX - px;
-    int y1 = current -> y - offY - py;
-    int x2 = current -> x + offX - px;
-    int y2 = current -> y + offY - py;
+    int x1 = x - offX - px;
+    int y1 = y - offY - py;
+    int x2 = x + offX - px;
+    int y2 = y + offY - py;
 
     wx[0] = x1 * CS - y1 * SN;
     wx[1] = x2 * CS - y2 * SN;
@@ -131,7 +135,7 @@ void drawDemon(SDL_Renderer* renderer, struct demon* current){
     wx[3] = wx[3] * FOV / wy[3] + (WINDOW_WIDTH / 2);
     wy[3] = wz[3] * FOV / wy[3] + (WINDOW_HEIGHT / 2);
 
-    drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], current -> colour, 0);
+    drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], colour, 0);
 
 }
 
@@ -392,9 +396,6 @@ void renderWorld(SDL_Renderer* renderer){
     }
     nearWall = allWalls[wallsSize - 1];
 
-    struct demon current = demons[0];
-    drawDemon(renderer, &current);
-
     for (int i = 0; i < MAX_DEMONS; i++){
         if (demons[i].init == 0){
             demons[i].distance = 999999999;
@@ -413,20 +414,46 @@ void renderWorld(SDL_Renderer* renderer){
         }
     }
 
+    for (int i = 0; i < MAX_BULLETS; i++){
+        if (bullets[i].init == 0){
+            bullets[i].distance = 999999999;
+        } else if (SDL_GetTicks() - bullets[i].spawnTime > 3000){
+            bullets[i] = newBullet(-1, -1, -1, -1, 0);
+            bullets[i].distance = 999999999;
+        } else  {
+            bullets[i].x += bullets[i].xSpeed;
+            bullets[i].y += bullets[i].ySpeed;
 
+            bullets[i].distance = euclidianDistance2D(newVector2D(px, py), newVector2D(bullets[i].x, bullets[i].y));
+        }
+    }
 
+    for (int i = 0; i < MAX_BULLETS; i++){
+        for (int j = 0; j < MAX_BULLETS - i - 1; j++){
+            if ((bullets[j].distance < bullets[j + 1].distance)){
+                struct bullet b = bullets[j];
+                bullets[j] = bullets[j + 1];
+                bullets[j + 1] = b;
+            }
+        }
+    }
 
     int w = 0;
     int d = 0;
+    int b = 0;
 
-    for (int p = 0; p < wallsSize + MAX_DEMONS; p++){
-        if ((w != wallsSize && allWalls[w] -> distance > demons[d].distance) || d == MAX_DEMONS){
+    for (int p = 0; p < wallsSize + MAX_DEMONS + MAX_BULLETS; p++){
+        if ((w != wallsSize && allWalls[w] -> distance > demons[d].distance) || (d == MAX_DEMONS && b == MAX_BULLETS)){ //  && allWalls[w] -> distance > bullets[b].distance
             wallSetup(renderer, w);
-            if (w != wallsSize){ w++;}
-        } else if (d != MAX_DEMONS){
-            drawDemon(renderer, &demons[d]);
-            if (d != MAX_DEMONS){ d++;}
+            w++;
+        } else if ((d != MAX_DEMONS && demons[d].distance > bullets[b].distance) || b == MAX_BULLETS){
+            drawEntity(renderer, demons[d].width, demons[d].height, demons[d].x, demons[d].y, demons[d].colour, demons[d].init);
+            d++;
+        } else if (b != MAX_BULLETS){
+            drawEntity(renderer, bullets[b].width, bullets[b].height, bullets[b].x, bullets[b].y, bullets[b].colour, bullets[b].init);
+            b++;
         }
+
     }
 
 }

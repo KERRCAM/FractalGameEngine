@@ -20,6 +20,7 @@ bool leftDown = false;
 bool rightDown = false;
 bool spaceDown = false;
 bool clipOn = true;
+bool canShoot = false;
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -95,7 +96,7 @@ void playerInput(SDL_Event event){
                 clipOn = false;
             break;
             case SDLK_e:
-                if (SDL_GetTicks() - shootTime > 500){ shootTime = SDL_GetTicks();}
+                if (SDL_GetTicks() - lastBullet > 500){ canShoot = true;}
             break;
         }
     }
@@ -138,8 +139,11 @@ void playerUpdate(float deltaTime){
         dy *= 6;
     }
 
-    if (SDL_GetTicks() - shootTime < 500){
-        // shoot some shit
+    if (canShoot){
+        if (bullets[0].init == 0){
+            bullets[0] = newBullet(pPos.x, pPos.y, pRot.h, 1, 1);
+        }
+        canShoot = false;
     }
 
     if (spaceDown && pPos.z == 40){

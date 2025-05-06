@@ -7,7 +7,7 @@
 
 //-----------------------------------------------------------------------------------------------//
 
-struct bullet newBullet(int x, int y, int rot, int init){
+struct bullet newBullet(int x, int y, int rot, int type, int init){
 
     struct bullet b;
 
@@ -16,11 +16,17 @@ struct bullet newBullet(int x, int y, int rot, int init){
     b.z = 40;
     b.width = 20;
     b.height = 20;
-    b.colour = 7;
+
+    if (type == 1){
+        b.colour = 4;
+    } else {
+        b.colour = 7;
+    }
+
     b.distance = 0;
     b.spawnTime = SDL_GetTicks();
-    b.xSpeed = 20 * M.sin[rot];
-    b.ySpeed = 20 * M.cos[rot];
+    b.xSpeed = 10 * M.sin[rot];
+    b.ySpeed = 10 * M.cos[rot];
     b.init = init;
 
     return b;

@@ -33,6 +33,6 @@ struct bullet{
 //-----------------------------------------------------------------------------------------------//
 // FUNCTIONS
 
-struct bullet newBullet(int x, int y, int rot, int init);
+struct bullet newBullet(int x, int y, int rot, int type, int init);
 
 //-----------------------------------------------------------------------------------------------//

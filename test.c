@@ -2,9 +2,6 @@
 #include <math.h>
 
 
-
-
-
 int main(){
 
     FILE *fptr;

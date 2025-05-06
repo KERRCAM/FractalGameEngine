@@ -22,7 +22,7 @@ void sectorSetup();
 
 int dist(int x1, int y1, int x2, int y2);
 
-void drawDemon(SDL_Renderer* renderer, struct demon* current);
+void drawEntity(SDL_Renderer* renderer, int width, int height, int x, int y, int colour, int init);
 
 float minDistance(int px, int py, int x1, int y1, int x2, int y2);
 

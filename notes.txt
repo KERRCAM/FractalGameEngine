@@ -21,7 +21,7 @@ if player and bullet in x proximity, kill bullet, damage player -> can use same 
 
 
 Wed:
-POLISH
+POLISH - do some comments probably - for my own sake too.
 need to finish up, start and end screen, ui display for score and hp -> essentially find out how best to render text to screen
 think might need to try and add more prominent physics thing, go back to friction with movement maybe
 sort out document and video to go with the game submission

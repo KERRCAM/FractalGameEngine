@@ -22,7 +22,7 @@ struct rotation2D pRot;
 int dashTime;
 int vertAcc;
 bool inAir;
-int shootTime;
+int lastBullet;
 
 struct wall* nearWall;
 
