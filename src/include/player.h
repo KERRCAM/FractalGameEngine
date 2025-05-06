@@ -22,8 +22,11 @@ struct rotation2D pRot;
 int dashTime;
 int vertAcc;
 bool inAir;
+int shootTime;
 
 struct wall* nearWall;
+
+int pHP;
 
 //-----------------------------------------------------------------------------------------------//
 //FUNCTIONS

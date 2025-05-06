@@ -9,6 +9,7 @@
 #include "include/player.h"
 #include "include/vectors.h"
 #include "include/draw.h"
+#include "include/globals.h"
 
 //-----------------------------------------------------------------------------------------------//
 // INITIALISATIONS
@@ -104,7 +105,7 @@ void update(){
     if (waitTime > 0 && waitTime < FRAME_TIME){ SDL_Delay(waitTime); }
     */
 
-    float deltaTime = (SDL_GetTicks() - lastFrame) / 1000.0f;
+    deltaTime = (SDL_GetTicks() - lastFrame) / 1000.0f;
 
     lastFrame = SDL_GetTicks();
 

@@ -21,6 +21,7 @@ struct demon{
     int width;
     int height;
     int colour;
+    int hp;
     int type;
     int distance;
     int init;
@@ -30,6 +31,6 @@ struct demon{
 //-----------------------------------------------------------------------------------------------//
 // FUNCTIONS
 
-struct demon newDemon(int x, int y, int z, int width, int height, int colour, int type, int init);
+struct demon newDemon(int x, int y, int z, int type, int init);
 
 //-----------------------------------------------------------------------------------------------//

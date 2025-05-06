@@ -7,6 +7,7 @@
 #include "include/player.h"
 #include "include/constants.h"
 #include "include/vectors.h"
+#include "include/globals.h"
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -50,6 +51,8 @@ void playerSetup(){
     inAir = false;
     nearWall = NULL;
 
+    pHP = 200;
+
 }
 
 //-----------------------------------------------------------------------------------------------//
@@ -91,6 +94,9 @@ void playerInput(SDL_Event event){
             case SDLK_n:
                 clipOn = false;
             break;
+            case SDLK_e:
+                if (SDL_GetTicks() - shootTime > 500){ shootTime = SDL_GetTicks();}
+            break;
         }
     }
 
@@ -130,6 +136,10 @@ void playerUpdate(float deltaTime){
     if (SDL_GetTicks() - dashTime < 200){
         dx *= 6;
         dy *= 6;
+    }
+
+    if (SDL_GetTicks() - shootTime < 500){
+        // shoot some shit
     }
 
     if (spaceDown && pPos.z == 40){

@@ -23,10 +23,10 @@ struct level l;
 void sectorSetup(){
 
     for (int d = 0; d < MAX_DEMONS; d++){
-        demons[d] = newDemon(-1, -1, -1, -1, -1, -1, -1, 0);
+        demons[d] = newDemon(-1, -1, -1, -1, 0);
     }
 
-    struct demon test = newDemon(400, 400, 80, 50, 50, 9, 1, 1);
+    struct demon test = newDemon(400, 400, 80, 1, 1);
     demons[0] = test;
 
     struct level l1 = newLevel(0, 0, 0, 1);
@@ -412,6 +412,9 @@ void renderWorld(SDL_Renderer* renderer){
             }
         }
     }
+
+
+
 
     int w = 0;
     int d = 0;
