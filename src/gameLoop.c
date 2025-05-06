@@ -125,6 +125,8 @@ void render(){
     floors(renderer);
     ceilings(renderer);
     renderWorld(renderer);
+    renderScore(renderer);
+    renderHP(renderer);
     drawNumber(renderer, 20, 20, 3);
     SDL_RenderPresent(renderer);
 

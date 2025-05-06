@@ -1,6 +1,5 @@
 // Contains texture maps for number characters
-// file taken from 3D sage doom series https://github.com/3DSage/OpenGL-Doom_tutorial_part_2/blob/main/textures/T_NUMBERS.h
-
+// file adapted from 3D sage doom series https://github.com/3DSage/OpenGL-Doom_tutorial_part_2/blob/main/textures/T_NUMBERS.h
 
 #define T_NUMBERS_HEIGHT 755
 #define T_NUMBERS_WIDTH 12

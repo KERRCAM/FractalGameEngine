@@ -13,7 +13,7 @@
 #include "include/colours.h"
 #include "include/demon.h"
 #include "include/globals.h"
-#include "include/T_NUMBERS.h"
+#include "include/characters.h"
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -72,7 +72,7 @@ void drawSetup(){
 
 //-----------------------------------------------------------------------------------------------//
 
-void drawNumber(SDL_Renderer* renderer, int nx, int ny, int n){
+void drawNumber(SDL_Renderer* renderer, int xPos, int yPos, int n){
 
     int x,y;
     int characterSize = 15;
@@ -86,16 +86,30 @@ void drawNumber(SDL_Renderer* renderer, int nx, int ny, int n){
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
             int iters = 0;
-            int dx = nx + (characterSize * x);
-            int dy = ny + (characterSize * y);
-            for (int a = 0; a < characterSize; a++){
-                SDL_RenderDrawLine(renderer, x + dx + a, y + dy, x + dx + a, y + dy + characterSize);
+            int currX = xPos + (characterSize * x);
+            int currY = yPos + (characterSize * y);
+            for (int p = 0; p < characterSize; p++){
+                SDL_RenderDrawLine(renderer, x + currX + p, y + currY, x + currX + p, y + currY + characterSize);
             }
-
-            //SDL_RenderDrawPoint(renderer, x + nx, y + ny);
 
         }
     }
+
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+void renderScore(SDL_Renderer* renderer){
+
+
+
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+void renderHP(SDL_Renderer* renderer){
+
+
 
 }
 

@@ -23,6 +23,10 @@ void drawSetup();
 
 void drawNumber(SDL_Renderer* renderer, int nx, int ny, int n);
 
+void renderScore(SDL_Renderer* renderer);
+
+void renderHP(SDL_Renderer* renderer);
+
 int dist(int x1, int y1, int x2, int y2);
 
 void drawEntity(SDL_Renderer* renderer, int width, int height, int x, int y, int colour, int init);
