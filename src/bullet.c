@@ -23,6 +23,7 @@ struct bullet newBullet(int x, int y, int rot, int type, int init){
         b.colour = 7;
     }
 
+    b.scale = 5;
     b.distance = 0;
     b.spawnTime = SDL_GetTicks();
     b.xSpeed = 10 * M.sin[rot];

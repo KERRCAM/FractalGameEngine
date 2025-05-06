@@ -15,10 +15,11 @@
 //-----------------------------------------------------------------------------------------------//
 //STRUCTS
 
-float deltaTime;
-
 struct demon demons[MAX_DEMONS];
 struct bullet bullets[MAX_BULLETS];
+
+float deltaTime;
+float gameStartTime;
 
 //-----------------------------------------------------------------------------------------------//
 // FUNCTIONS

@@ -19,11 +19,15 @@ struct demon newDemon(int x, int y, int z, int type, int init){
         d.height = 50;
         d.colour = 9;
         d.hp = 100;
+        d.scale = 2;
+        d.bounty = 200;
     } else if (type == 2){
         d.width = 35;
         d.height = 35;
         d.colour = 6;
         d.hp = 60;
+        d.scale = 3;
+        d.bounty = 120;
     }
 
     d.type = type;

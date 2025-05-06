@@ -20,8 +20,10 @@ struct demon{
     int z;
     int width;
     int height;
+    int scale;
     int colour;
     int hp;
+    int bounty;
     int type;
     int distance;
     int init;

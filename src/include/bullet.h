@@ -26,6 +26,7 @@ struct bullet{
     int spawnTime;
     int xSpeed;
     int ySpeed;
+    int scale;
     int init;
 
 };

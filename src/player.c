@@ -53,6 +53,7 @@ void playerSetup(){
     nearWall = NULL;
 
     pHP = 200;
+    score = 0;
 
 }
 
@@ -126,7 +127,11 @@ void playerInput(SDL_Event event){
 
 //-----------------------------------------------------------------------------------------------//
 
-void playerUpdate(float deltaTime){
+int playerUpdate(float deltaTime){
+
+    if (pHP <= 0){
+        return 0;
+    }
 
     float movX = 0;
     float movY = 0;
@@ -180,6 +185,8 @@ void playerUpdate(float deltaTime){
         pRot.h += 120 * deltaTime;
         if (pRot.h > 359){pRot.h -= 360;};
     }
+
+    return 1;
 
 }
 

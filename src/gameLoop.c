@@ -91,6 +91,8 @@ void setup(){
         M.sin[i] = sin(i / 180.0 * M_PI);
     }
 
+    gameStartTime = SDL_GetTicks();
+
     playerSetup();
     sectorSetup();
 
@@ -109,7 +111,7 @@ void update(){
 
     lastFrame = SDL_GetTicks();
 
-    playerUpdate(deltaTime);
+    if (playerUpdate(deltaTime) == 0){ gameRunning = 0;};
 
 }
 
@@ -153,6 +155,10 @@ int main(){
         render();
 
     }
+
+    float timeSurvived = SDL_GetTicks() - gameStartTime;
+    int survivalScore = timeSurvived / 1000.0;
+    printf("Final score: %d\n", survivalScore + score);
 
     destroyWindow();
 

@@ -1,3 +1,4 @@
+#pragma once
 // LIBRARY IMPORTS
 #include <stdbool.h>
 
@@ -27,6 +28,7 @@ int lastBullet;
 struct wall* nearWall;
 
 int pHP;
+int score;
 
 //-----------------------------------------------------------------------------------------------//
 //FUNCTIONS
@@ -35,6 +37,6 @@ void playerSetup();
 
 void playerInput(SDL_Event event);
 
-void playerUpdate(float deltaTime);
+int playerUpdate(float deltaTime);
 
 //-----------------------------------------------------------------------------------------------//

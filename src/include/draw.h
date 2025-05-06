@@ -1,3 +1,4 @@
+#pragma once
 // LIBRARY IMPORTS
 #include <SDL2/SDL.h>
 
