@@ -3,6 +3,7 @@
 
 // LOCAL IMPORTS
 #include "constants.h"
+#include "demon.h"
 
 //-----------------------------------------------------------------------------------------------//
 //CONSTANTS
@@ -21,7 +22,7 @@ void sectorSetup();
 
 int dist(int x1, int y1, int x2, int y2);
 
-void drawDemons(SDL_Renderer* renderer);
+void drawDemon(SDL_Renderer* renderer, struct demon* current);
 
 float minDistance(int px, int py, int x1, int y1, int x2, int y2);
 
@@ -31,8 +32,10 @@ void floors(SDL_Renderer* renderer);
 
 void ceilings(SDL_Renderer* renderer);
 
-void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, int t2, int colour, int distance);
+void drawWall(SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, int t2, int colour, int distance);
 
-void sectorRender(SDL_Renderer* renderer);
+void wallSetup(SDL_Renderer* renderer, int w);
+
+void renderWorld(SDL_Renderer* renderer);
 
 //-----------------------------------------------------------------------------------------------//

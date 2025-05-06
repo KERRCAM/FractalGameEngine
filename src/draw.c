@@ -22,7 +22,11 @@ struct level l;
 
 void sectorSetup(){
 
-    struct demon test = newDemon(400, 400, 80, 50, 50, 9, 1);
+    for (int d = 0; d < MAX_DEMONS; d++){
+        demons[d] = newDemon(-1, -1, -1, -1, -1, -1, -1, 0);
+    }
+
+    struct demon test = newDemon(400, 400, 80, 50, 50, 9, 1, 1);
     demons[0] = test;
 
     struct level l1 = newLevel(0, 0, 0, 1);
@@ -63,7 +67,11 @@ void sectorSetup(){
 
 //-----------------------------------------------------------------------------------------------//
 
-void drawDemons(SDL_Renderer* renderer){
+void drawDemon(SDL_Renderer* renderer, struct demon* current){
+
+    if (current -> init == 0){
+        return;
+    }
 
     int px = round(pPos.x);
     int py = round(pPos.y);
@@ -74,20 +82,18 @@ void drawDemons(SDL_Renderer* renderer){
     int wx[4], wy[4], wz[4];
     float CS = M.cos[ph], SN = M.sin[ph];
 
-    struct demon current = demons[0];
-
     int angle = ph + 90; if (angle > 359){ angle -= 360;}
 
     float xComp = M.sin[(ph + 90) % 360];
     float yComp = M.cos[(ph + 90) % 360];
 
-    int offX = (current.width * xComp) / 2;
-    int offY = (current.height * yComp) / 2;
+    int offX = (current -> width * xComp) / 2;
+    int offY = (current -> height * yComp) / 2;
 
-    int x1 = current.x - offX - px;
-    int y1 = current.y - offY - py;
-    int x2 = current.x + offX - px;
-    int y2 = current.y + offY - py;
+    int x1 = current -> x - offX - px;
+    int y1 = current -> y - offY - py;
+    int x2 = current -> x + offX - px;
+    int y2 = current -> y + offY - py;
 
     wx[0] = x1 * CS - y1 * SN;
     wx[1] = x2 * CS - y2 * SN;
@@ -125,7 +131,7 @@ void drawDemons(SDL_Renderer* renderer){
     wx[3] = wx[3] * FOV / wy[3] + (WINDOW_WIDTH / 2);
     wy[3] = wz[3] * FOV / wy[3] + (WINDOW_HEIGHT / 2);
 
-    drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], current.colour, 0);
+    drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], current -> colour, 0);
 
 }
 
@@ -299,7 +305,7 @@ void ceilings(SDL_Renderer* renderer){
 
 //-----------------------------------------------------------------------------------------------//
 
-void sectorRender(SDL_Renderer* renderer){
+void wallSetup(SDL_Renderer* renderer, int w){
 
     int px = round(pPos.x);
     int py = round(pPos.y);
@@ -310,6 +316,59 @@ void sectorRender(SDL_Renderer* renderer){
     int wx[4], wy[4], wz[4];
     float CS = M.cos[ph], SN = M.sin[ph];
 
+    if (allWalls[w] -> init == 0){ return;}
+
+    int x1 = allWalls[w] -> x1 - px;
+    int y1 = allWalls[w] -> y1 - py;
+    int x2 = allWalls[w] -> x2 - px;
+    int y2 = allWalls[w] -> y2 - py;
+
+    wx[0] = x1 * CS - y1 * SN;
+    wx[1] = x2 * CS - y2 * SN;
+    wx[2] = wx[0];
+    wx[3] = wx[1];
+
+    wy[0] = y1 * CS + x1 * SN;
+    wy[1] = y2 * CS + x2 * SN;
+    wy[2] = wy[0];
+    wy[3] = wy[1];
+
+    wz[0] = 0 - pz + (pv * wy[0]) / 32.0;
+    wz[1] = 0 - pz + (pv * wy[1]) / 32.0;
+    wz[2] = wz[0] + 80;
+    wz[3] = wz[1] + 80;
+
+    if (wy[0] < 1 && wy[1] < 1){ return;}
+
+    if (wy[0] < 1){
+        clip(&wx[0], &wy[0], &wz[0], wx[1], wy[1], wz[1]);
+        clip(&wx[2], &wy[2], &wz[2], wx[3], wy[3], wz[3]);
+    }
+
+    if (wy[1] < 1){
+        clip(&wx[1], &wy[1], &wz[1], wx[0], wy[0], wz[0]);
+        clip(&wx[3], &wy[3], &wz[3], wx[2], wy[2], wz[2]);
+    }
+
+    wx[0] = wx[0] * FOV / wy[0] + (WINDOW_WIDTH / 2);
+    wy[0] = wz[0] * FOV / wy[0] + (WINDOW_HEIGHT / 2);
+    wx[1] = wx[1] * FOV / wy[1] + (WINDOW_WIDTH / 2);
+    wy[1] = wz[1] * FOV / wy[1] + (WINDOW_HEIGHT / 2);
+    wx[2] = wx[2] * FOV / wy[2] + (WINDOW_WIDTH / 2);
+    wy[2] = wz[2] * FOV / wy[2] + (WINDOW_HEIGHT / 2);
+    wx[3] = wx[3] * FOV / wy[3] + (WINDOW_WIDTH / 2);
+    wy[3] = wz[3] * FOV / wy[3] + (WINDOW_HEIGHT / 2);
+
+    drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], allWalls[w] -> colour, allWalls[w] -> distance);
+
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+void renderWorld(SDL_Renderer* renderer){
+
+    int px = round(pPos.x);
+    int py = round(pPos.y);
     int wallsSize = (sizeof(allWalls) / sizeof(allWalls[0]));
 
     // re compute wall distances here
@@ -333,58 +392,38 @@ void sectorRender(SDL_Renderer* renderer){
     }
     nearWall = allWalls[wallsSize - 1];
 
-//    printf("START\n");
-//    for (int w = 0; w < wallsSize; w++){
-//        printf("x1: %d, y1: %d, x2: %d, y2: %d \n", allWalls[w]->x1, allWalls[w]->y1, allWalls[w]->x2, allWalls[w]->y2);
-//    }
-//    printf("END\n");
+    struct demon current = demons[0];
+    drawDemon(renderer, &current);
 
-    for (int w = 0; w < wallsSize; w++){
-        if (allWalls[w] -> init == 0){ continue;}
-
-        int x1 = allWalls[w] -> x1 - px;
-        int y1 = allWalls[w] -> y1 - py;
-        int x2 = allWalls[w] -> x2 - px;
-        int y2 = allWalls[w] -> y2 - py;
-
-        wx[0] = x1 * CS - y1 * SN;
-        wx[1] = x2 * CS - y2 * SN;
-        wx[2] = wx[0];
-        wx[3] = wx[1];
-
-        wy[0] = y1 * CS + x1 * SN;
-        wy[1] = y2 * CS + x2 * SN;
-        wy[2] = wy[0];
-        wy[3] = wy[1];
-
-        wz[0] = 0 - pz + (pv * wy[0]) / 32.0;
-        wz[1] = 0 - pz + (pv * wy[1]) / 32.0;
-        wz[2] = wz[0] + 80;
-        wz[3] = wz[1] + 80;
-
-        if (wy[0] < 1 && wy[1] < 1){ continue;}
-
-        if (wy[0] < 1){
-            clip(&wx[0], &wy[0], &wz[0], wx[1], wy[1], wz[1]);
-            clip(&wx[2], &wy[2], &wz[2], wx[3], wy[3], wz[3]);
+    for (int i = 0; i < MAX_DEMONS; i++){
+        if (demons[i].init == 0){
+            demons[i].distance = 999999999;
+        } else  {
+                demons[i].distance = euclidianDistance2D(newVector2D(px, py), newVector2D(demons[i].x, demons[i].y));
         }
+    }
 
-        if (wy[1] < 1){
-            clip(&wx[1], &wy[1], &wz[1], wx[0], wy[0], wz[0]);
-            clip(&wx[3], &wy[3], &wz[3], wx[2], wy[2], wz[2]);
+    for (int i = 0; i < MAX_DEMONS; i++){
+        for (int j = 0; j < MAX_DEMONS - i - 1; j++){
+            if ((demons[j].distance < demons[j + 1].distance)){
+                struct demon d = demons[j];
+                demons[j] = demons[j + 1];
+                demons[j + 1] = d;
+            }
         }
+    }
 
-        wx[0] = wx[0] * FOV / wy[0] + (WINDOW_WIDTH / 2);
-        wy[0] = wz[0] * FOV / wy[0] + (WINDOW_HEIGHT / 2);
-        wx[1] = wx[1] * FOV / wy[1] + (WINDOW_WIDTH / 2);
-        wy[1] = wz[1] * FOV / wy[1] + (WINDOW_HEIGHT / 2);
-        wx[2] = wx[2] * FOV / wy[2] + (WINDOW_WIDTH / 2);
-        wy[2] = wz[2] * FOV / wy[2] + (WINDOW_HEIGHT / 2);
-        wx[3] = wx[3] * FOV / wy[3] + (WINDOW_WIDTH / 2);
-        wy[3] = wz[3] * FOV / wy[3] + (WINDOW_HEIGHT / 2);
+    int w = 0;
+    int d = 0;
 
-        drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], allWalls[w] -> colour, allWalls[w] -> distance);
-
+    for (int p = 0; p < wallsSize + MAX_DEMONS; p++){
+        if ((w != wallsSize && allWalls[w] -> distance > demons[d].distance) || d == MAX_DEMONS){
+            wallSetup(renderer, w);
+            if (w != wallsSize){ w++;}
+        } else if (d != MAX_DEMONS){
+            drawDemon(renderer, &demons[d]);
+            if (d != MAX_DEMONS){ d++;}
+        }
     }
 
 }

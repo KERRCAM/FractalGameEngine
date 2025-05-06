@@ -22,12 +22,14 @@ struct demon{
     int height;
     int colour;
     int type;
+    int distance;
+    int init;
 
 };
 
 //-----------------------------------------------------------------------------------------------//
 // FUNCTIONS
 
-struct demon newDemon(int x, int y, int z, int width, int height, int colour, int type);
+struct demon newDemon(int x, int y, int z, int width, int height, int colour, int type, int init);
 
 //-----------------------------------------------------------------------------------------------//

@@ -7,6 +7,8 @@ TODO PLAN:
 put look controls on mouse movement
 
 Tue:
+Render order of enemy is a bit messed up -> needs to be inserted between wall renders
+
 have multiple enemies -> put rendering in loop -> sort by dist to player
 if they are x dist from pl then path to them
 limit pathing to x iters to stop overcomp and also stop at x iters from player for certain enemy types
