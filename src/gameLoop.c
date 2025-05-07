@@ -15,6 +15,8 @@
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
+SDL_Window* windowEND = NULL;
+SDL_Renderer* rendererEND = NULL;
 
 int gameRunning = 0;
 int lastFrame = 0;

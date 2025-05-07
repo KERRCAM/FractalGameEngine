@@ -41,24 +41,6 @@ void playerSetup(){
 
 //-----------------------------------------------------------------------------------------------//
 
-int detectCollision(struct vector2D pc, struct vector2D pn, struct vector2D w1, struct vector2D w2){
-
-    int c1 = crossProduct2D(pc, w1, w2);
-    int c2 = crossProduct2D(pn, w1, w2);
-
-    if (c1 != c2
-        && (euclidianDistance2D(pn,w1) < euclidianDistance2D(w1,w2))
-        && (euclidianDistance2D(pn,w2) < euclidianDistance2D(w1,w2))
-        ){
-        return 1;
-    } else {
-        return 0;
-    }
-
-}
-
-//-----------------------------------------------------------------------------------------------//
-
 void playerInput(SDL_Event event){
 
     if (event.type == SDL_KEYDOWN){
@@ -93,6 +75,9 @@ void playerInput(SDL_Event event){
             case SDLK_UP:
                 if (SDL_GetTicks() - lastBullet > 800){ lastBullet = SDL_GetTicks();}
             break;
+            case SDLK_DOWN:
+                if (SDL_GetTicks() - lastHeal > 20000){ lastHeal = SDL_GetTicks();}
+            break;
         }
     }
 
@@ -121,11 +106,46 @@ void playerInput(SDL_Event event){
 
 //-----------------------------------------------------------------------------------------------//
 
-int playerUpdate(float deltaTime){
+int detectCollision(struct vector2D pc, struct vector2D pn, struct vector2D w1, struct vector2D w2){
 
-    if (pHP <= 0){
+    int c1 = crossProduct2D(pc, w1, w2);
+    int c2 = crossProduct2D(pn, w1, w2);
+
+    if (c1 != c2
+        && (euclidianDistance2D(pn,w1) < euclidianDistance2D(w1,w2))
+        && (euclidianDistance2D(pn,w2) < euclidianDistance2D(w1,w2))
+        ){
+        return 1;
+    } else {
         return 0;
     }
+
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+void checkDemonBulletProximity(){
+
+    for (int b = 0; b < MAX_BULLETS; b++){
+
+        if (bullets[b].init == 0){ continue;}
+        if (bullets[b].type != 2){ continue;}
+
+        if (euclidianDistance2D(newVector2D(bullets[b].x, bullets[b].y),
+                                newVector2D(round(pPos.x), round(pPos.y)))  < 60){
+            bullets[b] = newBullet(-1, -1, -1, -1, 0);
+            pHP -= 10;
+        }
+
+    }
+
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+int playerUpdate(float deltaTime){
+
+    checkDemonBulletProximity();
 
     float movX = 0;
     float movY = 0;
@@ -138,11 +158,12 @@ int playerUpdate(float deltaTime){
         dy *= 6;
     }
 
-    if (SDL_GetTicks() - lastBullet < 100){
-        if (bullets[0].init == 0){
-            bullets[0] = newBullet(pPos.x, pPos.y, pRot.h, 1, 1);
-        }
+    if ((SDL_GetTicks() - lastBullet < 100) && (bullets[0].init == 0)){
+        bullets[0] = newBullet(pPos.x, pPos.y, pRot.h, 1, 1);
+    }
 
+    if (SDL_GetTicks() - lastHeal < 100){
+        pHP += 20;
     }
 
     if (spaceDown && pPos.z == 40){
@@ -180,6 +201,10 @@ int playerUpdate(float deltaTime){
     if (rightDown){
         pRot.h += 120 * deltaTime;
         if (pRot.h > 359){pRot.h -= 360;};
+    }
+
+    if (pHP <= 0){
+        return 0;
     }
 
     return 1;

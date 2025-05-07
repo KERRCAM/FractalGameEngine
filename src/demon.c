@@ -69,8 +69,11 @@ void demonSetup(){
         demons[d] = newDemon(-1, -1, -1, -1, 0);
     }
 
-    struct demon test = newDemon(400, 400, 80, 1, 1);
-    demons[0] = test;
+    struct demon test1 = newDemon(600, 600, 80, 1, 1);
+    demons[0] = test1;
+
+    struct demon test2 = newDemon(400, 600, 80, 2, 1);
+    demons[1] = test2;
 
 }
 
@@ -81,6 +84,7 @@ int checkPlayerBulletProximity(struct demon* d){
     for (int b = 0; b < MAX_BULLETS; b++){
 
         if (bullets[b].init == 0){ continue;}
+        if (bullets[b].type != 1){ continue;}
 
         if (euclidianDistance2D(newVector2D(bullets[b].x, bullets[b].y),
                                 newVector2D(d -> x, d -> y))  < d -> width){
@@ -130,8 +134,6 @@ void moveDemon(struct demon* d, int px, int py, int ph){
 
     }
 
-
-
     if (lineOfSight == 1){
         int dx = pPos.x - d -> x;
         int dy = pPos.y - d -> y;
@@ -166,6 +168,20 @@ void calculateDemonDistances(){
             }
             demons[i].distance = euclidianDistance2D(   newVector2D(px, py),
                                                         newVector2D(demons[i].x, demons[i].y));
+            if (demons[i].distance < 100){
+                if (demons[i].type == 1){
+                    pHP -= 0.1;
+                } else {
+                    pHP -= 0.25;
+                }
+            }
+            if (demons[i].type == 1 && bullets[0].init == 0){
+                int rot = ph + 180; if (rot > 359){ rot -= 360;}
+                if (SDL_GetTicks() - lastFired[i] > 1000){
+                    bullets[0] = newBullet(demons[i].x, demons[i].y, rot, 2, 1);
+                    lastFired[i] = SDL_GetTicks();
+                }
+            }
         }
     }
 

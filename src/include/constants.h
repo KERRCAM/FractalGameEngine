@@ -20,7 +20,7 @@
 #define MAX_DEMONS 10
 #define MAX_BULLETS 20
 #define MAX_HP 150
-#define INITIAL_SPAWN_RATE 30000
+#define INITIAL_SPAWN_RATE 20000
 #define MAX_SPAWN_RATE 5000
 
 //-----------------------------------------------------------------------------------------------//

@@ -25,10 +25,11 @@ int dashTime;
 int vertAcc;
 bool inAir;
 int lastBullet;
+int lastHeal;
 
 struct wall* nearWall;
 
-int pHP;
+float pHP;
 int score;
 
 //-----------------------------------------------------------------------------------------------//
@@ -36,10 +37,12 @@ int score;
 
 void playerSetup();
 
+void playerInput(SDL_Event event);
+
 int detectCollision(struct vector2D pc, struct vector2D pn,
                     struct vector2D w1, struct vector2D w2);
 
-void playerInput(SDL_Event event);
+void checkDemonBulletProximity();
 
 int playerUpdate(float deltaTime);
 

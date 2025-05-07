@@ -27,6 +27,7 @@ struct bullet newBullet(int x, int y, int rot, int type, int init){
         b.colour = 0;
     }
 
+    b.type = type;
     b.scale = 5;
     b.distance = 0;
     b.spawnTime = SDL_GetTicks();

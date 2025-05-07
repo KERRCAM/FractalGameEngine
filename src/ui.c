@@ -1,6 +1,7 @@
 // LIBRARY IMPORTS
 #include <stdio.h>
 #include <SDL2/SDL.h>
+#include <math.h>
 
 // LOCAL IMPORTS
 #include "include/characters.h"
@@ -68,7 +69,7 @@ void renderHP(SDL_Renderer* renderer){
 
     drawNumber(renderer, 10, 60, 151);
 
-    drawNumber(renderer, 200, 60, pHP);
+    drawNumber(renderer, 200, 60, round(pHP));
 
 }
 
