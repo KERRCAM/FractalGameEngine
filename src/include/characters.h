@@ -1,3 +1,13 @@
+#pragma once
+// LIBRARY IMPORTS
+
+
+// LOCAL IMPORTS
+
+
+//-----------------------------------------------------------------------------------------------//
+// CONSTSANTS
+
 // Contains texture maps for number characters
 // file adapted from 3D sage doom series https://github.com/3DSage/OpenGL-Doom_tutorial_part_2/blob/main/textures/T_NUMBERS.h
 
@@ -2320,3 +2330,5 @@ const char CHARACTERS[]  = {
     255, 255, 255, 255, 255, 255, 255, 255, 255, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 };
+
+//-----------------------------------------------------------------------------------------------//

@@ -5,13 +5,13 @@
 #include "levels.h"
 
 //-----------------------------------------------------------------------------------------------//
-//CONSTANTS
+// CONSTANTS
 
 struct level levels[MAX_LEVELS];
 #define gridSize 25.0
 
 //-----------------------------------------------------------------------------------------------//
-//STRUCTS
+// STRUCTS ADN VARIABLES
 
 struct level currentLevel;
 struct sector currentSector;

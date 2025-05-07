@@ -1,6 +1,12 @@
 #pragma once
+// LIBRARY IMPORTS
+
+
+// LOCAL IMPORTS
+
 
 //-----------------------------------------------------------------------------------------------//
+// STRUCTS AND VARIABLES
 
 int colours[10][3] = {
     {255, 0, 0}, // 0 - red

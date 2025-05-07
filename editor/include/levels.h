@@ -5,13 +5,13 @@
 #include "sectors.h"
 
 //-----------------------------------------------------------------------------------------------//
-//CONSTANTS
+// CONSTANTS
 
 #define MAX_LEVELS 16
 #define MAX_SECTORS 12
 
 //-----------------------------------------------------------------------------------------------//
-//STRUCTS
+// STRUCTS ADN VARIABLES
 
 struct level {
     int pX, pY, pZ;

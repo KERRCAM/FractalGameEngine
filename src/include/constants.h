@@ -6,7 +6,7 @@
 
 
 //-----------------------------------------------------------------------------------------------//
-//CONSTANTS
+// CONSTANTS
 
 #define MAX_SECTORS 12
 #define MAX_WALLS 12
@@ -18,11 +18,13 @@
 #define WINDOW_HEIGHT 982
 #define FOV 550
 #define MAX_DEMONS 10
-#define MAX_BULLETS 50
+#define MAX_BULLETS 20
 #define MAX_HP 150
+#define INITIAL_SPAWN_RATE 30000
+#define MAX_SPAWN_RATE 5000
 
 //-----------------------------------------------------------------------------------------------//
-//STRUCTS
+// STRUCTS AND VARIABLES
 
 typedef struct{
     float cos[360];

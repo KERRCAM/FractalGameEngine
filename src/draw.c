@@ -19,9 +19,23 @@
 
 struct level l;
 
+int SPAWN_LOCATIONS[8][2] = {
+    {400, 400},
+    {600, 600},
+    {400, 1620},
+    {600, 1500},
+    {2600, 600},
+    {2880, 400},
+    {2700, 1550},
+    {2880, 1620},
+};
+
 //-----------------------------------------------------------------------------------------------//
 
 void drawSetup(){
+
+    lastSpawned = -1;
+    spawnRate = INITIAL_SPAWN_RATE;
 
     for (int d = 0; d < MAX_DEMONS; d++){
         demons[d] = newDemon(-1, -1, -1, -1, 0);
@@ -31,7 +45,7 @@ void drawSetup(){
         bullets[b] = newBullet(-1, -1, -1, -1, 0);
     }
 
-    struct demon test = newDemon(400, 400, 80, 1, 1);
+    struct demon test = newDemon(SPAWN_LOCATIONS[6][0], SPAWN_LOCATIONS[6][1], 80, 1, 1);
     demons[0] = test;
 
     struct level l1 = newLevel(0, 0, 0, 1);
@@ -112,7 +126,14 @@ void renderScore(SDL_Renderer* renderer){
         drawNumber(renderer, 400, -30, scoreToScreen % 10);
     } else if (scoreToScreen < 10000){
         drawNumber(renderer, 333, -30, scoreToScreen / 100);
-        drawNumber(renderer, 467, -30, scoreToScreen % 100);
+        int r = scoreToScreen % 100;
+        if (r < 10){
+            drawNumber(renderer, 400, -30, 0);
+            drawNumber(renderer, 467, -30, r);
+        } else {
+            drawNumber(renderer, 467, -30, scoreToScreen % 100);
+        }
+
     }
 
 
@@ -435,7 +456,7 @@ int checkBulletProximity(struct demon* d){
 
         if (bullets[b].init == 0){ continue;}
 
-        if (euclidianDistance2D(newVector2D(bullets[b].x, bullets[b].x), newVector2D(d -> x, d -> y))  < d -> width / 2){
+        if (euclidianDistance2D(newVector2D(bullets[b].x, bullets[b].y), newVector2D(d -> x, d -> y))  < d -> width / 2){
             bullets[b] = newBullet(-1, -1, -1, -1, 0);
             return 1;
         }
@@ -449,6 +470,20 @@ int checkBulletProximity(struct demon* d){
 //-----------------------------------------------------------------------------------------------//
 
 void renderWorld(SDL_Renderer* renderer){
+
+
+    if (lastSpawned == -1 || SDL_GetTicks() - lastSpawned > spawnRate){
+
+        int pos = rand() % 8;
+        int type = (rand() % 2) + 1;
+
+        if (demons[0].init != 1){
+            demons[0] = newDemon(SPAWN_LOCATIONS[pos][0], SPAWN_LOCATIONS[pos][1], 80, type, 1);
+        }
+
+        spawnRate -= 1000; if (spawnRate < MAX_SPAWN_RATE) { spawnRate = MAX_SPAWN_RATE;}
+        lastSpawned = SDL_GetTicks();
+    }
 
     int px = round(pPos.x);
     int py = round(pPos.y);

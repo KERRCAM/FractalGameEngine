@@ -92,7 +92,7 @@ void playerInput(SDL_Event event){
                 if (SDL_GetTicks() - dashTime > 2500){ dashTime = SDL_GetTicks();}
             break;
             case SDLK_UP:
-                if (SDL_GetTicks() - lastBullet > 1000){ canShoot = true;}
+                if (SDL_GetTicks() - lastBullet > 1000){ lastBullet = SDL_GetTicks();}
             break;
         }
     }
@@ -139,11 +139,11 @@ int playerUpdate(float deltaTime){
         dy *= 6;
     }
 
-    if (canShoot){
+    if (SDL_GetTicks() - lastBullet < 100){
         if (bullets[0].init == 0){
             bullets[0] = newBullet(pPos.x, pPos.y, pRot.h, 1, 1);
         }
-        canShoot = false;
+
     }
 
     if (spaceDown && pPos.z == 40){
