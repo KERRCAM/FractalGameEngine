@@ -84,14 +84,12 @@ void drawNumber(SDL_Renderer* renderer, int xPos, int yPos, int n){
             int x2 = x * 3;
             if(CHARACTERS[y2 + x2] == 0){ continue;}
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-
-            int iters = 0;
             int currX = xPos + (characterSize * x);
             int currY = yPos - (characterSize * y) + 100;
+
             for (int p = 0; p < characterSize; p++){
                 SDL_RenderDrawLine(renderer, x + currX + p, y + currY, x + currX + p, y + currY + characterSize);
             }
-
         }
     }
 
@@ -104,13 +102,17 @@ void renderScore(SDL_Renderer* renderer){
     drawNumber(renderer, 10, -30, 152);
     drawNumber(renderer, 200, -30, 153);
 
+    float timeSurvived = SDL_GetTicks() - gameStartTime;
+    int survivalScore = timeSurvived / 1000.0;
+    int scoreToScreen = score + survivalScore;
+
     // score print
-    if (score < 1000){
-        drawNumber(renderer, 333, -30, score / 10);
-        drawNumber(renderer, 400, -30, score % 10);
-    } else if (score < 10000){
-        drawNumber(renderer, 333, -30, score / 100);
-        drawNumber(renderer, 467, -30, score % 100);
+    if (scoreToScreen < 1000){
+        drawNumber(renderer, 333, -30, scoreToScreen / 10);
+        drawNumber(renderer, 400, -30, scoreToScreen % 10);
+    } else if (scoreToScreen < 10000){
+        drawNumber(renderer, 333, -30, scoreToScreen / 100);
+        drawNumber(renderer, 467, -30, scoreToScreen % 100);
     }
 
 

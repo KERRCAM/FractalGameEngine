@@ -14,9 +14,6 @@ TODO PLAN:
 
 - hit marker and or crosshair for aim
 
-- just need to sort out some set positions for hp and score -> hp only 3 digits as 200 is max, score up to 4, say game ends 10k points for now
-- can also see if I can grab or just make some maps for characters for hp and score and : -> only 8 tbf, might not be too bad to make
-
 - POLISH, do some comments and general clean up of the code
 
 - add more prominent physics thing if there is time, go back to friction with movement maybe
