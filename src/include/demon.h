@@ -35,4 +35,16 @@ struct demon{
 
 struct demon newDemon(int x, int y, int z, int type, int init);
 
+void demonSetup();
+
+void spawnDemon();
+
+int checkPlayerBulletProximity(struct demon* d);
+
+void calculateDemonDistances();
+
+void sortDemons();
+
+void demonUpdate();
+
 //-----------------------------------------------------------------------------------------------//

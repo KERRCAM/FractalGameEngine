@@ -17,9 +17,11 @@
 //-----------------------------------------------------------------------------------------------//
 // FUNCTIONS
 
-void setupUI();
+void drawNumber(SDL_Renderer* renderer, int xPos, int yPos, int n);
 
-void updateUI();
+void renderScore(SDL_Renderer* renderer);
+
+void renderHP(SDL_Renderer* renderer);
 
 void renderUI(SDL_Renderer* renderer);
 

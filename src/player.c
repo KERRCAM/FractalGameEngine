@@ -6,7 +6,6 @@
 // LOCAL IMPORTS
 #include "include/player.h"
 #include "include/constants.h"
-#include "include/vectors.h"
 #include "include/globals.h"
 
 //-----------------------------------------------------------------------------------------------//
@@ -20,24 +19,6 @@ bool leftDown = false;
 bool rightDown = false;
 bool spaceDown = false;
 bool canShoot = false;
-
-//-----------------------------------------------------------------------------------------------//
-
-int detectCollision(struct vector2D pc, struct vector2D pn, struct vector2D w1, struct vector2D w2){
-
-    int c1 = crossProduct2D(pc, w1, w2);
-    int c2 = crossProduct2D(pn, w1, w2);
-
-    if (c1 != c2
-        && (euclidianDistance2D(pn,w1) < euclidianDistance2D(w1,w2))
-        && (euclidianDistance2D(pn,w2) < euclidianDistance2D(w1,w2))
-        ){
-        return 1;
-    } else {
-        return 0;
-    }
-
-}
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -55,6 +36,24 @@ void playerSetup(){
 
     pHP = 150;
     score = 0;
+
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+int detectCollision(struct vector2D pc, struct vector2D pn, struct vector2D w1, struct vector2D w2){
+
+    int c1 = crossProduct2D(pc, w1, w2);
+    int c2 = crossProduct2D(pn, w1, w2);
+
+    if (c1 != c2
+        && (euclidianDistance2D(pn,w1) < euclidianDistance2D(w1,w2))
+        && (euclidianDistance2D(pn,w2) < euclidianDistance2D(w1,w2))
+        ){
+        return 1;
+    } else {
+        return 0;
+    }
 
 }
 
@@ -92,7 +91,7 @@ void playerInput(SDL_Event event){
                 if (SDL_GetTicks() - dashTime > 2500){ dashTime = SDL_GetTicks();}
             break;
             case SDLK_UP:
-                if (SDL_GetTicks() - lastBullet > 1000){ lastBullet = SDL_GetTicks();}
+                if (SDL_GetTicks() - lastBullet > 800){ lastBullet = SDL_GetTicks();}
             break;
         }
     }
@@ -166,7 +165,9 @@ int playerUpdate(float deltaTime){
     float newX = pPos.x + movX;
     float newY = pPos.y + movY;
 
-    if (nearWall != NULL && detectCollision(newVector2D(pPos.x, pPos.y), newVector2D(newX, newY), newVector2D(nearWall->x1, nearWall->y1), newVector2D(nearWall->x2, nearWall->y2)) == 0){
+    if (nearWall != NULL && detectCollision(newVector2D(pPos.x, pPos.y), newVector2D(newX, newY),
+                                            newVector2D(nearWall->x1, nearWall->y1),
+                                            newVector2D(nearWall->x2, nearWall->y2)) == 0){
         pPos.x += movX;
         pPos.y += movY;
     }

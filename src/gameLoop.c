@@ -2,14 +2,13 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include <math.h>
-#include <SDL2_ttf/SDL_ttf.h>
 
 // LOCAL IMPORTS
 #include "include/constants.h"
 #include "include/player.h"
-#include "include/vectors.h"
 #include "include/draw.h"
 #include "include/globals.h"
+#include "include/ui.h"
 
 //-----------------------------------------------------------------------------------------------//
 // INITIALISATIONS
@@ -52,11 +51,6 @@ int initialize_window(void){
         return 0;
     }
 
-//    if (TTF_Init() == -1){
-//        fprintf(stderr, "Error initialising TTF\n");
-//        return 0;
-//    }
-
     return 1;
 }
 
@@ -95,6 +89,8 @@ void setup(){
 
     playerSetup();
     drawSetup();
+    demonSetup();
+    bulletSetup();
 
 }
 
@@ -114,6 +110,9 @@ void update(){
     if (playerUpdate(deltaTime) == 0){ gameRunning = 0;}
     if (score >= 10000){ gameRunning = 0;}
 
+    demonUpdate();
+    bulletUpdate();
+
 }
 
 //-----------------------------------------------------------------------------------------------//
@@ -123,11 +122,8 @@ void render(){
     // Screen colour
     SDL_SetRenderDrawColor(renderer, 0, 0, 60, 255);
     SDL_RenderClear(renderer);
-    floors(renderer);
-    ceilings(renderer);
     renderWorld(renderer);
-    renderScore(renderer);
-    renderHP(renderer);
+    renderUI(renderer);
     SDL_RenderPresent(renderer);
 
 }
@@ -139,7 +135,6 @@ void destroyWindow(){
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
-    //TTF_Quit();
 
 }
 

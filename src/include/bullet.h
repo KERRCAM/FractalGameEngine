@@ -36,4 +36,12 @@ struct bullet{
 
 struct bullet newBullet(int x, int y, int rot, int type, int init);
 
+void bulletSetup();
+
+void calculatedBulletDistances();
+
+void sortBullets();
+
+void bulletUpdate();
+
 //-----------------------------------------------------------------------------------------------//

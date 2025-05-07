@@ -6,47 +6,22 @@
 
 // LOCAL IMPORTS
 #include "include/draw.h"
-#include "include/vectors.h"
 #include "include/player.h"
 #include "../levels/level3.h"
 #include "../editor/include/levels.h"
 #include "include/colours.h"
 #include "include/demon.h"
 #include "include/globals.h"
-#include "include/characters.h"
 
 //-----------------------------------------------------------------------------------------------//
 
 struct level l;
 
-int SPAWN_LOCATIONS[8][2] = {
-    {400, 400},
-    {600, 600},
-    {400, 1620},
-    {600, 1500},
-    {2600, 600},
-    {2880, 400},
-    {2700, 1550},
-    {2880, 1620},
-};
-
 //-----------------------------------------------------------------------------------------------//
 
 void drawSetup(){
 
-    lastSpawned = -1;
-    spawnRate = INITIAL_SPAWN_RATE;
 
-    for (int d = 0; d < MAX_DEMONS; d++){
-        demons[d] = newDemon(-1, -1, -1, -1, 0);
-    }
-
-    for (int b = 0; b < MAX_BULLETS; b++){
-        bullets[b] = newBullet(-1, -1, -1, -1, 0);
-    }
-
-    struct demon test = newDemon(SPAWN_LOCATIONS[6][0], SPAWN_LOCATIONS[6][1], 80, 1, 1);
-    demons[0] = test;
 
     struct level l1 = newLevel(0, 0, 0, 1);
     l = l1;
@@ -81,71 +56,6 @@ void drawSetup(){
             pos++;
         }
     }
-
-}
-
-//-----------------------------------------------------------------------------------------------//
-
-void drawNumber(SDL_Renderer* renderer, int xPos, int yPos, int n){
-
-    int x,y;
-    int characterSize = 15;
-
-    for (y = 0; y < 5; y++){
-        int y2 = ((5 - y - 1) + 5 * n) * 3 * 12;
-
-        for(x = 0; x < 12; x++){
-            int x2 = x * 3;
-            if(CHARACTERS[y2 + x2] == 0){ continue;}
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-            int currX = xPos + (characterSize * x);
-            int currY = yPos - (characterSize * y) + 100;
-
-            for (int p = 0; p < characterSize; p++){
-                SDL_RenderDrawLine(renderer, x + currX + p, y + currY, x + currX + p, y + currY + characterSize);
-            }
-        }
-    }
-
-}
-
-//-----------------------------------------------------------------------------------------------//
-
-void renderScore(SDL_Renderer* renderer){
-
-    drawNumber(renderer, 10, -30, 152);
-    drawNumber(renderer, 200, -30, 153);
-
-    float timeSurvived = SDL_GetTicks() - gameStartTime;
-    int survivalScore = timeSurvived / 1000.0;
-    int scoreToScreen = score + survivalScore;
-
-    // score print
-    if (scoreToScreen < 1000){
-        drawNumber(renderer, 333, -30, scoreToScreen / 10);
-        drawNumber(renderer, 400, -30, scoreToScreen % 10);
-    } else if (scoreToScreen < 10000){
-        drawNumber(renderer, 333, -30, scoreToScreen / 100);
-        int r = scoreToScreen % 100;
-        if (r < 10){
-            drawNumber(renderer, 400, -30, 0);
-            drawNumber(renderer, 467, -30, r);
-        } else {
-            drawNumber(renderer, 467, -30, scoreToScreen % 100);
-        }
-
-    }
-
-
-}
-
-//-----------------------------------------------------------------------------------------------//
-
-void renderHP(SDL_Renderer* renderer){
-
-    drawNumber(renderer, 10, 60, 151);
-
-    drawNumber(renderer, 200, 60, pHP);
 
 }
 
@@ -215,8 +125,7 @@ void drawEntity(SDL_Renderer* renderer, int width, int height, int x, int y, int
     wx[3] = wx[3] * FOV / wy[3] + (WINDOW_WIDTH / 2);
     wy[3] = wz[3] * FOV / wy[3] + (WINDOW_HEIGHT / 2);
 
-    //printf("%d, %d, %d, %d, %d, %d\n", wx[0], wx[1], wy[0], wy[1], wy[2], wy[3]);
-    drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], colour, 0);
+    drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], colour);
 
 }
 
@@ -276,17 +185,10 @@ void clip(int *x1, int *y1, int *z1, int x2, int y2, int z2){
 
 //-----------------------------------------------------------------------------------------------//
 
-void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, int t2, int colour, int distance){
+void drawWall (SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, int t2, int colour){
 
-//    int r1 = distance / 4; if (r1 > 255) r1 = 255;
-//    int c1 = colours[colour][0] * r1;
-//    int r2 = distance / 4; if (r2 > 255) r2 = 255;
-//    int c2 = colours[colour][1] * r2;
-//    int r3 = distance / 4; if (r3 > 255) r3 = 255;
-//    int c3 = colours[colour][2] * r3;
-//    SDL_SetRenderDrawColor(renderer, c1, c2, c3, 255);
-
-    SDL_SetRenderDrawColor(renderer, colours[colour][0], colours[colour][1], colours[colour][2], 255);
+    SDL_SetRenderDrawColor( renderer, colours[colour][0],
+                            colours[colour][1], colours[colour][2], 255);
 
     int x;
 
@@ -342,9 +244,7 @@ void floors(SDL_Renderer* renderer){
                 SDL_SetRenderDrawColor(renderer, 0, 130, 0, 255);
                 SDL_RenderDrawPoint(renderer, x + xo, y + yo);
             } else{
-                //int c = 255 * (255 - (y / (float)yo));
-                int c = 120;
-                SDL_SetRenderDrawColor(renderer, c, 120, 60, 255);
+                SDL_SetRenderDrawColor(renderer, 120, 120, 60, 255);
                 SDL_RenderDrawPoint(renderer, x + xo, y + yo);
             }
         }
@@ -375,9 +275,7 @@ void ceilings(SDL_Renderer* renderer){
             if (rx < 0){ rx = -rx + 1;}
             if (ry < 0){ ry = -ry + 1;}
             if ((int)rx % 2 == (int)ry % 2){
-                //int c = 255 * (255 - (y / (float)yo));
-                int c = 255;
-                SDL_SetRenderDrawColor(renderer, c, 0, 60, 255);
+                SDL_SetRenderDrawColor(renderer, 255, 0, 60, 255);
                 SDL_RenderDrawPoint(renderer, x + xo, y + yo);
             } else{
                 SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
@@ -444,60 +342,29 @@ void wallSetup(SDL_Renderer* renderer, int w){
     wx[3] = wx[3] * FOV / wy[3] + (WINDOW_WIDTH / 2);
     wy[3] = wz[3] * FOV / wy[3] + (WINDOW_HEIGHT / 2);
 
-    drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], allWalls[w] -> colour, allWalls[w] -> distance);
+    drawWall(renderer, wx[0], wx[1], wy[0], wy[1], wy[2], wy[3], allWalls[w] -> colour);
 
 }
 
 //-----------------------------------------------------------------------------------------------//
 
-int checkBulletProximity(struct demon* d){
+void calculateWallDistances(int wallsSize){
 
-    for (int b = 0; b < MAX_BULLETS; b++){
-
-        if (bullets[b].init == 0){ continue;}
-
-        if (euclidianDistance2D(newVector2D(bullets[b].x, bullets[b].y), newVector2D(d -> x, d -> y))  < d -> width / 2){
-            bullets[b] = newBullet(-1, -1, -1, -1, 0);
-            return 1;
-        }
-
-    }
-
-    return 0;
-
-}
-
-//-----------------------------------------------------------------------------------------------//
-
-void renderWorld(SDL_Renderer* renderer){
-
-
-    if (lastSpawned == -1 || SDL_GetTicks() - lastSpawned > spawnRate){
-
-        int pos = rand() % 8;
-        int type = (rand() % 2) + 1;
-
-        if (demons[0].init != 1){
-            demons[0] = newDemon(SPAWN_LOCATIONS[pos][0], SPAWN_LOCATIONS[pos][1], 80, type, 1);
-        }
-
-        spawnRate -= 1000; if (spawnRate < MAX_SPAWN_RATE) { spawnRate = MAX_SPAWN_RATE;}
-        lastSpawned = SDL_GetTicks();
-    }
-
-    int px = round(pPos.x);
-    int py = round(pPos.y);
-    int wallsSize = (sizeof(allWalls) / sizeof(allWalls[0]));
-
-    // re compute wall distances here
     for (int i = 0; i < wallsSize; i++){
         if (allWalls[i] -> init == 0){
             allWalls[i] -> distance = 999999999;
         } else  {
-            allWalls[i] -> distance = minDistance(pPos.x, pPos.y, allWalls[i] -> x1, allWalls[i] -> y1, allWalls[i] -> x2, allWalls[i] -> y2);
+            allWalls[i] -> distance = minDistance(  pPos.x, pPos.y, allWalls[i] -> x1,
+                                                    allWalls[i] -> y1, allWalls[i] -> x2,
+                                                    allWalls[i] -> y2);
         }
-
     }
+
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+void sortWalls(int wallsSize){
 
     for (int i = 0; i < wallsSize; i++){
         for (int j = 0; j < wallsSize - i - 1; j++){
@@ -508,74 +375,46 @@ void renderWorld(SDL_Renderer* renderer){
             }
         }
     }
+
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+void renderWorldObjects(SDL_Renderer* renderer, int wallsSize){
+
     nearWall = allWalls[wallsSize - 1];
-
-    for (int i = 0; i < MAX_DEMONS; i++){
-        if (demons[i].init == 0){
-            demons[i].distance = 999999999;
-        } else {
-            if (checkBulletProximity(&demons[i])){
-                demons[i].hp -= 10;
-                if (demons[i].hp <= 0){
-                    score += demons[i].bounty;
-                    demons[i] = newDemon(-1, -1, -1, -1, 0);
-                    demons[i].distance = 999999999;
-                }
-            }
-            demons[i].distance = euclidianDistance2D(newVector2D(px, py), newVector2D(demons[i].x, demons[i].y));
-        }
-    }
-
-    for (int i = 0; i < MAX_DEMONS; i++){
-        for (int j = 0; j < MAX_DEMONS - i - 1; j++){
-            if ((demons[j].distance < demons[j + 1].distance)){
-                struct demon d = demons[j];
-                demons[j] = demons[j + 1];
-                demons[j + 1] = d;
-            }
-        }
-    }
-
-    for (int i = 0; i < MAX_BULLETS; i++){
-        if (bullets[i].init == 0){
-            bullets[i].distance = 999999999;
-        } else if (SDL_GetTicks() - bullets[i].spawnTime > 3000){
-            bullets[i] = newBullet(-1, -1, -1, -1, 0);
-            bullets[i].distance = 999999999;
-        } else  {
-            bullets[i].x += bullets[i].xSpeed;
-            bullets[i].y += bullets[i].ySpeed;
-
-            bullets[i].distance = euclidianDistance2D(newVector2D(px, py), newVector2D(bullets[i].x, bullets[i].y));
-        }
-    }
-
-    for (int i = 0; i < MAX_BULLETS; i++){
-        for (int j = 0; j < MAX_BULLETS - i - 1; j++){
-            if ((bullets[j].distance < bullets[j + 1].distance)){
-                struct bullet b = bullets[j];
-                bullets[j] = bullets[j + 1];
-                bullets[j + 1] = b;
-            }
-        }
-    }
-
     int w = 0;
     int d = 0;
 
     for (int p = 0; p < wallsSize + MAX_DEMONS; p++){
-        if ((w != wallsSize && allWalls[w] -> distance > demons[d].distance) || d == MAX_DEMONS){ //  && allWalls[w] -> distance > bullets[b].distance
+        if ((w != wallsSize && allWalls[w] -> distance > demons[d].distance) || d == MAX_DEMONS){
             wallSetup(renderer, w);
             w++;
         } else if (d != MAX_DEMONS){
-            drawEntity(renderer, demons[d].width, demons[d].height, demons[d].x, demons[d].y, demons[d].colour, demons[d].init);
+            drawEntity( renderer, demons[d].width, demons[d].height,
+                        demons[d].x, demons[d].y, demons[d].colour, demons[d].init);
             d++;
         }
     }
 
     for (int b = 0; b < MAX_BULLETS; b++){
-        drawEntity(renderer, bullets[b].width, bullets[b].height, bullets[b].x, bullets[b].y, bullets[b].colour, bullets[b].init);
+        drawEntity( renderer, bullets[b].width, bullets[b].height,
+                    bullets[b].x, bullets[b].y, bullets[b].colour, bullets[b].init);
     }
+
+}
+
+//-----------------------------------------------------------------------------------------------//
+
+void renderWorld(SDL_Renderer* renderer){
+
+    int wallsSize = (sizeof(allWalls) / sizeof(allWalls[0]));
+
+    floors(renderer);
+    ceilings(renderer);
+    calculateWallDistances(wallsSize);
+    sortWalls(wallsSize);
+    renderWorldObjects(renderer, wallsSize);
 
 }
 

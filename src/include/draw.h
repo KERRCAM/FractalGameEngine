@@ -21,12 +21,6 @@ struct wall* allWalls[MAX_SECTORS * MAX_WALLS];
 
 void drawSetup();
 
-void drawNumber(SDL_Renderer* renderer, int nx, int ny, int n);
-
-void renderScore(SDL_Renderer* renderer);
-
-void renderHP(SDL_Renderer* renderer);
-
 int dist(int x1, int y1, int x2, int y2);
 
 void drawEntity(SDL_Renderer* renderer, int width, int height, int x, int y, int colour, int init);
@@ -39,11 +33,17 @@ void floors(SDL_Renderer* renderer);
 
 void ceilings(SDL_Renderer* renderer);
 
-void drawWall(SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, int t2, int colour, int distance);
+void drawWall(SDL_Renderer* renderer, int x1, int x2, int b1, int b2, int t1, int t2, int colour);
 
 void wallSetup(SDL_Renderer* renderer, int w);
 
 int checkBulletProximity(struct demon* d);
+
+void calculateWallDistances(int wallsSize);
+
+void sortWalls(int wallsSize);
+
+void renderWorldObjects(SDL_Renderer* renderer, int wallsSize);
 
 void renderWorld(SDL_Renderer* renderer);
 

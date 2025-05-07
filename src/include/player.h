@@ -4,6 +4,7 @@
 
 // LOCAL IMPORTS
 #include "rotations.h"
+#include "vectors.h"
 #include "../editor/include/walls.h"
 
 //-----------------------------------------------------------------------------------------------//
@@ -34,6 +35,9 @@ int score;
 // FUNCTIONS
 
 void playerSetup();
+
+int detectCollision(struct vector2D pc, struct vector2D pn,
+                    struct vector2D w1, struct vector2D w2);
 
 void playerInput(SDL_Event event);
 
