@@ -21,8 +21,6 @@ struct level l;
 
 void drawSetup(){
 
-
-
     struct level l1 = newLevel(0, 0, 0, 1);
     l = l1;
 
@@ -56,6 +54,8 @@ void drawSetup(){
             pos++;
         }
     }
+
+    wallsSize = (sizeof(allWalls) / sizeof(allWalls[0]));
 
 }
 
@@ -348,7 +348,7 @@ void wallSetup(SDL_Renderer* renderer, int w){
 
 //-----------------------------------------------------------------------------------------------//
 
-void calculateWallDistances(int wallsSize){
+void calculateWallDistances(){
 
     for (int i = 0; i < wallsSize; i++){
         if (allWalls[i] -> init == 0){
@@ -364,7 +364,7 @@ void calculateWallDistances(int wallsSize){
 
 //-----------------------------------------------------------------------------------------------//
 
-void sortWalls(int wallsSize){
+void sortWalls(){
 
     for (int i = 0; i < wallsSize; i++){
         for (int j = 0; j < wallsSize - i - 1; j++){
@@ -380,7 +380,7 @@ void sortWalls(int wallsSize){
 
 //-----------------------------------------------------------------------------------------------//
 
-void renderWorldObjects(SDL_Renderer* renderer, int wallsSize){
+void renderWorldObjects(SDL_Renderer* renderer){
 
     nearWall = allWalls[wallsSize - 1];
     int w = 0;
@@ -408,13 +408,11 @@ void renderWorldObjects(SDL_Renderer* renderer, int wallsSize){
 
 void renderWorld(SDL_Renderer* renderer){
 
-    int wallsSize = (sizeof(allWalls) / sizeof(allWalls[0]));
-
     floors(renderer);
     ceilings(renderer);
-    calculateWallDistances(wallsSize);
-    sortWalls(wallsSize);
-    renderWorldObjects(renderer, wallsSize);
+    calculateWallDistances();
+    sortWalls();
+    renderWorldObjects(renderer);
 
 }
 

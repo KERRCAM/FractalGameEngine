@@ -39,6 +39,8 @@ void demonSetup();
 
 void spawnDemon();
 
+void moveDemon(struct demon* d, int px, int py, int ph);
+
 int checkPlayerBulletProximity(struct demon* d);
 
 void calculateDemonDistances();

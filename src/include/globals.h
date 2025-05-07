@@ -15,6 +15,7 @@
 //-----------------------------------------------------------------------------------------------//
 // STRUCTS AND VARIABLES
 
+struct wall* allWalls[MAX_SECTORS * MAX_WALLS];
 struct demon demons[MAX_DEMONS];
 struct bullet bullets[MAX_BULLETS];
 
@@ -22,6 +23,7 @@ float deltaTime;
 float gameStartTime;
 float lastSpawned;
 int spawnRate;
+int wallsSize;
 
 //-----------------------------------------------------------------------------------------------//
 // FUNCTIONS

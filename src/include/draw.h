@@ -14,7 +14,7 @@
 //-----------------------------------------------------------------------------------------------//
 // STRUCTS
 
-struct wall* allWalls[MAX_SECTORS * MAX_WALLS];
+
 
 //-----------------------------------------------------------------------------------------------//
 // FUNCTIONS
@@ -39,11 +39,11 @@ void wallSetup(SDL_Renderer* renderer, int w);
 
 int checkBulletProximity(struct demon* d);
 
-void calculateWallDistances(int wallsSize);
+void calculateWallDistances();
 
-void sortWalls(int wallsSize);
+void sortWalls();
 
-void renderWorldObjects(SDL_Renderer* renderer, int wallsSize);
+void renderWorldObjects(SDL_Renderer* renderer);
 
 void renderWorld(SDL_Renderer* renderer);
 

@@ -30,8 +30,8 @@ struct bullet newBullet(int x, int y, int rot, int type, int init){
     b.scale = 5;
     b.distance = 0;
     b.spawnTime = SDL_GetTicks();
-    b.xSpeed = 10 * M.sin[rot];
-    b.ySpeed = 10 * M.cos[rot];
+    b.xSpeed = 250 * M.sin[rot] * deltaTime;
+    b.ySpeed = 250 * M.cos[rot] * deltaTime;
     b.init = init;
 
     return b;
@@ -57,7 +57,7 @@ void calculatedBulletDistances(){
     for (int i = 0; i < MAX_BULLETS; i++){
         if (bullets[i].init == 0){
             bullets[i].distance = 999999999;
-        } else if (SDL_GetTicks() - bullets[i].spawnTime > 3000){
+        } else if (SDL_GetTicks() - bullets[i].spawnTime > 5000){
             bullets[i] = newBullet(-1, -1, -1, -1, 0);
             bullets[i].distance = 999999999;
         } else  {

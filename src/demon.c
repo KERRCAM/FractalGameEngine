@@ -67,6 +67,9 @@ void demonSetup(){
         demons[d] = newDemon(-1, -1, -1, -1, 0);
     }
 
+    struct demon test = newDemon(400, 400, 80, 1, 1);
+    demons[0] = test;
+
 }
 
 //-----------------------------------------------------------------------------------------------//
@@ -78,7 +81,7 @@ int checkPlayerBulletProximity(struct demon* d){
         if (bullets[b].init == 0){ continue;}
 
         if (euclidianDistance2D(newVector2D(bullets[b].x, bullets[b].y),
-                                newVector2D(d -> x, d -> y))  < d -> width / 2){
+                                newVector2D(d -> x, d -> y))  < d -> width){
             bullets[b] = newBullet(-1, -1, -1, -1, 0);
             return 1;
         }
@@ -110,12 +113,44 @@ void spawnDemon(){
 
 //-----------------------------------------------------------------------------------------------//
 
+void moveDemon(struct demon* d, int px, int py, int ph){
+
+    int lineOfSight = 1;
+
+    for (int w = 0; w < wallsSize; w++){
+        struct vector2D pl = newVector2D(pPos.x, pPos.y);
+        struct vector2D dp = newVector2D(d -> x, d -> y);
+        if (allWalls[w] -> init == 0){ continue;} // euclidianDistance2D(pl, dp) < 300.0 &&
+        if (detectCollision(pl, dp, newVector2D(allWalls[w] -> x1, allWalls[w] -> y1),
+                            newVector2D(allWalls[w] -> x2, allWalls[w] -> y2)) == 1){
+            lineOfSight = 0;
+        }
+
+    }
+
+
+
+    if (lineOfSight == 1){
+        int dx = pPos.x - d -> x;
+        int dy = pPos.y - d -> y;
+
+        d -> x += dx * deltaTime * 0.3;
+        d -> y += dy * deltaTime * 0.3;
+    }
+
+}
+
+//-----------------------------------------------------------------------------------------------//
+
 void calculateDemonDistances(){
 
     int px = round(pPos.x);
     int py = round(pPos.y);
+    int ph = round(pRot.h);
 
     for (int i = 0; i < MAX_DEMONS; i++){
+        moveDemon(&demons[i], px, py, ph);
+
         if (demons[i].init == 0){
             demons[i].distance = 999999999;
         } else {
