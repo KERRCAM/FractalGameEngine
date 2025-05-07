@@ -130,8 +130,8 @@ int playerUpdate(float deltaTime){
     float movX = 0;
     float movY = 0;
 
-    float dx = M.sin[(int)pRot.h] * 150.0 * deltaTime;
-    float dy = M.cos[(int)pRot.h] * 150.0 * deltaTime;
+    float dx = M.sin[(int)pRot.h] * 170.0 * deltaTime;
+    float dy = M.cos[(int)pRot.h] * 170.0 * deltaTime;
 
     if (SDL_GetTicks() - dashTime < 200){
         dx *= 6;

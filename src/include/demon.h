@@ -24,6 +24,7 @@ struct demon{
     int colour;
     int hp;
     int bounty;
+    float speed;
     int type;
     int distance;
     int init;

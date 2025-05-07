@@ -39,6 +39,7 @@ struct demon newDemon(int x, int y, int z, int type, int init){
         d.hp = 100;
         d.scale = 2;
         d.bounty = 200;
+        d.speed = 0.18;
     } else if (type == 2){
         d.width = 35;
         d.height = 80;
@@ -46,6 +47,7 @@ struct demon newDemon(int x, int y, int z, int type, int init){
         d.hp = 60;
         d.scale = 3;
         d.bounty = 120;
+        d.speed = 0.3;
     }
 
     d.type = type;
@@ -120,7 +122,7 @@ void moveDemon(struct demon* d, int px, int py, int ph){
     for (int w = 0; w < wallsSize; w++){
         struct vector2D pl = newVector2D(pPos.x, pPos.y);
         struct vector2D dp = newVector2D(d -> x, d -> y);
-        if (allWalls[w] -> init == 0){ continue;} // euclidianDistance2D(pl, dp) < 300.0 &&
+        if (allWalls[w] -> init == 0){ continue;}
         if (detectCollision(pl, dp, newVector2D(allWalls[w] -> x1, allWalls[w] -> y1),
                             newVector2D(allWalls[w] -> x2, allWalls[w] -> y2)) == 1){
             lineOfSight = 0;
@@ -134,8 +136,8 @@ void moveDemon(struct demon* d, int px, int py, int ph){
         int dx = pPos.x - d -> x;
         int dy = pPos.y - d -> y;
 
-        d -> x += dx * deltaTime * 0.3;
-        d -> y += dy * deltaTime * 0.3;
+        d -> x += dx * deltaTime * d -> speed;
+        d -> y += dy * deltaTime * d -> speed;
     }
 
 }
