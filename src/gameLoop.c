@@ -20,6 +20,7 @@ SDL_Renderer* rendererEND = NULL;
 
 int gameRunning = 0;
 int lastFrame = 0;
+int endScreen = 0;
 
 //-----------------------------------------------------------------------------------------------//
 
@@ -109,8 +110,8 @@ void update(){
 
     lastFrame = SDL_GetTicks();
 
-    if (playerUpdate(deltaTime) == 0){ gameRunning = 0;}
-    if (score >= 10000){ gameRunning = 0;}
+    if (playerUpdate(deltaTime) == 0){ endScreen = 1; timeOfDeath = SDL_GetTicks();}
+    if (score >= 10000){ endScreen = 1;}
 
     demonUpdate();
     bulletUpdate();
@@ -150,9 +151,14 @@ int main(){
 
     while (gameRunning){
 
-        processInput();
-        update();
-        render();
+        if (endScreen){
+            processInput();
+            render();
+        } else {
+            processInput();
+            update();
+            render();
+        }
 
     }
 

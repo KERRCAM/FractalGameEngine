@@ -24,6 +24,7 @@ float gameStartTime;
 float lastSpawned;
 int spawnRate;
 int wallsSize;
+int timeOfDeath;
 
 //-----------------------------------------------------------------------------------------------//
 // FUNCTIONS

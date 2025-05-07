@@ -40,7 +40,14 @@ void renderScore(SDL_Renderer* renderer){
     drawNumber(renderer, 10, -30, 152);
     drawNumber(renderer, 200, -30, 153);
 
-    float timeSurvived = SDL_GetTicks() - gameStartTime;
+
+    float timeSurvived;
+
+    if (pHP > 0){
+        timeSurvived = SDL_GetTicks() - gameStartTime;
+    } else {
+        timeSurvived = timeOfDeath - gameStartTime;
+    }
     int survivalScore = timeSurvived / 1000.0;
     int scoreToScreen = score + survivalScore;
 
