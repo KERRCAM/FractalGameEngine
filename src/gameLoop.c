@@ -111,7 +111,8 @@ void update(){
 
     lastFrame = SDL_GetTicks();
 
-    if (playerUpdate(deltaTime) == 0){ gameRunning = 0;};
+    if (playerUpdate(deltaTime) == 0){ gameRunning = 0;}
+    if (score >= 10000){ gameRunning = 0;}
 
 }
 
@@ -127,7 +128,6 @@ void render(){
     renderWorld(renderer);
     renderScore(renderer);
     renderHP(renderer);
-    drawNumber(renderer, 20, 20, 3);
     SDL_RenderPresent(renderer);
 
 }

@@ -19,6 +19,7 @@
 #define FOV 550
 #define MAX_DEMONS 10
 #define MAX_BULLETS 50
+#define MAX_HP 150
 
 //-----------------------------------------------------------------------------------------------//
 //STRUCTS

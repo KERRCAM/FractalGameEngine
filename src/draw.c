@@ -77,7 +77,7 @@ void drawNumber(SDL_Renderer* renderer, int xPos, int yPos, int n){
     int x,y;
     int characterSize = 15;
 
-    for(y = 4; y >= 0; y--){
+    for (y = 0; y < 5; y++){
         int y2 = ((5 - y - 1) + 5 * n) * 3 * 12;
 
         for(x = 0; x < 12; x++){
@@ -87,7 +87,7 @@ void drawNumber(SDL_Renderer* renderer, int xPos, int yPos, int n){
 
             int iters = 0;
             int currX = xPos + (characterSize * x);
-            int currY = yPos + (characterSize * y);
+            int currY = yPos - (characterSize * y) + 100;
             for (int p = 0; p < characterSize; p++){
                 SDL_RenderDrawLine(renderer, x + currX + p, y + currY, x + currX + p, y + currY + characterSize);
             }
@@ -101,6 +101,17 @@ void drawNumber(SDL_Renderer* renderer, int xPos, int yPos, int n){
 
 void renderScore(SDL_Renderer* renderer){
 
+    drawNumber(renderer, 10, -30, 152);
+    drawNumber(renderer, 200, -30, 153);
+
+    // score print
+    if (score < 1000){
+        drawNumber(renderer, 333, -30, score / 10);
+        drawNumber(renderer, 400, -30, score % 10);
+    } else if (score < 10000){
+        drawNumber(renderer, 333, -30, score / 100);
+        drawNumber(renderer, 467, -30, score % 100);
+    }
 
 
 }
@@ -109,7 +120,9 @@ void renderScore(SDL_Renderer* renderer){
 
 void renderHP(SDL_Renderer* renderer){
 
+    drawNumber(renderer, 10, 60, 151);
 
+    drawNumber(renderer, 200, 60, pHP);
 
 }
 

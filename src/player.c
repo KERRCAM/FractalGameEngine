@@ -53,7 +53,7 @@ void playerSetup(){
     inAir = false;
     nearWall = NULL;
 
-    pHP = 200;
+    pHP = 150;
     score = 0;
 
 }
