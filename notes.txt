@@ -4,18 +4,6 @@
 
 
 TODO PLAN:
-- pathing just if enemy has line of sight on player move toward them up to a certain dist -> all the way for type 2, x units for type 1
-
-- enemy shooting adn melee on player
-
-- let enemies spawn periodically at set points -> reduces spawn timer as the game goes on
-
-- heal slowly if no damage taken in x seconds
-
-- hit marker and or crosshair for aim
-
-- POLISH, do some comments and general clean up of the code
-
 - add more prominent physics thing if there is time, go back to friction with movement maybe
 
 MUST DO - sort out document and video to go with the game submission
@@ -23,7 +11,7 @@ MUST DO - sort out document and video to go with the game submission
 also remember declaration for jetbrains single line code complete NOT CODE GEN
 
 
-if there is a time maybe make something for switching levels
+
 
 
 

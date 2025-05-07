@@ -7,14 +7,18 @@
 
 //-----------------------------------------------------------------------------------------------//
 
+// Output that is built up as one char pointer so it can be written to a file in one go.
 char *output;
 
 //-----------------------------------------------------------------------------------------------//
 
 int strLength(char *str){
+    /*
+    Gets the length of the inputed char pointer.
+    */
 
     int size = 0;
-    while(str[size] != '\0'){
+    while(str[size] != '\0'){ // Stops at string end character.
         size++;
     }
     return size;
@@ -23,6 +27,9 @@ int strLength(char *str){
 //-----------------------------------------------------------------------------------------------//
 
 void buildOutput(char *addition){
+    /*
+    Adds new section to the output adjusting the assigned memory accordingly.
+    */
 
     int oldSize = strLength(output);
     int newSize = strLength(output) + strLength(addition) + 1;
@@ -34,6 +41,9 @@ void buildOutput(char *addition){
 //-----------------------------------------------------------------------------------------------//
 
 void addWall(struct wall *w){
+    /*
+    Adds the information for a new wall to the output.
+    */
 
     char newLine[64];
     sprintf(newLine, "    {%d, %d, %d, %d, %d, %d},\n",
@@ -46,6 +56,9 @@ void addWall(struct wall *w){
 //-----------------------------------------------------------------------------------------------//
 
 void addSector(struct sector *s){
+    /*
+    Adds the information for a new sector to the output.
+    */
 
     int tx = 0;
     int ty = 0;
@@ -75,6 +88,10 @@ void addSector(struct sector *s){
 //-----------------------------------------------------------------------------------------------//
 
 void writeLevel(struct level *l, int number){
+    /*
+    Adds the information for a new level to the output.
+    Also handles the memory initialisation and final file creation and write.
+    */
 
     output = malloc(72);
     char init[72] = "#include \"../src/include/constants.h\"\n\nint sectors[MAX_SECTORS][7] = {\n";
@@ -120,6 +137,9 @@ void writeLevel(struct level *l, int number){
 //-----------------------------------------------------------------------------------------------//
 
 void saveLevels(){
+    /*
+    Loops over all levels calling write function on each.
+    */
 
     for(int i = 0; i < MAX_LEVELS; i++){
         struct level *current = &levels[i];
@@ -129,10 +149,3 @@ void saveLevels(){
 }
 
 //-----------------------------------------------------------------------------------------------//
-
-/* TODO:
-- Write saved levels into seperated .h each
-- Also on editor start up we need to initialise our structs with the information in existing .h level files
-- Move render code to seperate files maybe
-- also maybe try reduce duplicate code in input processor
-*/

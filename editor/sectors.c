@@ -7,6 +7,9 @@
 //-----------------------------------------------------------------------------------------------//
 
 struct sector newSector(int minZ, int maxZ, int floorColour, int ceilingColour, int init){
+    /*
+    Sector struct constructor.
+    */
 
     struct sector s;
 

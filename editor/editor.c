@@ -21,6 +21,9 @@ int lastFrame = 0;
 //-----------------------------------------------------------------------------------------------//
 
 int initialize_window(void){
+    /*
+    Sets up the window for the editor.
+    */
 
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0){
         fprintf(stderr, "Error initialising SDL\n");
@@ -56,6 +59,9 @@ int initialize_window(void){
 //-----------------------------------------------------------------------------------------------//
 
 void processInput(){
+    /*
+    Handles input for the editor.
+    */
 
     SDL_Event event;
     SDL_PollEvent(&event);
@@ -79,6 +85,9 @@ void processInput(){
 //-----------------------------------------------------------------------------------------------//
 
 void setup(){
+    /*
+    Sets up edtor arrays for all the levels, their sectors and walls.
+    */
 
     for (int i = 0; i < 360; i++){
         M.cos[i] = cos(i / 180.0 * M_PI);
@@ -93,6 +102,7 @@ void setup(){
     currentSector = currentLevel.levelSectors[0];
     currentWall = currentSector.sectorWalls[0];
 
+    // Existing level loading
     ///*
     for (int k = 0; k < 1; k++){ // needs to be replaced with MAX_LEVEL later
         for (int i = 0; i < MAX_SECTORS; i++){
@@ -118,15 +128,11 @@ void setup(){
 
 //-----------------------------------------------------------------------------------------------//
 
-void update(){
-
-
-
-}
-
-//-----------------------------------------------------------------------------------------------//
-
 void drawWalls(){
+    /*
+    Draws the walls of the currently selected level onto the editor window.
+    Highlights the currently selected sector and wall differntly.
+    */
 
     for (int i = 0; i < MAX_SECTORS; i++){
         for (int j = 0; j < MAX_WALLS; j++){
@@ -148,6 +154,9 @@ void drawWalls(){
 //-----------------------------------------------------------------------------------------------//
 
 void drawWall(struct wall w){
+    /*
+    Individual wall drawing. Each is only single pixel thick lines so fairly simple.
+    */
 
     if (w.x1 != -1 && w.y1 != -1 && w.x2 != -1 && w.y2 != -1){
         SDL_RenderDrawLine(renderer, w.x1, w.y1, w.x2, w.y2);
@@ -158,6 +167,9 @@ void drawWall(struct wall w){
 //-----------------------------------------------------------------------------------------------//
 
 void render(){
+    /*
+    Main render loop for the level editor.
+    */
 
     // Screen colour
     SDL_SetRenderDrawColor(renderer, 0, 0, 30, 255);
@@ -173,16 +185,18 @@ void render(){
         SDL_RenderDrawLine(renderer, col, 0, col, WINDOW_HEIGHT);
     }
 
+    // Getting the closest grid point so we can put a cube cersor on it for the user.
     int closestX = round(mX / gridSize) * gridSize;
     int closestY = round(mY / gridSize) * gridSize;
 
-    SDL_Rect rect = {closestX - 5, closestY - 5, 10, 10};
+    SDL_Rect rect = {closestX - 5, closestY - 5, 10, 10}; // cube cersor on the grid.
 
     SDL_SetRenderDrawColor(renderer, 10, 30, 250, 255);
 
     SDL_RenderDrawRect(renderer, &rect);
     SDL_RenderFillRect(renderer, &rect);
 
+    // Drawing the grid lines.
     SDL_SetRenderDrawColor(renderer, 10, 255, 20, 255);
     if (currentWall.x1 != -1 && currentWall.x2 != -1){
         levels[currentLevelPos].levelSectors[currentSectorPos].sectorWalls[currentWallPos] = newWall(currentWall.x1, currentWall.y1,
@@ -202,6 +216,9 @@ void render(){
 //-----------------------------------------------------------------------------------------------//
 
 void destroyWindow(){
+    /*
+    Destorys renderer and window for the editor.
+    */
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -212,6 +229,9 @@ void destroyWindow(){
 //-----------------------------------------------------------------------------------------------//
 
 int main(){
+    /*
+    Editor loop.
+    */
 
     gameRunning = initialize_window();
 
@@ -230,14 +250,3 @@ int main(){
 }
 
 //-----------------------------------------------------------------------------------------------//
-
-/*
-when writting to file obviously skip over uninitialised walls / secotrs / levels and deleted ones
-deleted ones representation tbd
-
-command + s exits editor and re writes level files
-
-May want to scale down wall coords at write time
-currently in editor 1 = 25
-in renderer 1 = 8
-*/

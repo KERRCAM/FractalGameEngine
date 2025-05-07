@@ -7,6 +7,9 @@
 //-----------------------------------------------------------------------------------------------//
 
 struct level newLevel(int pX, int pY, int pZ, int init){
+    /*
+    Level struct constructor.
+    */
 
     struct level l;
 

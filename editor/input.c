@@ -11,6 +11,13 @@
 //-----------------------------------------------------------------------------------------------//
 
 void editorInput(SDL_Event event){
+    /*
+    Handles all input for the level editor.
+    Not as complicated as it might look, all thats rally happening is changing some postions and
+    struct values for each user input.
+    Also makes prints to the terminal with information about currently selected walls, sectors,
+    levels, colours, heights etc.
+    */
 
     if (event.type == SDL_MOUSEMOTION){
         SDL_GetMouseState(&mX, &mY);

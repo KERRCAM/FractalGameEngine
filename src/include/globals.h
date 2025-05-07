@@ -21,8 +21,8 @@ struct bullet bullets[MAX_BULLETS];
 
 float deltaTime;
 float gameStartTime;
-float lastSpawned;
-int spawnRate;
+float lastSpawned; // Time a demon last spawned in
+int spawnRate; // Current demon spawn rate
 int wallsSize;
 int timeOfDeath;
 

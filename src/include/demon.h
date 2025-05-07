@@ -13,8 +13,6 @@
 //-----------------------------------------------------------------------------------------------//
 // STRUCTS AND VARIABLES
 
-int lastFired[MAX_DEMONS];
-
 struct demon{
 
     int x;
@@ -22,13 +20,14 @@ struct demon{
     int z;
     int width;
     int height;
-    int scale;
+    int scale; // Size of the demon.
     int colour;
     int hp;
-    int bounty;
+    int bounty; // Score the player gets for killing the demon.
     float speed;
-    int type;
+    int type; // Demon type, melee or ranged.
     int distance;
+    int lastFired; // Time the demon last fired their weapon.
     int init;
 
 };

@@ -23,10 +23,10 @@ struct bullet{
     int colour;
     int type;
     int distance;
-    int spawnTime;
+    int spawnTime; // Time the bullet was made
     int xSpeed;
     int ySpeed;
-    int scale;
+    int scale; // Bullet size
     int init;
 
 };

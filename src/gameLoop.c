@@ -25,6 +25,9 @@ int endScreen = 0;
 //-----------------------------------------------------------------------------------------------//
 
 int initialize_window(void){
+    /*
+    Sets up game winodw.
+    */
 
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0){
         fprintf(stderr, "Error initialising SDL\n");
@@ -60,6 +63,9 @@ int initialize_window(void){
 //-----------------------------------------------------------------------------------------------//
 
 void processInput(){
+    /*
+    Handles all game inputs, including player controls and window quitting.
+    */
 
     SDL_Event event;
     SDL_PollEvent(&event);
@@ -82,6 +88,9 @@ void processInput(){
 //-----------------------------------------------------------------------------------------------//
 
 void setup(){
+    /*
+    Sets up so global values for the game and initialises various game aspects.
+     */
 
     for (int i = 0; i < 360; i++){
         M.cos[i] = cos(i / 180.0 * M_PI);
@@ -100,6 +109,9 @@ void setup(){
 //-----------------------------------------------------------------------------------------------//
 
 void update(){
+    /*
+    Handles all required game updates ran each frame.
+    */
 
     /* // ONLY NEEDED FOR A CAPPED FRAME RATE
     int waitTime = FRAME_TIME - (SDL_GetTicks() / lastFrame);
@@ -121,6 +133,9 @@ void update(){
 //-----------------------------------------------------------------------------------------------//
 
 void render(){
+    /*
+    Handle all render calls for the game.
+    */
 
     // Screen colour
     SDL_SetRenderDrawColor(renderer, 0, 0, 60, 255);
@@ -134,6 +149,9 @@ void render(){
 //-----------------------------------------------------------------------------------------------//
 
 void destroyWindow(){
+    /*
+    Destorys game renderer and window.
+    */
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -144,11 +162,16 @@ void destroyWindow(){
 //-----------------------------------------------------------------------------------------------//
 
 int main(){
+    /*
+    Main game loop.
+    */
 
     gameRunning = initialize_window();
 
     setup();
 
+    // Game loop, on player death the score pauses all updates stop, but the game continues to
+    // to render so the player can see their score and take input so they can quit the window.
     while (gameRunning){
 
         if (endScreen){
@@ -161,10 +184,6 @@ int main(){
         }
 
     }
-
-    float timeSurvived = SDL_GetTicks() - gameStartTime;
-    int survivalScore = timeSurvived / 1000.0;
-    printf("Final score: %d\n", survivalScore + score);
 
     destroyWindow();
 

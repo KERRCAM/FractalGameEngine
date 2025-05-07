@@ -25,6 +25,7 @@ int currentWallPos;
 // FUNCTIONS
 
 void drawWall(struct wall w);
+
 void drawWalls();
 
 //-----------------------------------------------------------------------------------------------//
