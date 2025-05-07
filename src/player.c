@@ -194,7 +194,7 @@ int playerUpdate(float deltaTime){
 
     // Checks if the player is heal and heals the player if so.
     if (SDL_GetTicks() - lastHeal < 100){
-        pHP += 20;
+        pHP += 20; if (pHP > 150){pHP = 150;}
     }
 
     // Jump handling

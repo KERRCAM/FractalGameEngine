@@ -140,7 +140,7 @@ void moveDemon(struct demon* d, int px, int py, int ph){
     If the demon can see the playe they move towards them at a speed dependant on their type.
     */
 
-    if (demons[i] -> init == 0){
+    if (d -> init == 0){
         return;
     }
 
